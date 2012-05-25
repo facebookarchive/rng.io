@@ -1,0 +1,4 @@
+---
+  r: 1
+  spec: "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface"
+  title: "BlobBuilder"

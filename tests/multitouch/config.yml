@@ -1,0 +1,5 @@
+---
+  r: 1
+  spec: "http://www.w3.org/TR/touch-events/"
+  sources: ["https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html#//apple_ref/doc/uid/TP40009358"]
+  title: "Multi Touch Event"

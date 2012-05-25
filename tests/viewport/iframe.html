@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+</head>
+<body>
+<script>
+window.parent.postMessage({
+  innerWidth: window.innerWidth,
+  outerWidth: window.outerWidth
+}, "*" );
+
+// window.self.close();
+setTimeout(function() {
+  window.self.close();
+}, 100);
+</script>
+</body>
+</html>
+
+

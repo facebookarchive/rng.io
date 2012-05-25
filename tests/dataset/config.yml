@@ -1,0 +1,5 @@
+---
+  r: 2
+  spec: "http://www.w3.org/TR/html5/elements.html#embedding-custom-non-visible-data-with-the-data-attributes"
+  sources: ["http://www.w3c-test.org/html/tests/approved/dataset/dataset-get.html"]
+  title: "Custom Data Attributes"

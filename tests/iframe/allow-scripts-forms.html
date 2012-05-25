@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<form id="a-form" name="a-form">
+  <input type="submit">
+</form>
+
+<script>
+document.querySelector("form").addEventListener("submit", function() {
+  event.preventDefault();
+  top.postMessage( "Form Submitted", "*" );
+}, false);
+
+document.querySelector("input").click();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+---
+  r: 1
+  spec: "http://www.w3.org/TR/css3-mediaqueries/"
+  sources: [ "http://hg.csswg.org/test/file/a3eb84d8b3a8/contributors/anne/submitted/mediaqueries" ]
+  title: "CSS3 MediaQueries"

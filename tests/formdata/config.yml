@@ -1,0 +1,4 @@
+---
+  r: 1
+  spec: "http://www.w3.org/TR/XMLHttpRequest/#interface-formdata"
+  title: "FormData"

@@ -1,0 +1,5 @@
+---
+  r: 1
+  spec: ""
+  sources: [ "https://developer.apple.com/library/safari/#documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/AudioandVideoTagBasics/AudioandVideoTagBasics.html", "http://remysharp.com/2010/12/23/audio-sprites/", "https://github.com/soundcloud/areweplayingyet", "http://www.brianhadaway.com/audio/test.html", "http://textopia.org/androidsoundformats.html", "http://www.phoboslab.org/log/2011/03/the-state-of-html5-audio" ]
+  title: "Audio, Multi-Track"

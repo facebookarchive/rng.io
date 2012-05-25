@@ -1,0 +1,5 @@
+---
+  r: 2
+  spec: "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification"
+  sources: ["http://www.html5rocks.com/en/tutorials/notifications/quick/"]
+  title: "Notifications"

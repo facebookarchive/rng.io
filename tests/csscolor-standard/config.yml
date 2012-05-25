@@ -1,0 +1,5 @@
+---
+  r: 0
+  spec: "http://www.w3.org/TR/css3-color/"
+  sources: ["https://github.com/Modernizr/Modernizr"]
+  title: "CSS3 Color, Standard"

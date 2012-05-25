@@ -1,0 +1,5 @@
+---
+  r: 2
+  spec: "http://www.w3.org/TR/workers/"
+  sources: [ "http://www.w3.org/TR/workers/#shared-workers" ]
+  title: "SharedWorkers"

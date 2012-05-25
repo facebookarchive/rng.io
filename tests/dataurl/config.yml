@@ -1,0 +1,5 @@
+---
+  r: 0
+  spec: "http://www.ietf.org/rfc/rfc2397"
+  sources: ["http://software.hixie.ch/utilities/cgi/data/data"]
+  title: "Data URL"

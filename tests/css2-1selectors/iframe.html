@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>css2-1selectors</title>
+  <style>
+  div, span {
+     border: 1px solid;
+  }
+  #descendant div {
+    border-color: red;
+  }
+  #child > div {
+    border-color: orange;
+  }
+  #adjacent + span {
+    border-color: yellow;
+  }
+  [data-foo='bar'] {
+    border-color: green;
+  }
+  #generated {
+  }
+  #generated:after {
+    content: ":|";
+    visibility: "hidden";
+  }
+  </style>
+</head>
+<body>
+<div id="descendant"><span><div class="found"></div></span></div>
+<div id="child"><div class="found"><div id="error"></div></div></div>
+<div id="adjacent"></div><span class="found"></span>
+<div id="attribute" data-foo="bar" class="found"></div>
+<p id="generated"></p>
+
+<script>
+  var results = [],
+      selectors = [
+        "#descendant div",
+        "#child > div",
+        "#adjacent + span",
+        "[data-foo='bar']"
+      ];
+
+  selectors.forEach(function( selector ) {
+    var elem = document.querySelector( selector );
+
+    results.push(
+      !!getComputedStyle( elem ).getPropertyValue("border-top-color")
+    );
+  });
+
+  top.postMessage(JSON.stringify({
+    which: "selectors",
+    results: results.join("")
+  }), "*" );
+
+  top.postMessage(JSON.stringify({
+    which: "generated",
+    results: document.getElementById("generated").offsetHeight
+  }), "*" );
+
+
+  // top.postMessage( "selectors" + results.join(""), "*" );
+
+
+  // top.postMessage("generated" + document.getElementById("generated").offsetHeight, "*" );
+
+  // top.postMessage(JSON.stringify({
+  //   which: "selectors",
+  //   results: results.join("")
+  // }), "*" );
+
+  // top.postMessage(JSON.stringify({
+  //   which: "generated",
+  //   results: document.getElementById("generated").offsetHeight
+  // }), "*" );
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ringmark</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/dist/style.css" type="text/css">
+</head>
+<body>
+  <section class="container">
+    <header class="container">
+      <img src="/site/img/ringmark.png" width="84">
+      <h1>ringmark</h1>
+    </header>
+    <section class="sharebuttons">
+      <!-- twitter -->
+      <div style="display:inline;float: left;width: 90px;">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rng.io" data-text="Find out how your phone scores on Ringmark, the mobile web test suite: http://rng.io" data-hashtags="mobileweb">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+
+      <!-- facebook -->
+      <div style="display:inline;float: left;width: 90px;" data-href="https://www.facebook.com/ringmark" class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial" data-href="http://rng.io"></div>
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, "script", "facebook-jssdk"));</script>
+
+      <!-- google -->
+      <!-- Place this tag where you want the +1 button to render -->
+      <g:plusone style="display:inline;float: left;width: 100px;" size="medium"></g:plusone>
+
+      <!-- Place this render call where appropriate -->
+      <script type="text/javascript">
+        (function() {
+          var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+          po.src = "https://apis.google.com/js/plusone.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </section>
+
+    <h3 class="sharebuttons" id="backto">
+      <a href="/">&larr; back to the ringmark test</a>
+    </h3>
+
+    <h3>What is Ringmark?</h3>
+    <p>
+      Ringmark is a web-based test suite that measures how well a mobile browser supports the capabilities that modern mobile web apps require.
+      Ringmark is an opinionated test suite and the tests are based upon the specifications identified and prioritized by its authors as being important for modern mobile applications. The specifications are arranged into groups of features called 'rings', and the higher the ring, the more challenging the tests within it.
+    </p>
+
+    <h3>How do people use Ringmark?</h3>
+    <p>
+      Ringmark functions as a standard benchmark test, measuring a mobile browser’s performance in each category to identify within which rings the browser’s features fall.
+      By providing a broadly-accepted, standards-based measurement of mobile web app performance, Ringmark encourages improvements in mobile web browsers so they can support the mobile web app experiences that modern developers want to build.
+    </p>
+    <p>
+      By reducing fragmentation in mobile browsers, operators can identify and choose phones that offer a consistent, rich mobile web experience across their portfolio.
+      And by providing insight into what functionality each phone and mobile browser offers, developers can easily understand what reach their apps will have based on the features the apps depend upon.
+    </p>
+
+    <h3>How do I run Ringmark?</h3>
+    <p>
+      Visit the main test page at <a href="http://rng.io">http://rng.io</a>. Remember, Ringmark is designed for mobile browsers - so if you are using a desktop browser, the results may be less relevant.
+    </p>
+
+    <h3>What do the results mean?</h3>
+    <p>
+      The main result from running a mobile browser though the Ringmark test suite is the number of the highest ring that the browser passed. This provides an instant impression of its capabilities, enabling mobile developers to clearly understand what functionality they can expect for their applications. The results also contain more detail about which groups of tests passed and which failed – so that even if the browser fails a ring as a whole, it is possible to understand which capabilities might still be dependable.
+    </p>
+
+    <img src="/site/img/ring.png">
+
+    <p>
+      An example Ringmark result is shown above. Here, you can see that ring 0 passed, while ring 1 failed. Since ring 1 failed, ring 2 was not run. By running the test back at <a href="/">rng.io</a>, you will be able to see how your browser fairs, and get details about tests that passed or failed in each ring.
+    </p>
+
+    <h3>Who built Ringmark?</h3>
+    <p>
+      The Ringmark test suite has been developed by <a href="http://facebook.com">Facebook</a> and <a href="http://bocoup.com">Bocoup</a>, with a huge debt to prior research from the web community including projects like <a href="http://modernizr.com/">Modenizr</a>, <a href="http://caniuse.com">caniuse</a>, <a href="http://areweplayingyet.org">Are We Playing Yet</a>, and the <a href="http://w3c-test.org">W3C tests</a>. All tests have been donated to the <a href="http://coremob.org/">Core Mobile Web Platform Community Group</a>.
+    </p>
+
+    <h3>How does this compare with existing browser test suites?</h3>
+    <p>
+      We believe that Ringmark is complementary to the existing Open Web test, benchmark and compatibility-table ecosystem.
+    </p>
+    <p>
+      What sets Ringmark apart from many of the other test suites is its focus on mobile. This suite is designed to test mobile features that web developers need to make the web a first-class mobile platform. To this end, Ringmark runs very thorough tests that don't only check to see if the feature is present through inference, but actually consumes the feature as though a web developer was implementing software with it.
+    </p>
+    <p>
+      In this way, Ringmark tells you what really works and what really doesn't. (Incidentally, this is why these tests take a little longer than many others).
+    </p>
+
+    <h3>Is Ringmark finished?</h3>
+    <p>
+      Ringmark is not finished. Ringmark is an ongoing long term project aimed at moving the mobile web forward. We plan to continue adding rings as time goes on. We've begun open sourcing Ringmark.  You can read more at <a href="https://developers.facebook.com/html5/blog/post/2012/04/03/ringmark-is-now-open-source/">https://developers.facebook.com/html5/blog/post/2012/04/03/ringmark-is-now-open-source/</a>
+    </p>
+
+    <h3>What is the Core Mobile Web Platform Community Group?</h3>
+    <p>
+      Announced by Facebook and many other industry partners in February 2012, the <a href="http://coremob.org/">Core Mobile Web Platform Community Group</a> (or Coremob, for short) is a <a href="http://www.w3.org/community/">W3C Community Group</a> established to help prioritize the features, capabilities and performance characteristics of mobile web browsers that are required by developers to create compelling and first-class applications. More details are available on the group's <a href="http://coremob.org/">site</a>.
+    </p>
+    <h3>How do I stay updated?</h3>
+    <p>
+      You can Like the <a href="http://facebook.com/ringmark">Ringmark Page</a> on Facebook or follow <a href="http://twitter.com/rngmrk">@rngmrk</a> on Twitter.
+    </p>
+  </section>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(["_setAccount", "UA-1464992-53"]);
+    _gaq.push(["_setDomainName", "rng.io"]);
+    _gaq.push(["_setAllowLinker", true]);
+    _gaq.push(["_trackPageview"]);
+
+    (function() {
+      var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+      ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+      var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <script>
+  if ( !Array.prototype.forEach || !Array.isArray ) {
+    document.getElementById("backto").style.display = "none";
+  }
+  </script>
+</body>
+</html>

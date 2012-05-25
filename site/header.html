@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <title>ringmark</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=300, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="dist/style.css" type="text/css">
+
+  <meta property="og:title" content="Ringmark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://rng.io/" />
+  <meta property="og:site_name" content="Ringmark" />
+  <meta property="og:image" content="http://rng.io/site/img/ringmark.png"/>
+  <meta property="fb:admins" content="20901205" />
+
+  <script src="dist/ringmark.min.js"></script>
+  <script src="dist/application.min.js"></script>
+</head>
+<body>
+  <header class="container">
+    <img src="/site/img/ringmark.png" width="84">
+    <h1>ringmark</h1>
+  </header>
+  <section class="container constrain">
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </section>
+  <section id="summary" class="container"></section>
+  <section id="report" class="container"></section>
+  <aside class="container">
+    <span id="completed"></span>
+    <a href="/about">about ringmark,</a>
+    <a href="/history">v1.2.0</a>
+  </aside>
+
+  <script id="summary-tpl" type="text/template">
+  Ring <%= ring %> Complete <em>(<%= total %> tests)</em>.
+  </script>
+
+
+  <script id="finished-tpl" type="text/template">
+  Finished. Scroll down for results.
+  </script>
+
+  <script id="completed-tpl" type="text/template">
+  Completed <%= featureCount %> features <em>(<%= total %> tests)</em>.
+  </script>
+
+  <script id="testing-tpl" type="text/template">
+  Testing: <%= title %>...
+  </script>
+
+  <script id="report-tpl" type="text/template">
+  <details id="ring<%= ring %>" class="ringdetail">
+    <summary class="ring">
+      <h2>r.<%= ring %></h2> Ring <%= ring %>
+      <span class="results">(<%= failed %> failed, <%= passed %> passed.)</span>
+    </summary>
+    <% if ( description ) { %>
+    <p><%= description %></p>
+    <% } %>
+  </details>
+  </script>
+
+
+  <script id="apptype-tpl" type="text/template">
+  <details>
+    <summary class="apptype">
+      <h2><%= name %></h2>
+    </summary>
+    <p><%= description %></p>
+    <%= features %>
+  </details>
+  </script>
+
+
+  <script id="interrupted-tpl" type="text/template">
+  <details id="ring<%= ring %>" class="ringdetail">
+    <summary class="ring ringfailed">
+      <h2>r.<%= ring %></h2> Ring <%= ring %>
+      <span class="results">Did not run because Ring <%= previous %> failed.</span>
+    </summary>
+  </details>
+  </script>
+
+  <script id="feature-tpl" type="text/template">
+  <details>
+    <summary class="<%= displayClass %>"><%= title %></summary>
+    <% if ( url ) { %>
+    <a class="speclink" href="<%= url %>" target="_blank"><%= name %> Specification</a>
+    <% } %>
+    <dl class="detail">
+      <dt>
+        <dl class="table-display">
+          <%= assertion %>
+        </dl>
+      </dt>
+    </dl>
+  </details>
+  </script>
+
+  <script id="assertion-tpl" type="text/template">
+  <dt class="<%= result %>">&nbsp;</dt><dd><%= message %></dd>
+  </script>
+
+  <div id="hat-fixture">

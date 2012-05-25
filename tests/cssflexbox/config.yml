@@ -1,0 +1,5 @@
+---
+  r: 2
+  spec: "http://www.w3.org/TR/css3-flexbox/"
+  sources: ["https://github.com/Modernizr/Modernizr"]
+  title: "CSS3 Flexbox"

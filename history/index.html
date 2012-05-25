@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ringmark History</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../dist/style.css" type="text/css">
+
+  <meta property="og:title" content="Ringmark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://rng.io/history" />
+  <meta property="og:site_name" content="Ringmark History" />
+  <meta property="og:image" content="http://rng.io/site/img/ringmark.png"/>
+  <meta property="fb:admins" content="20901205" />
+
+  <script src="../dist/ringmark.min.js"></script>
+  <script src="../dist/application.min.js"></script>
+</head>
+<body>
+  <section class="container">
+    <header class="container">
+      <img src="/site/img/ringmark.png" width="84">
+      <h1>ringmark</h1>
+    </header>
+
+
+    <section class="sharebuttons">
+      <!-- twitter -->
+      <div style="display:inline;float: left;width: 90px;">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rng.io" data-text="Find out how your phone scores on Ringmark, the mobile web test suite: http://rng.io" data-hashtags="mobileweb">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+
+      <!-- facebook -->
+      <div style="display:inline;float: left;width: 90px;" data-href="https://www.facebook.com/ringmark" class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial" data-href="http://rng.io"></div>
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, "script", "facebook-jssdk"));</script>
+
+      <!-- google -->
+      <!-- Place this tag where you want the +1 button to render -->
+      <g:plusone style="display:inline;float: left;width: 100px;" size="medium"></g:plusone>
+
+      <!-- Place this render call where appropriate -->
+      <script type="text/javascript">
+        (function() {
+          var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+          po.src = "https://apis.google.com/js/plusone.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </section>
+
+    <h3 class="sharebuttons">
+      <a href="/">&larr; back to the ringmark test</a>
+    </h3>
+
+    <h3>History</h3>
+    <p>
+      Ringmark is constantly refining existing tests, adding new tests, applying bug fixes and updating per spec changes.
+    </p>
+
+    <h4>Current Browserscope keys</h4>
+
+    <ul class="changelog">
+      <li>All: <br> <span data-browserscope="all"></span></li>
+      <li>Rings: <br> <span data-browserscope="rings"></span></li>
+    </ul>
+
+
+    <h4>v1.2.0, April 30, 2012</h4>
+
+    <ul class="changelog">
+      <li>04-26, Null vibration test. Resolves #458 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-26, Adds 1 Ring-1, 5 Ring-2 App types. Resolves #456 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-25, Update browserscope redirection logic to use App.params <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-24, Add missing assertion message for list attributes on input elements <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-24, Temporarily disable animate.ownerSVGElement tests <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-23, Improved XHR2 messages <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-23, Adds "video" to Video App "type" <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-23, Move webrtc to Ring 1, since it appears in a Ring 1 "App type" <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-19, Clearer notification that Ring 2 won't run because Ring 1 failed. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-18, Improved html-media-capture assertion <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Set FileWriter to null <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Update filesaver, filesystem apis to r:null, disabling them; Fixes #445 (445) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Temporarily disable gesture event tests Resolves #444 (444) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Relocate, retarget and reboot the css canvas (element) tests. Resolves #450 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Remove redundant background-image long form test. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>04-17, Test both background and backgroundImage css props. Resolves #449 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+    </ul>
+
+    <h4>v1.1.0, March 14, 2012</h4>
+
+    <ul class="changelog">
+      <li>03-14, Remove callablenull test from postmessage (unnec) (scratch) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>03-14, Ensure frame tests are run to completion. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>03-14, Adds muted=true to audio tracks <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>03-09, Restores blocked iframe sandbox tests (upstream/sandbox, sandbox) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>03-06, Check for dead stop state in timeout as well as step. Fixes #427 (upstream/427) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>02-28, Wrap audio multi timeout in async step <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>02-28, Clarify "image" masking <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>02-28, Add tests for alternate masking. cssmasking => masking <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>02-27, Temporarily disable "Derived Data URL" test, pending accuracy investigation <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li>02-27, Temporarily disable "hashchangeevent, xhr.upload" - issues in Android 4 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+    </ul>
+
+
+    <h4>v1.0.0, February 27, 2012</h4>
+
+    <ul class="changelog">
+      <li> 02-26, Adds 3 tests for visibilitystate. Resolves #146 (upstream/146) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Adds 1 test for vibration. Resolves #191 (upstream/191) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Adds 2 tests for network connection. Resolves #405 (upstream/405) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Adds 6 tests for notifications. Resolves #15 (upstream/15) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Fixes upload progress hang in FireFox Mobile. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Avoid HashChangeEvent DOMException in Safari. Resolves #397 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Avoid deadstops when rAF/cAF is missing. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Adds 3 tests for animation timing. Resolves #390 (upstream/390) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-26, Shift sharedworkers to ring 2. Resolves #371 (upstream/371) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Split out svg by type. Resolves #382 (upstream/382) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Split css border image from css background. resolves #381 (upstream/381) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Improve css 3d transform tests (upstream/379) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Adds 2 tests to css 3d transforms <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Adds tests for new special case prefixes <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Adds special case prefixes to both cssom and doom list <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-25, Test for MozTouchEvent instead of looking at properties. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Block simulated Orientation/Motion events, Android 4 can't hang. Resolves #327 (upstream/327) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Move requestFileSystem to R2. Resolves #128 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Adds 1 test for WebRTC. Resolves #21 (upstream/21) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Move css position to ring 1 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Move inspected css into ring 2 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-24, Update cssposition to ring 1 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Drop unnec. BlobBuilder proto test <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Move specs that are failing Android 2.2 Froyo to Ring 1. Related to #253 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-23, Proceed to next ring only on full pass. Resolves #254 (upstream/254) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Split canvas-3d into prefixed and standard tests <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Moves multitouch tests to multitouch feature. Resolves #6 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Adds 1 test for cssoverflow. Resolves #104 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Move CSS Position tests back into ring 0 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-23, Derived data url test. Resolves #307 (upstream/307) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Updates to assertion messages, I-X <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Updates to assertion messages, A-H <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Relocates hostobjects => prompts. Resolves #194 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Relocate pointerevents => cssui. Resolves #194 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-23, Splits sharedworkers out from webworkers. Resolves #297 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Move specs that are currently failing ring0 on iOS to ring1. Addresses but does not remedy #253 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-22, Addresses varying issues across Android WebKit, FireFox and Mobile Safari. Resolves #289, #211 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Fixes borked iOS audio tests.  Resolves #291 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Adds 1 test for audio multi playback. Resolves #3 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Prevent deviceorientation errors from killing android. Resolves #281 (upstream/281) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Prevent matchMedia errors from killing android. Resolves #279 (upstream/279) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Prevent dataset errors from killing android. Resolves #278 (upstream/278) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Relocates fixed => cssposition.  Resolves #263 (upstream/263) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Relocates css2-1 => css2-1selectors. Resolves #265 (upstream/265) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-22, Relocate rootem => cssvalues. Resolves #264 (upstream/264) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-21, Adds a simple inference test for CSS 3D Transforms using a media query. Resolves #105 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-21, Adds 1 test for support for CSS generated content. Works in w3c runner but not visual. <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-21, Two sets of inference tests for indexedDB in prefixed and standard versions. Resolves #10 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-20, Adds 32 test for web workers (inc. blob). Resolves #7 (upstream/7) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Preliminary indexedDB testing. Adds inference tests and incomplete test of basic API usage <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-20, Adds 24 tests for HTML5 input types and attributes. Resolves #12 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-20, Allow creating loops in functions in jshint config <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-20, Split cssui into: r0 cssui, r1 cssui-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split csstransforms into: r0 csstransforms, r1 csstransforms-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split cssflexbox into: r0 cssflexbox, r1 cssflexbox-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split csscolor into: r0 csscolor, r1 csscolor-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split cssbackground into: r0 cssbackground, r1 cssbackground-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split csstransitions into: r0 csstransitions, r1 csstransitions-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split cssmasks into: r0 cssmasks, r1 cssmasks-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split cssanimation into: r0 cssimages, r1 cssimages-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Split cssanimation into: r0 cssanimation, r1 cssanimation-standard <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Adds 13 tests for filewriter and filesaver. Resolves #108 (upstream/108) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Adds 1 test for requestFileSystem api. Resolves #108 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Adds 11 tests for filereader api. Resolves #108 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Adds 1 test for input file capture. Resolves #107 (upstream/107) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Adds 1 test (3 assertions) for online/offline tracking <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-20, Moves css: animations, font, images, masks, transitions to Ring 1 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-20, Consolidates matchesselector, qsa into new "selector" <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-17, Adds 2 tests (1 disabled) for fullscreen API. Resolves #68 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-17, Adds assertion descriptions to touchevents. Updates references to navigationtiming spec <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-17, Relocate timing => navigationtiming <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-17, Consolidate storage stuff to 'webstorage' <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 4 tests for repeating-linear-gradient and repeating-radial gradient. Resolves #57 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Adds 4 tests for pointer events. Resolves #42 (upstream/42) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 4 tests for object-fit and object-position <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Adds a test for background-image: url <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Adds 15 tests for touch events. Resolves #74 (upstream/74) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds two tests for radial-gradient support <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Move existing CSS gradient tests establishing CSS Images spec folder <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Adds link to spec (upstream/46) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 3 tests for root ems. Resolves #46 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 2 tests for data url. Resolves #32 (upstream/32) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 3 test for css fonts: otf eot svg. Resolves #28 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 1 test for CSS-text shadow. <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-15, Adds 6 tests for css transforms. 4 of these disabled. Resolves #55 (upstream/55) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 2 tests for css transitions. Resolves #61 (upstream/61) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Relocate cssfontface => cssfont <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-14, Adds 2 tests for css animations. Resolves #62 (upstream/62) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-15, Adds 3 test for css fontface. Resolves #27 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-14, Adds 4 tests (20 assertions) for Device Orientation events <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-14, Adds 4 inference tests for Geolocation API <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-14, Adds 4 tests for CSS min/max width & height. Resolves #44 (upstream/44) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-14, Adds 1 doctype CSS1Compat test. Resolves #93 (upstream/93) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-14, Updates to css2-1 and fixed tests <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 44 tests for html5 elements. Resolves #37 (upstream/37) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 2 tests for css masks. Resolves #67 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 4 tests for css flexbox. Resolves #39 (upstream/39) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 1 test for css 2.1 selectors. Resolves #43 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 1 test for css canvas. Resolves #65 (upstream/65) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-13, Adds 1 test for fixed position. Resolves #38 (upstream/38) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-11, Adds a helper function to Tophat for checking and returning an arbitrary property on a DOM element <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-11, Adds 4 new BlobBuilder tests <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-11, Adds 'CSS' to test block titles in cssbackground, updates built files <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-11, Adds 'CSS' to test block titles in cssui, updates built files <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-11, Adds 'CSS' to test block titles, updates built files <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-10, Adds tests for border-radius to backgrounds module <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds tests for box-shadow to backgrounds module <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds 2 tests for multiple background image support <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds tests for RGBA and HSLA support <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds basic existence test for box-sizing to CSSUI tests module. <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds 3 tests for CSS3-text properties word-wrap, word-break and word-spacing <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds 2 tests for CSS border image and constituent properties. Resolves #63 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds 1 really crude test for viewport. Resolves #69 (upstream/69) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-10, Adds 2 tests for prefixed and standard linear gradient support. Resolves #60 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-10, Adds 4 new storage event tests. Resolves #145 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-10, Adds 14 new dataset tests, source: w3c. <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-10, Adds 3 new canvas-3d tests. Resolves #153 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-09, Adds 1 test for seamless iframe (upstream/20) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-09, Adds 64 tests for window.performance. Resolves #22 (upstream/22) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-09, Adds 6 tests for iframe sandbox. Resolves #20 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-09, Adds 1 new canvas test for webgl prefixing (upstream/24a) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-09, Adds 1 new canvas test. Supplements #24 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 8 new tests for svg. Resolves #23 (upstream/23) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 5 new tests for postMessage. Resolves #29 (upstream/29) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 2 new tests for application cache, tests actual cache checking behaviour. Resolves #35 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 3 new tests to video, codec (upstream/25) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 9 new tests for video. Resolves #25 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-08, Adds 1 new test to xhr2; reorganize xhr2 tests <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 5 new tests for history. Resolves #103 (upstream/103) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 5 new tests for hashchange. Resolves #86 (upstream/86) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds a test for creating FormData from an HTML form. Fixes #112 <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-07, Adds 6 new tests for getElementsByClassName. Resolves #87 (upstream/87) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 9 test for querySelector/querySelectorAll. Resolves #54 (upstream/54) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 5 new tests for matchesSelector. Resolves #88 (upstream/88) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 4 new tests for localStorage. (localStorage:2,sessionStorage:2). Resolves #84 (upstream/84) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds new 'progress' spec, moves xhr2 ProgressEvent tests to progress spec <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-07, Adds 1 test for BlobBuilder. Fixes #120 (upstream/120) <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-06, Adds 5 tests for dataset. Fixes #92 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-06, Adds 9 tests for canvas. Fixes #98 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-06, Adds 37 tests to XHR2 spec. Fixes #109 <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> 02-06, Adds some basic tests for JSON support <span class="signedoff">[adam j. sontag]</span></li>
+      <li> 02-06, Adds new XHR test to formdata spec <span class="signedoff">[Rick Waldron waldron.rick@gmail.com]</span></li>
+      <li> ... </li>
+    </ul>
+  </section>
+
+
+
+  <aside class="container">
+    <a href="/about">about ringmark</a>
+  </aside>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(["_setAccount", "UA-1464992-53"]);
+    _gaq.push(["_setDomainName", "rng.io"]);
+    _gaq.push(["_setAllowLinker", true]);
+    _gaq.push(["_trackPageview"]);
+
+    (function() {
+      var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+      ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+      var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    Android requires this to work correctly,
+    but still doesn't report this test correctly
+  -->
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+<body style="height:10000px">
+<script>
+scrollTo(0,0);
+
+window.setTimeout(function() {
+  scrollTo(1000, 1000);
+
+  // Undectable, so we have to cheat a little.
+  // This will be replaced when a more
+  // thorough test is completed
+  var isFixed,
+      iOS = /iPad/i.test(navigator.userAgent) ||
+          /iPod/i.test(navigator.userAgent) ||
+          /iPhone/i.test(navigator.userAgent);
+
+  // A supporting result will be 1000
+  isFixed = document.documentElement.scrollTop || document.body.scrollTop || iOS;
+
+  top.postMessage( isFixed, "*" );
+}, 100);
+</script>
+</body>
+</html>

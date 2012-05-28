@@ -77,6 +77,11 @@ module.exports = function(grunt) {
         'lib/browserscope.js',
         'lib/site.js'
       ],
+      'dist/performance.js': [
+        'performance/src/moxie.js',
+        'performance/src/raf.js',
+        'performance/src/sprite.js'
+      ],
 
       // HTML Compiled Fixtures
       // 'dist/fixtures.html': ['tests/!(boilerplate)**/*fixture.html'],
@@ -88,7 +93,8 @@ module.exports = function(grunt) {
       'dist/h.min.js': ['<banner>', 'dist/h.js'],
       'dist/ringmark.min.js': ['<banner>', 'dist/ringmark.js'],
       'dist/application.min.js': ['<banner>', 'dist/application.js'],
-      'dist/rings.min.js': ['<banner>', 'dist/rings.js']
+      'dist/rings.min.js': ['<banner>', 'dist/rings.js'],
+      'dist/performance.min.js': ['<banner>', 'dist/performance.js']
     },
 
     mincss: {

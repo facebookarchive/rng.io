@@ -404,7 +404,6 @@ Once you're satisfied with your tests:
 
 - Commit new tests to your local branch,
 - Push the branch to your fork,
-- complete the [W3C's license grant form][grant]
 - Make a pull request from your fork on github.
 
 

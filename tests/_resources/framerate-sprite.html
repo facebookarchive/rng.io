@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/dist/performance.min.js"></script>
+  <style>
+  body {
+    margin: 0px;
+  }
+  </style>
+</head>
+<body onload="this.focus();">
+  <canvas id="canvas" width="480" height="200">
+  </canvas>
+  <script>
+    var mox, canvas, cells, context, count, i, j,
+        reference, sprites, samples, isDecapitated;
+
+    mox = new Moxie({ mode: 0 });
+
+    canvas = document.getElementById("canvas");
+    context = canvas.getContext("2d");
+    count = +location.search.replace("?", "") || 2;
+
+    // Storage for sprite instances
+    sprites = [];
+
+    // Storage for captured measurements
+    samples = [];
+
+    for ( i = 0; i < count; i++ ) {
+      cells = [];
+
+      // Create a 10 cell/frame array
+      for ( j = 0; j < 10; j++ ) {
+        cells.push({
+          left: j * 48 + (i * 10), top: 0, width: 48, height: 64
+        });
+      }
+
+      // Generate the required number of sprites
+      sprites.push(
+        new Sprite({
+          name: "numbers",
+          // Image source
+          src: "/tests/_resources/numbered-sprite-sheet-480.png",
+          // Canvas context
+          context: context,
+          // Start at the far right
+          // sprite frame definitions will move the sprite leftward
+          bounds: {
+            left: 432,
+            top: 100
+          },
+          // 50 pixels per inch movement
+          velocity: {
+            x: 60
+          },
+          // Sprite cell definitions
+          cells: cells,
+          // Sprite frame definitions
+          frames: [
+
+            // Move sprite in place
+            {
+              // Optional frame state properties
+
+              // interval, time allowed for entire frame cycle
+              // higher is slower,
+              // lower is faster
+              interval: 100,
+              // storage for time of last cycle
+              time: {
+                last: 0
+              },
+
+              // Required
+              action: function( sprite, context, time ) {
+                if ( time - this.time.last > this.interval ) {
+                  sprite.sheet.next();
+                  this.time.last = time;
+                }
+              }
+            },
+
+            // Move sprite left to right
+            {
+              // Optional frame state properties
+
+              // storage for time of last move
+              move: {
+                last: 0
+              },
+
+              // Required
+              action: function( sprite, context, time ) {
+                if ( this.move.last ) {
+                  // Since we're moving left, compound decremental assignment
+                  // will reduce the left side distance giving the appearance
+                  // of leftward motion
+                  sprite.bounds.left -= sprite.velocity.x *
+                                          ( (time - this.move.last) / 1000 );
+
+                  // If we've gone over the edge,
+                  // Restart on the right hand side by setting the
+                  // left boundary to the canvas width
+                  if ( sprite.bounds.left < 0 ) {
+                    sprite.bounds.left = canvas.width;
+                  }
+                }
+                // Update the stored time
+                this.move.last = time;
+              }
+            }
+          ]
+        })
+      );
+    }
+
+    reference = sprites[ 0 ].reference;
+
+    // ANIMATION LOOP, THIS IS WHAT WE MEASURE
+
+    // Create actual animation
+    function loop( time ) {
+      var i, entity;
+
+      // Call to begin measuring frames
+      mox.begin();
+
+      // Clear the canvas
+      context.clearRect( 0, 0, canvas.width, canvas.height );
+
+      // Redraw the reference sprites
+      // context.drawImage( reference, 0, 0 );
+
+      // `count` is declared globally,
+      // at the beginning of the script
+      for ( i = 0; i < count; i++ ) {
+        entity = sprites[i];
+
+        entity.update( time );
+        entity.render();
+      }
+
+      // Call to end measuring and report
+      mox.end();
+
+      if ( !isDecapitated ) {
+        requestAnimationFrame( loop );
+      }
+
+      samples.push( mox.get("fps").value );
+    }
+
+    requestAnimationFrame( loop );
+
+    // Measure for 5 seconds
+    setTimeout(function() {
+      isDecapitated = true;
+
+      var avg = (samples.reduce(function( prev, curr ) {
+        return prev + curr;
+      }, 0) / samples.length).toFixed() * 1;
+
+      top.postMessage(JSON.stringify({
+        avg: {
+          fps: avg
+        }
+      }), "*" );
+    }, 5000);
+  </script>
+</body>
+</html>

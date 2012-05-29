@@ -57,8 +57,10 @@ module.exports = function(grunt) {
       'dist/runner.js': [ 'lib/console.js', 'lib/qunit-custom.js', 'lib/compat.js'],
       'dist/h.js': ['<banner>', '<file_strip_banner:lib/h.js>', 'lib/ring.js'],
       'dist/ringmark.js': [
-        'lib/archaic.js', 'lib/console.js', 'lib/qunit-custom.js', 'lib/compat.js',
-        '<banner>', '<file_strip_banner:lib/h.js>', 'lib/ring.js', 'lib/h-logging.js'
+        'lib/archaic.js', 'lib/console.js', 'lib/qunit-custom.js',
+        'lib/compat.js',
+        '<banner>', '<file_strip_banner:lib/h.js>', 'lib/ring.js',
+        'lib/h-logging.js'
       ],
       'dist/application.js': [
         'node_modules/underscore/underscore.js',
@@ -94,7 +96,9 @@ module.exports = function(grunt) {
       'dist/ringmark.min.js': ['<banner>', 'dist/ringmark.js'],
       'dist/application.min.js': ['<banner>', 'dist/application.js'],
       'dist/rings.min.js': ['<banner>', 'dist/rings.js'],
-      'dist/performance.min.js': ['<banner>', 'dist/performance.js']
+      'dist/performance.min.js': ['<banner>', 'dist/performance.js'],
+
+      'dev/load.min.js': ['<banner>', 'lib/load.js']
     },
 
     mincss: {
@@ -359,7 +363,7 @@ module.exports = function(grunt) {
     });
 
 
-    file.write( "dev/features.js", JSON.stringify( features, null, 2 ) );
+    file.write( "dev/feature-select.js", JSON.stringify( features, null, 2 ) );
 
     // Write the build test runner
     file.write( name, 'App.register( "features", ' + JSON.stringify( features, null, 2 ) + ');' );

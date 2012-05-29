@@ -1,8 +1,8 @@
-test("Touch", function() {
-  var Touch = H.API( window, "Touch", true );
+// test("Touch", function() {
+//   var Touch = H.API( window, "Touch", true );
 
-  assert( !!Touch, "Touch supported" );
-});
+//   assert( !!Touch, "Touch supported" );
+// });
 
 test("TouchEvent", function() {
   var TouchEvent = H.API( window, "TouchEvent", true );
@@ -10,11 +10,11 @@ test("TouchEvent", function() {
   assert( !!TouchEvent, "TouchEvent supported" );
 });
 
-test("TouchList", function() {
-  var TouchList = H.API( window, "TouchList", true );
+// test("TouchList", function() {
+//   var TouchList = H.API( window, "TouchList", true );
 
-  assert( !!TouchList, "TouchList supported" );
-});
+//   assert( !!TouchList, "TouchList supported" );
+// });
 
 // test("DocumentTouch", function() {
 //   var DocumentTouch = H.API( window, "DocumentTouch", true );

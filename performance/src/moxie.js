@@ -69,7 +69,7 @@ function Moxie( opts ) {
   this.frames = 0;
 
   // All code related to the display implementation is very much
-  // inspired by and derived from Mr. Doob's Moxie script.
+  // inspired by and derived from Mr. Doob's Stats script.
   //
   this.container = Moxie.createNode({
     props: {
@@ -287,7 +287,7 @@ Moxie.prototype.update = function () {
 Moxie.prototype.end = function () {
 
   // All code related to the display implementation is very much
-  // inspired by and derived from Mr. Doob's Moxie script.
+  // inspired by and derived from Mr. Doob's Stats script.
 
   var time, ms, fps, display;
 

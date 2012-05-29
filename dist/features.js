@@ -445,6 +445,18 @@ App.register( "features", [
     "sources": []
   },
   {
+    "name": "ring-1-performance",
+    "ring": null,
+    "spec": "",
+    "sources": []
+  },
+  {
+    "name": "ring-2-performance",
+    "ring": null,
+    "spec": "",
+    "sources": []
+  },
+  {
     "name": "selector",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",

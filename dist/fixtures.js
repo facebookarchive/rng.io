@@ -84,6 +84,14 @@ App.register( "fixtures", [
     "source": "<iframe id=\"ring-0-performance\" src=\"/tests/ring-0-performance/iframe.html?10\"></iframe>\n"
   },
   {
+    "name": "ring-1-performance",
+    "source": "<iframe id=\"ring-1-performance\" src=\"/tests/ring-1-performance/iframe.html?50\"></iframe>\n"
+  },
+  {
+    "name": "ring-2-performance",
+    "source": "<iframe id=\"ring-2-performance\" src=\"/tests/ring-2-performance/iframe.html?100\"></iframe>\n"
+  },
+  {
     "name": "selector",
     "source": "\n<!-- <div id=\"selector\">\n  <div id=\"getelementsbyclassname\">\n    <div id=\"context\" class=\"foo\"><span class=\"foo\">hi</span></div>\n  </div>\n</div> -->"
   },

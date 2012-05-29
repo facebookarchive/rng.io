@@ -3,7 +3,7 @@
 
 ## Setting up your environment
 
-To run the existing tests or create new ones, you'll need an HTTP server with PHP installed, node.js and npm, and grunt.
+To run the existing tests or create new ones, you'll need an HTTP server with PHP (for contribution to w3c, server behavior is limited to PHP), node.js/npm, and grunt.
 
 ### Installing an HTTP Server with PHP
 
@@ -17,7 +17,7 @@ Tests must be run from an HTTP Server with PHP installed. You can use one of the
 
 In order to build the tests, you'll also need [node.js](https://github.com/joyent/node) and [npm](https://github.com/isaacs/npm). Install instructions are available from the [node.js wiki](https://github.com/joyent/node/wiki/Installation).
 
-npm now ships with node.js, so you shouldn't have to do anything special to install it. You can however check for it's presence by running:
+npm now ships with node.js, so you shouldn't have to do anything special to install it. You can check for it's presence by running:
 
 ```bash
 npm -v
@@ -30,8 +30,6 @@ curl http://npmjs.org/install.sh | sh
 ```
 
 ### Installing grunt
-
-Lastly, you'll need to install [grunt](https://github.com/cowboy/grunt). That's easy:
 
 ```bash
 npm install grunt -g
@@ -62,9 +60,9 @@ npm install
 
 Start your local web server with the web root pointed at the rng.io repository root.
 
-Open `http://localhost/dev/test.html?spec=neato-api` in your browser to preview and run the tests.
+Open `http://localhost/dev/test.html` in your browser to preview and run the tests.
 
-(You may need to include a specific port number eg. `http://localhost:8888/dev/test.html?spec=neato-api`)
+(You may need to include a specific port number eg. `http://localhost:8888/dev/test.html`)
 
 
 ## Creating Tests

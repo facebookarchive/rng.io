@@ -21,6 +21,8 @@ Renderer.prototype = {
       bounds.left, bounds.top,
       frame.width, frame.height
     );
+
+    return this;
   }
 };
 
@@ -44,6 +46,8 @@ Sheet.prototype = {
     } else {
       this.index++;
     }
+
+    return this;
   },
   // Draw the current Frame
   render: function( sprite, context ) {
@@ -52,6 +56,8 @@ Sheet.prototype = {
       sprite.bounds,
       context
     );
+
+    return this;
   }
 };
 
@@ -111,6 +117,8 @@ Sprite.prototype = {
     if ( this.visible ) {
       this.sheet.render( this, this.context );
     }
+
+    return this;
   },
   // Iterate and execute the action method
   // of each frame object
@@ -121,6 +129,8 @@ Sprite.prototype = {
       this.frames[ i - 1 ].action( this, this.context, time );
       i--;
     }
+
+    return this;
   }
 };
 

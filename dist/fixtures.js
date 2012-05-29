@@ -80,6 +80,10 @@ App.register( "fixtures", [
     "source": "<!-- <iframe id=\"navigationtiming\" src=\"/tests/navigationtiming/iframe.html\"></iframe> -->"
   },
   {
+    "name": "ring-0-performance",
+    "source": "<iframe id=\"ring-0-performance\" src=\"/tests/ring-0-performance/iframe.html?10\"></iframe>\n"
+  },
+  {
     "name": "selector",
     "source": "\n<!-- <div id=\"selector\">\n  <div id=\"getelementsbyclassname\">\n    <div id=\"context\" class=\"foo\"><span class=\"foo\">hi</span></div>\n  </div>\n</div> -->"
   },

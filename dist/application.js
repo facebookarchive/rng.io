@@ -11271,6 +11271,12 @@ App.register( "features", [
     "sources": []
   },
   {
+    "name": "ring-0-performance",
+    "ring": null,
+    "spec": "",
+    "sources": []
+  },
+  {
     "name": "selector",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",
@@ -11455,6 +11461,10 @@ App.register( "fixtures", [
   {
     "name": "navigationtiming",
     "source": "<!-- <iframe id=\"navigationtiming\" src=\"/tests/navigationtiming/iframe.html\"></iframe> -->"
+  },
+  {
+    "name": "ring-0-performance",
+    "source": "<iframe id=\"ring-0-performance\" src=\"/tests/ring-0-performance/iframe.html?10\"></iframe>\n"
   },
   {
     "name": "selector",

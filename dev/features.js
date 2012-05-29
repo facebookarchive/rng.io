@@ -439,6 +439,12 @@
     "sources": []
   },
   {
+    "name": "ring-0-performance",
+    "ring": null,
+    "spec": "",
+    "sources": []
+  },
+  {
     "name": "selector",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",

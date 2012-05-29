@@ -2528,6 +2528,34 @@ test("window.prompt is treated as a function", function() {
   assert( H.isFunction( window.prompt ), "prompt supported" );
 });
 
+window.spec = "ring-0-performance";
+
+
+asyncTest("Framerate for 10 sprites", function( async ) {
+
+
+  var completed = false;
+
+  window.onmessage = function( event ) {
+    var data = JSON.parse( event.data );
+
+    if ( data.avg && data.avg.fps && !completed ) {
+      completed = true;
+      async.step(function() {
+
+        assert(
+          data.avg.fps >= 30,
+          "Moving 10 sprites, with 10 frames each (" + data.avg.fps + ")"
+        );
+
+        window.onmessage = null;
+        async.done();
+      });
+    }
+    async.done();
+  };
+});
+
 window.spec = "selector";
 
 
@@ -2678,11 +2706,11 @@ test("SVG Element (Inline)", function() {
 window.spec = "touchevents";
 
 
-test("Touch", function() {
-  var Touch = H.API( window, "Touch", true );
+// test("Touch", function() {
+//   var Touch = H.API( window, "Touch", true );
 
-  assert( !!Touch, "Touch supported" );
-});
+//   assert( !!Touch, "Touch supported" );
+// });
 
 test("TouchEvent", function() {
   var TouchEvent = H.API( window, "TouchEvent", true );
@@ -2690,11 +2718,11 @@ test("TouchEvent", function() {
   assert( !!TouchEvent, "TouchEvent supported" );
 });
 
-test("TouchList", function() {
-  var TouchList = H.API( window, "TouchList", true );
+// test("TouchList", function() {
+//   var TouchList = H.API( window, "TouchList", true );
 
-  assert( !!TouchList, "TouchList supported" );
-});
+//   assert( !!TouchList, "TouchList supported" );
+// });
 
 // test("DocumentTouch", function() {
 //   var DocumentTouch = H.API( window, "DocumentTouch", true );

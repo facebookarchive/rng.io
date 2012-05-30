@@ -408,10 +408,34 @@ Once you're satisfied with your tests:
 <img src="https://github.com/facebook/rng.io/raw/master/dev/pr.png">
 
 
+### Coremob WG/ W3C Contributions
+
+
+To generate static files for donation to the Coremob WG and W3C, use the following commands:
+
+``` bash
+grunt generate
+```
+
+To generate one or more _specific_ tests, use the following:
+
+``` bash
+grunt generate:*:test1:test2:test3
+```
+
+eg.
+
+``` bash
+grunt generate:*:appcache:webworkers
+```
+
+(This would generate static files from the appcache and webworkers tests.)
+
+
 
 ### Restrictions
 
-Please don't edit files in the following directories: `lib`, `dev`, `node_modules`. Changes to these files will be disregarded and may block your Pull Request.
+Contributions are restricted to code in the `/tests/` directory. Any changes to code outside of this directory will be disregarded and may block your Pull Request.
 
 
 ## Licensing

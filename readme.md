@@ -58,7 +58,7 @@ npm install
 
 ## Running Tests
 
-Start your local web server with the web root pointed at the rng.io repository root.
+**Start your local web server with the web root pointed at the rng.io repository root.**
 
 Open `http://localhost/dev/test.html` in your browser to preview and run the tests.
 

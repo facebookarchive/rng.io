@@ -10473,6 +10473,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         templates[ tpl.id ] = _.template( tpl.innerHTML );
       });
 
+
       // Run app
       if ( App.root ) {
         this.run();
@@ -11792,13 +11793,13 @@ document.addEventListener( "DOMContentLoaded", function() {
   // Initialize the entire Application
   App.init();
 
-  // Derive a sub app initializer
-  var sub = location.pathname.replace( /\//g, "" ),
-      initializer = sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null;
+  // // Derive a sub app initializer
+  // var sub = location.pathname.replace( /\//g, "" ),
+  //     initializer = sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null;
 
-  if ( initializer && App[ initializer ] && App[ initializer ].init ) {
-    App[ initializer ].init();
-  }
+  // if ( initializer && App[ initializer ] && App[ initializer ].init ) {
+  //   App[ initializer ].init();
+  // }
 }, false );
 
 window.onload = function() {

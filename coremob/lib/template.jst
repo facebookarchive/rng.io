@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Coremob Test Development: <%= target %></title>
+  <script src="lib/testharness.js"></script>
+  <script src="lib/testharnessreport.js"></script>
+</head>
+<body>
+<div id="log"></div>
+<div id="testharness-fixture">
+<%= html %>
+</div>
+<script>
+<%= tests %>
+</script>
+
+</body>
+</html>

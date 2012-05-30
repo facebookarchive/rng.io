@@ -1,6 +1,6 @@
 Hat.ring({ 
   ring: 0,
-  features: 26,
+  features: 27,
   test: function() {
     
     module("ring:0");
@@ -716,6 +716,36 @@ Hat.ring({
       assert( H.isFunction( window.prompt ), "prompt supported" );
     });
     
+    feature("ring-0-performance", 0, "Ring 0 Performance");
+
+    window.spec = "ring-0-performance";
+    
+    
+    asyncTest("Framerate for 10 sprites", function( async ) {
+    
+    
+      var completed = false;
+    
+      window.onmessage = function( event ) {
+        var data = JSON.parse( event.data );
+    
+        if ( data.avg && data.avg.fps && !completed ) {
+          completed = true;
+          async.step(function() {
+    
+            assert(
+              data.avg.fps >= 30,
+              "Moving 10 sprites, with 10 frames each (" + data.avg.fps + ")"
+            );
+    
+            window.onmessage = null;
+            async.done();
+          });
+        }
+        async.done();
+      };
+    });
+    
     feature("selector", 0, "Selectors 2");
 
     window.spec = "selector";
@@ -943,7 +973,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 27,
+  features: 28,
   test: function() {
     
     module("ring:1");
@@ -1901,6 +1931,36 @@ Hat.ring({
       assert( "onoffline" in document.body, "document.body.onoffline supported" );
     });
     
+    feature("ring-1-performance", 1, "Ring 1 Performance");
+
+    window.spec = "ring-1-performance";
+    
+    
+    asyncTest("Framerate for 50 sprites", function( async ) {
+    
+    
+      var completed = false;
+    
+      window.onmessage = function( event ) {
+        var data = JSON.parse( event.data );
+    
+        if ( data.avg && data.avg.fps && !completed ) {
+          completed = true;
+          async.step(function() {
+    
+            assert(
+              data.avg.fps >= 30,
+              "Moving 50 sprites, with 10 frames each (" + data.avg.fps + ")"
+            );
+    
+            window.onmessage = null;
+            async.done();
+          });
+        }
+        async.done();
+      };
+    });
+    
     feature("touchevents", 1, "Touch Event");
 
     window.spec = "touchevents";
@@ -2505,7 +2565,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 2,
-  features: 23,
+  features: 24,
   test: function() {
     
     module("ring:2");
@@ -3429,6 +3489,36 @@ Hat.ring({
     
         assert( Notifications.checkPermission() === 1, "Initial permission not allowed" );
       }
+    });
+    
+    feature("ring-2-performance", 2, "Ring 2 Performance");
+
+    window.spec = "ring-2-performance";
+    
+    
+    asyncTest("Framerate for 100 sprites", function( async ) {
+    
+    
+      var completed = false;
+    
+      window.onmessage = function( event ) {
+        var data = JSON.parse( event.data );
+    
+        if ( data.avg && data.avg.fps && !completed ) {
+          completed = true;
+          async.step(function() {
+    
+            assert(
+              data.avg.fps >= 30,
+              "Moving 100 sprites, with 10 frames each (" + data.avg.fps + ")"
+            );
+    
+            window.onmessage = null;
+            async.done();
+          });
+        }
+        async.done();
+      };
     });
     
     feature("sharedworkers", 2, "SharedWorkers");

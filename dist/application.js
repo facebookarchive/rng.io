@@ -11272,19 +11272,19 @@ App.register( "features", [
   },
   {
     "name": "ring-0-performance",
-    "ring": null,
+    "ring": 0,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-1-performance",
-    "ring": null,
+    "ring": 1,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-2-performance",
-    "ring": null,
+    "ring": 2,
     "spec": "",
     "sources": []
   },

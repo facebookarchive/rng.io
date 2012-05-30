@@ -23,6 +23,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "lodash": ">=0.2.2",
     "grunt": "~0.2.6",
     "jsdom": "*",
     "js-yaml": "*",
@@ -38,9 +39,11 @@
     "test": "grunt test"
   },
   "contributors": [
-    "Adam Sontag <adam@bocoup.com> (url)",
-    "Boaz Sender <boaz@bocoup.com> (url)",
-    "Rick Waldron <rick@bocoup.com> (url)"
+    "Matt Kelly <mk@fb.com>",
+    "Tobie Langel <tobie@fb.com>",
+    "Adam Sontag <adam@bocoup.com> ",
+    "Boaz Sender <boaz@bocoup.com> ",
+    "Rick Waldron <rick@bocoup.com> "
   ],
   "author": "Facebook"
 }

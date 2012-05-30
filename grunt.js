@@ -28,7 +28,7 @@ module.exports = function( grunt ) {
     },
 
     features: {
-      "dist/features.js": [ "tests/!( boilerplate )**/*.yml" ]
+      "dist/features.js": [ "tests/!(boilerplate)**/*.yml" ]
     },
 
     apptypes: {
@@ -44,14 +44,14 @@ module.exports = function( grunt ) {
     },
 
     fixtures: {
-      "dist/fixtures.js": [ "tests/!( boilerplate )**/*fixture.html" ]
+      "dist/fixtures.js": [ "tests/!(boilerplate)**/*fixture.html" ]
     },
 
     compile_tests: {
-      "dist/rings.js": [ "tests/!( boilerplate )**/*.yml" ]
+      "dist/rings.js": [ "tests/!(boilerplate)**/*.yml" ]
     },
     spec: {
-      "dist/tests.js": [ "tests/!( boilerplate )**/*.js" ]
+      "dist/tests.js": [ "tests/!(boilerplate)**/*.js" ]
     },
     concat: {
       // JS Files
@@ -87,7 +87,7 @@ module.exports = function( grunt ) {
       ],
 
       // HTML Compiled Fixtures
-      // "dist/fixtures.html": [ "tests/!( boilerplate )**/*fixture.html" ],
+      // "dist/fixtures.html": [ "tests/!(boilerplate)**/*fixture.html" ],
 
       "index.html": [ "site/header.html", "site/footer.html" ]
     },
@@ -98,7 +98,6 @@ module.exports = function( grunt ) {
       "dist/application.min.js": [ "<banner>", "dist/application.js" ],
       "dist/rings.min.js": [ "<banner>", "dist/rings.js" ],
       "dist/performance.min.js": [ "<banner>", "dist/performance.js" ],
-
       "dev/load.min.js": [ "<banner>", "lib/load.js" ]
     },
 
@@ -112,7 +111,7 @@ module.exports = function( grunt ) {
       files: [ "lib-test/**/*.js" ]
     },
     lint: {
-      files: [ "grunt.js", "lib/**/!( console|deferred|jquery|qunit-custom )*.js", "lib-test/**/*.js", "tests/**/*.js", "site/**/!( underscore-min )*.js" ]
+      files: [ "grunt.js", "lib/**/!(console|deferred|jquery|qunit-custom)*.js", "lib-test/**/*.js", "tests/**/*.js", "site/**/!(underscore-min)*.js" ]
     },
     watch: {
       files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css" ],
@@ -232,7 +231,7 @@ module.exports = function( grunt ) {
     }
 
     targets.forEach(function( target ) {
-      var parts, contents, filepath, tests, html, css;
+      var parts, content, contents, filepath, tests, html, css;
 
       filepath = "tests/" + target + "/";
 

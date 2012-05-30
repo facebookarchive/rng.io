@@ -237,9 +237,14 @@ dl.table-ingredient {
 details > * {
   display: block;
 }
+
 #hat-fixture {
-  visibility:hidden;
+  visibility:hidden !important;
+  left: -1000000px;
+  top: -1000000px;
+  position: absolute;
 }
+
 .sharebuttons {
   margin: 20px 0 0 20px;
   clear: both;

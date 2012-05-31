@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var fs = require("fs"),
     colors = require("colors"),
     cp = require("child_process"),

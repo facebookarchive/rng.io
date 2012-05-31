@@ -11746,7 +11746,7 @@ App.register( "ringheaders", [
     if ( completed === Hat.ring.cache.length || override ) {
       console.log( "Beacon Results to Browserscope" );
 
-      if ( /localhost/.test( window.location.hostname ) ) {
+      if ( /localhost|dev/.test( window.location.hostname ) ) {
         console.log( "Just kidding, we're testing locally, no need to beacon." );
         console.log( "...Calling _bTestBeaconCallback directly." );
 

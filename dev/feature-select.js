@@ -443,7 +443,7 @@
   },
   {
     "name": "ring-0-performance",
-    "ring": 0,
+    "ring": null,
     "spec": "",
     "sources": []
   },

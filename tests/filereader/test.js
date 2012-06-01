@@ -37,7 +37,6 @@ test("FileReader API", function() {
     reader = new FileReader();
 
     [
-      "readAsBinaryString",
       "readAsText",
       "readAsDataURL",
       "readAsArrayBuffer"

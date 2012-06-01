@@ -7,10 +7,8 @@
 </head>
 <body>
 <script>
+  var rules, style, styles;
 
-  var rule, rules, style, styles;
-
-  rule = "@font-face { font-family: font; src: url(https:); }";
   styles = document.styleSheets;
   style = styles[ styles.length -1 ];
   rules = style && (style.cssRules[ 0 ] || (style.rules && style.rules[ 0 ])) || { cssText: "" };

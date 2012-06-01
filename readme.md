@@ -108,6 +108,9 @@ This will create a new directory at:
 
 ```
 
+See [CSS2.1 Selectors Tests](https://github.com/facebook/coremob-tests/tree/master/tests/css2-1selectors) for an example of test directory file structure.
+
+
 ### config.yml
 
 Configuration settings and meta data for this group of tests.
@@ -275,7 +278,7 @@ The rng.io includes a helper library called `H`. `H` provides a simple set of ut
 
 ### H.API
 
-Derive and assert the existence of an API that may be prefixed. Prefixes can be tested by optionally. This function exists to simplify the testing of new host object APIs that may exist in prefixed form.
+Derive and assert the existence of an API that may or may not be prefixed and prefix testing is optional. This function exists to simplify the testing of new host object APIs that may exist in prefixed form.
 
 The following prefixes are tested:
 
@@ -390,7 +393,18 @@ Example:
 
 
 ## Contributing Tests
+### Contributor License Agreement
+
+All contributors must agree to and sign the [Facebook CLA](https://developers.facebook.com/opensource/cla) prior to submitting Pull Requests. Ringmark cannot accept Pull Requests until this document is signed and submitted.
+
+
 ### Style Guide
+
+
+Tests must be able to compile to a W3C flat file test runner, this can be confirmed by running:
+
+`grunt generate`
+
 
 In order to maintain a consistent level of readability and maintainability, all contributions should pass lint (use `grunt`)
 

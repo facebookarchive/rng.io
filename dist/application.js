@@ -10984,7 +10984,10 @@ App.register( "features", [
     "name": "cssfont",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-fonts/",
-    "sources": []
+    "sources": [
+      "http://javascript.nwbox.com/CSSSupport/",
+      "https://github.com/Modernizr/Modernizr/blob/master/modernizr.js#L663-681"
+    ]
   },
   {
     "name": "cssimages",

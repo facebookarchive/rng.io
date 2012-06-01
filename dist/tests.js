@@ -1459,7 +1459,6 @@ test("FileReader API", function() {
     reader = new FileReader();
 
     [
-      "readAsBinaryString",
       "readAsText",
       "readAsDataURL",
       "readAsArrayBuffer"
@@ -2532,14 +2531,13 @@ window.spec = "ring-0-performance";
 
 
 asyncTest("Framerate for 10 sprites", function( async ) {
-
-
-  var completed = false;
+  var completed = false,
+      dead = false;
 
   window.onmessage = function( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed ) {
+    if ( data.avg && data.avg.fps && !completed && !dead ) {
       completed = true;
       async.step(function() {
 
@@ -2554,20 +2552,30 @@ asyncTest("Framerate for 10 sprites", function( async ) {
     }
     async.done();
   };
+
+  // Bailout
+  setTimeout(function() {
+    if ( !dead ) {
+      async.step(function() {
+        assert( false, "Browser failed to complete performance test in allotted time" );
+        dead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 window.spec = "ring-1-performance";
 
 
 asyncTest("Framerate for 50 sprites", function( async ) {
-
-
-  var completed = false;
+  var completed = false,
+      dead = false;
 
   window.onmessage = function( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed ) {
+    if ( data.avg && data.avg.fps && !completed && !dead ) {
       completed = true;
       async.step(function() {
 
@@ -2582,20 +2590,30 @@ asyncTest("Framerate for 50 sprites", function( async ) {
     }
     async.done();
   };
+
+  // Bailout
+  setTimeout(function() {
+    if ( !dead ) {
+      async.step(function() {
+        assert( false, "Browser failed to complete performance test in allotted time" );
+        dead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 window.spec = "ring-2-performance";
 
 
 asyncTest("Framerate for 100 sprites", function( async ) {
-
-
-  var completed = false;
+  var completed = false,
+      dead = false;
 
   window.onmessage = function( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed ) {
+    if ( data.avg && data.avg.fps && !completed && !dead ) {
       completed = true;
       async.step(function() {
 
@@ -2610,6 +2628,18 @@ asyncTest("Framerate for 100 sprites", function( async ) {
     }
     async.done();
   };
+
+
+  // Bailout
+  setTimeout(function() {
+    if ( !dead ) {
+      async.step(function() {
+        assert( false, "Browser failed to complete performance test in allotted time" );
+        dead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 window.spec = "selector";

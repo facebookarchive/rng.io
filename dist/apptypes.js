@@ -18,7 +18,8 @@ App.register( "apptypes", [
       "multitouch",
       "audio-multi",
       "cssfont",
-      "cssposition"
+      "cssposition",
+      "ring-1-performance"
     ]
   },
   {
@@ -61,7 +62,8 @@ App.register( "apptypes", [
       "multitouch",
       "cssfont",
       "cssposition",
-      "history"
+      "history",
+      "ring-1-performance"
     ]
   },
   {
@@ -115,7 +117,8 @@ App.register( "apptypes", [
       "animationtiming",
       "canvas-3d",
       "css-unspecified",
-      "fullscreen"
+      "fullscreen",
+      "ring-2-performance"
     ]
   },
   {
@@ -133,7 +136,8 @@ App.register( "apptypes", [
     "description": "This group is increasing in popularity and on the cutting edge of technology. Examples include QR Code Readers and Augmented Reality apps.",
     "defer": false,
     "features": [
-      "webrtc"
+      "webrtc",
+      "ring-2-performance"
     ]
   },
   {
@@ -157,7 +161,8 @@ App.register( "apptypes", [
       "visibilitystate",
       "cssimages-standard",
       "cssoverflow-standard",
-      "cssflexbox-standard"
+      "cssflexbox-standard",
+      "ring-2-performance"
     ]
   },
   {

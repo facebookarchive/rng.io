@@ -65,7 +65,7 @@ module.exports = function( grunt ) {
       ],
       "dist/application.js": [
         "node_modules/underscore/underscore.js",
-        "lib/jquery-1.7.1.js",
+        "lib/jquery-1.7.2.js",
         "lib/jquery.details.js",
         "lib/app.js",
 
@@ -114,8 +114,8 @@ module.exports = function( grunt ) {
       files: [ "grunt.js", "lib/**/!(console|deferred|jquery|qunit-custom)*.js", "lib-test/**/*.js", "tests/**/*.js", "site/**/!(underscore-min)*.js" ]
     },
     watch: {
-      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css" ],
-      tasks: "default"
+      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css", "lib/**/*.js", "performance/**/*.js" ],
+      tasks: "short"
     },
     untab: {
       files: [
@@ -192,6 +192,8 @@ module.exports = function( grunt ) {
   // Default task.
   task.registerTask("default", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min");
   //"lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min"
+
+  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat");
 
 
 

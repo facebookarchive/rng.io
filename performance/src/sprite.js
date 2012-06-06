@@ -11,16 +11,22 @@ function Renderer( src ) {
 
 Renderer.prototype = {
   render: function( frame, bounds, context ) {
-    context.drawImage(
-      // Draw the entity...
-      this.image,
-      // On the cell...
-      frame.left, frame.top,
-      frame.width, frame.height,
-      // Within the current calculated bounds...
-      bounds.left, bounds.top,
-      frame.width, frame.height
-    );
+
+    // Wrap the drawImage call in try/catch to avoid
+    // Uncaught Error: INDEX_SIZE_ERR: DOM Exception 1
+    // when the canvas and image have gone away
+    try {
+      context.drawImage(
+        // Draw the entity...
+        this.image,
+        // On the cell...
+        frame.left, frame.top,
+        frame.width, frame.height,
+        // Within the current calculated bounds...
+        bounds.left, bounds.top,
+        frame.width, frame.height
+      );
+    } catch ( e ) {}
 
     return this;
   }

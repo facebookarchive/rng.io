@@ -92,6 +92,7 @@
     "cssfont",
     "cssposition",
     "webrtc",
+    "html-media-capture",
     "history"
   ]
 },

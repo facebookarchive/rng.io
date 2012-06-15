@@ -17,7 +17,7 @@ Tests must be run from an HTTP Server with PHP installed. You can use one of the
 
 In order to build the tests, you'll also need [node.js](https://github.com/joyent/node) and [npm](https://github.com/isaacs/npm). Install instructions are available from the [node.js wiki](https://github.com/joyent/node/wiki/Installation).
 
-npm now ships with node.js, so you shouldn't have to do anything special to install it. You can check for it's presence by running:
+npm now ships with node.js, so you shouldn't have to do anything special to install it. You can check for its presence by running:
 
 ```bash
 npm -v

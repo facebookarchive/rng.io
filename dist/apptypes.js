@@ -92,6 +92,7 @@ App.register( "apptypes", [
       "cssfont",
       "cssposition",
       "webrtc",
+      "html-media-capture",
       "history"
     ]
   },

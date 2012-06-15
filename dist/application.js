@@ -10403,7 +10403,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 })( window );
 
-/*! http://mths.be/details v0.0.5 by @mathias | includes http://mths.be/noselect v1.0.3 */
+/*! http://mths.be/details v0.0.6 by @mathias | includes http://mths.be/noselect v1.0.3 */
 ;(function(document, $) {
 
 	var proto = $.fn,
@@ -10536,7 +10536,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 					// Toggle the `open` and `aria-expanded` attributes and the `open` property of the `details` element and display the additional info
 					toggleOpen($details, $detailsSummary, $detailsNotSummary, true);
 				}).keyup(function(event) {
-					if (32 == event.keyCode && !isOpera || 13 == event.keyCode) {
+					if (32 == event.keyCode || (13 == event.keyCode && !isOpera)) {
 						// Space or Enter is pressed — trigger the `click` event on the `summary` element
 						// Opera already seems to trigger the `click` event when Enter is pressed
 						event.preventDefault();
@@ -10872,9 +10872,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           });
         }
 
-        // if ( !$.fn.details.support ) {
-        //   $("details").details();
-        // }
+        if ( !$.fn.details.support ) {
+          $("details").details();
+        }
       });
 
 
@@ -11745,6 +11745,7 @@ App.register( "apptypes", [
       "cssfont",
       "cssposition",
       "webrtc",
+      "html-media-capture",
       "history"
     ]
   },
@@ -11892,27 +11893,33 @@ App.register( "ringheaders", [
     }
 
     if ( completed === Hat.ring.cache.length || override ) {
-      console.log( "Beacon Results to Browserscope" );
 
-      if ( /localhost|dev/.test( window.location.hostname ) ) {
-        console.log( "Just kidding, we're testing locally, no need to beacon." );
-        console.log( "...Calling _bTestBeaconCallback directly." );
+      // Ensure this isn't repeated by strange JavaScript ghosts...
+      if ( beacon === 0 ) {
+        console.log( "Beacon Results to Browserscope" );
 
-        // FAKE CALLS
-        window._bTestBeaconCallback({});
-        window._bTestBeaconCallback({});
-      } else {
-        Object.keys( results ).forEach(function( key ) {
+        if ( /localhost|dev|10/.test( window.location.hostname ) ) {
+          console.log(
+            "Just kidding, we're testing locally, no need to beacon....Calling _bTestBeaconCallback directly." );
 
-          scripts[ key ].src = [
-            "http://www.browserscope.org/user/beacon/",
-            keys[ key ],
-            "?test_results_var=__results." + key + "&callback=_bTestBeaconCallback"
-          ].join("");
+          // FAKE CALLS
+          window._bTestBeaconCallback({});
+          window._bTestBeaconCallback({});
+        } else {
+          Object.keys( results ).forEach(function( key ) {
 
-          first.parentNode.insertBefore( scripts[ key ], first );
-        });
+            scripts[ key ].src = [
+              "http://www.browserscope.org/user/beacon/",
+              keys[ key ],
+              "?test_results_var=__results." + key + "&callback=_bTestBeaconCallback"
+            ].join("");
+
+            first.parentNode.insertBefore( scripts[ key ], first );
+          });
+        }
       }
+
+      // $("details").details();
     }
   });
 

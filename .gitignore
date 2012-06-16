@@ -1,2 +1,3 @@
 .DS_Store
 coremob/*.html
+node_modules/

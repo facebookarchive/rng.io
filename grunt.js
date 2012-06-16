@@ -64,7 +64,7 @@ module.exports = function( grunt ) {
         "lib/h-logging.js"
       ],
       "dist/application.js": [
-        "node_modules/underscore/underscore.js",
+        "node_modules/lodash/lodash.js",
         "lib/jquery-1.7.2.js",
         "lib/jquery.details.js",
         "lib/app.js",

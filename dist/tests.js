@@ -2264,15 +2264,18 @@ test("performance", function() {
 });
 
 test("performance navigation", function() {
-  var performance = H.API( window, "performance", true );
+  var performance = H.API( window, "performance", true ),
+      performanceNav = H.API( performance, "navigation", true );
 
-  assert( performance && performance.navigation, "performance.navigation supported" );
+  assert( performance && performanceNav, "performance.navigation supported" );
 });
 
 test("performance navigation instance", function() {
-  var performance = H.API( window, "performance", true );
+  var performance = H.API( window, "performance", true ),
+      performanceNav = H.API( performance, "navigation", true );
 
-  if ( !performance || performance.navigation ) {
+
+  if ( !performanceNav ) {
     assert( false, "performance.navigation not supported, skipping tests" );
   } else {
     [

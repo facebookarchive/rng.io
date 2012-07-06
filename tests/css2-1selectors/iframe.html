@@ -50,15 +50,17 @@
     );
   });
 
-  top.postMessage(JSON.stringify({
-    which: "selectors",
-    results: results.join("")
-  }), "*" );
+  window.onload = function() {
+    top.postMessage(JSON.stringify({
+      which: "selectors",
+      results: results.join("")
+    }), "*" );
 
-  top.postMessage(JSON.stringify({
-    which: "generated",
-    results: document.getElementById("generated").offsetHeight
-  }), "*" );
+    top.postMessage(JSON.stringify({
+      which: "generated",
+      results: document.getElementById("generated").offsetHeight
+    }), "*" );
+  };
 
 
   // top.postMessage( "selectors" + results.join(""), "*" );

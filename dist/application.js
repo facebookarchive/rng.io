@@ -13127,7 +13127,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
   App = {
 
-    fragments: {},
+    fragments: {
+      features: {}
+    },
 
     root: (function() {
       return location.pathname === "/";
@@ -13154,7 +13156,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     }()),
 
     // Pre run initialization tasks
-    init: function() {
+    init: function( initializer ) {
       // Add a styling hook for whether the browser supports the <details> element
       //
       if ( !$.fn.details.support ) {
@@ -13178,6 +13180,10 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         this.run();
       }
 
+      if ( initializer !== null ) {
+        App.Views.init( initializer );
+      }
+
       this.Templates = templates;
     },
 
@@ -13185,30 +13191,43 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     run: function() {
       // Create a section elem for use as a temporary container
       // of feature summary HTML.
-      var featureSummary,
-          features = App.Cache.get("features"),
-          apptypes = App.Cache.get("apptypes"),
-          ringheaders = App.Cache.get("ringheaders"),
-          featureCount = 0,
-          section = document.createElement("section"),
-          ul = document.createElement("ul"),
-          ringElems = [],
-          nodes = {
-            report: document.getElementById("report"),
-            summary: document.getElementById("summary"),
-            completed: document.getElementById("completed")
-          };
+      var featureSummary, features, apptypes, ringheaders, featureCount,
+          section, ul, nodes;
+
+      // Derive Feature Test data lists from in-memory data store
+      features = App.Cache.get("features");
+
+      // Derive App Types data lists from in-memory data store
+      // apptypes = App.Cache.get("apptypes");
+
+      // Derive Ring Headers content from in-memory data store
+      ringheaders = App.Cache.get("ringheaders");
+
+      // Initialize feature counter, used to display number of
+      // features that are tested in each ring.
+      featureCount = 0;
+
+      // Clonable section node
+      // make intuitive alias
+      section = featureSummary = document.createElement("section");
+
+      // Clonable ul node
+      ul = document.createElement("ul");
+
+      // Cache of frequently addressed nodes in the DOM
+      nodes = {
+        report: document.getElementById("report"),
+        summary: document.getElementById("summary"),
+        completed: document.getElementById("completed")
+      };
 
       // Collect Ring numbers associated with App Types,
       // Get all App Types that are _NOT_ set to defer
-      apptypes.filter( "defer", false ).forEach(function( type ) {
-        if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
-          appTypes.rings.push( type.ring );
-        }
-      });
-
-      // Reassign an intuitive alias
-      featureSummary = section;
+      // apptypes.filter( "defer", false ).forEach(function( type ) {
+      //   if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
+      //     appTypes.rings.push( type.ring );
+      //   }
+      // });
 
       // Configure the id for this runner's universal fixture
       // ** NOTE ** this fixture should _not_ be visible
@@ -13230,6 +13249,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           ring.tick("running");
         }
 
+        // Set the display content of the summary block to show
+        // the currently running Feature Test
         nodes.summary.innerHTML = templates["testing-tpl"]( data );
       });
 
@@ -13243,7 +13264,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
         var renderedSummary,
             ring = Ring.get( data.ring ),
-            feature = features.by("name", data.name ),
+            feature = features.by( "name", data.name ),
             displayClass = "pass";
 
         if ( ring && !Array.isArray(ring) ) {
@@ -13255,8 +13276,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           displayClass = "fail";
         }
 
-        // Render the feature's test result summary, add to running
-        // innerHTML string
+        // Render the feature's test result summary,
+        // add to cumulative innerHTML string value
         renderedSummary = templates["feature-tpl"](
           _.extend( data, {
             url: feature.spec || "",
@@ -13280,11 +13301,11 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
         // If this Ring has no associated App Types, display test results
         // directly under Ring header
-        if ( appTypes.rings.indexOf( data.ring ) === -1 ) {
-          featureSummary.innerHTML += renderedSummary;
-        }
+        featureSummary.innerHTML += renderedSummary;
 
-        App.fragments[ data.name ] = renderedSummary;
+        // Register the newly rendered summary in the cache of feature
+        // test result fragments (which are actually strings of HTML)
+        App.fragments.features[ data.name ] = renderedSummary;
 
         featureCount++;
       });
@@ -13319,55 +13340,10 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         // get a reference to the current ring's summary element
         details = document.getElementById( "ring" + data.ring );
 
-        // If this Ring has no associated App Types, display test results
-        // directly under Ring header
-        if ( appTypes.rings.indexOf( data.ring ) === -1 ) {
-          // Fill the ring container that we just added with feature
-          // summaries..
-          details.innerHTML += featureSummary.innerHTML;
-        } else {
+        // Fill the ring container that we just added with feature
+        // summaries..
+        details.innerHTML += featureSummary.innerHTML;
 
-          // Filter stored app types by Ring number
-          appTypes.filtered = apptypes.filter( "ring", data.ring );
-
-          // Allow only apptypes whose `defer` property is set to false
-          appTypes.filtered = appTypes.filtered.filter(function( apptype ) {
-            return !apptype.defer;
-          });
-
-          // Create a new array of rendered HTML strings based on the
-          // filtered app types for this Ring number
-          appTypes.rendered = appTypes.filtered.map(function( apptype ) {
-
-            // Return the fully rendered "apptype" fragment
-            return templates[ "apptype-tpl" ]({
-              // Set the "apptype" display name
-              name: apptype.name,
-              // Apptype description
-              description: apptype.description,
-              // Set the features listed for this "apptype" to
-              // a rendered string of HTML fragments, derived from
-              // previously rendered templates stored in memory.
-              // These map 1-to-1, "feature" => "feature"
-              features: (function() {
-                var inner = "";
-
-                // Iterate all features associated with this "apptype"
-                // and concatenate the existing, rendered HTML fragment
-                // string to a local variable.
-                apptype.features.sort().forEach(function( feature ) {
-                  inner += App.fragments[ feature ];
-                });
-
-                // Return the local variable containing the
-                // concatenation result of all feature HTML
-                return inner;
-              }())
-            });
-          });
-
-          details.innerHTML += appTypes.rendered.join("\n");
-        }
 
         // If the test has failed, set the lexical `failed` flag to true
         // Update the ringSummaryClass to display grey text
@@ -13380,10 +13356,11 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 
         // ringdetail
-        // Add the proper behaviour for the <details> element where it doesn't exist
-        if ( !$.fn.details.support ) {
-          $("details").details();
-        }
+        // Add the proper behaviour for the <details>
+        // element where it doesn't exist
+        // if ( !$.fn.details.support ) {
+        //   $("details").details();
+        // }
 
         // Clear the detached section elem.
         featureSummary.innerHTML = "";
@@ -13517,14 +13494,33 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     return [];
   };
 
+  App.Views = {};
 
-  App.History = {
+  App.Views.History = {
     init: function() {
+      console.log( "INITIALIZE APP.VIEW: History" );
+
       $("[data-browserscope]").html(function() {
         return App.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
       });
     }
   };
+
+  App.Views.Apptypes = {
+    init: function() {
+      console.log( "INITIALIZE APP.VIEW: Apptypes" );
+    }
+  };
+
+  // Initialize primary view any subviews if they exist and were requested
+  App.Views.init = function( initializer ) {
+
+    if ( initializer !== null &&
+      App.Views[ initializer ] && App.Views[ initializer ].init ) {
+        App.Views[ initializer ].init();
+    }
+  };
+
 
   window.App = App;
 
@@ -14505,16 +14501,13 @@ App.register( "ringheaders", [
 
 document.addEventListener( "DOMContentLoaded", function() {
 
-  // Initialize the entire Application
-  App.init();
-
   // Derive a sub app initializer
-  var sub = location.pathname.replace( /\//g, "" ),
-      initializer = sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null;
+  var sub = location.pathname.replace( /\//g, "" );
 
-  if ( initializer && App[ initializer ] && App[ initializer ].init ) {
-    App[ initializer ].init();
-  }
+  App.init(
+    sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null
+  );
+
 }, false );
 
 window.onload = function() {

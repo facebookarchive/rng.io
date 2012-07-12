@@ -193,7 +193,7 @@ module.exports = function( grunt ) {
   task.registerTask("default", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min");
   //"lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min"
 
-  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat");
+  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat min");
 
 
 

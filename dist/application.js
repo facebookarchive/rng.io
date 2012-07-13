@@ -13116,7 +13116,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 (function( window, _, $ ) {
 
-  var App,
+  var Rng,
       templates = {},
       cache = [],
       storage = {},
@@ -13125,7 +13125,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       },
       failed = false;
 
-  App = {
+  Rng = {
+
+    Stored: localStorage.getItem("ringmark"),
 
     fragments: {
       features: {}
@@ -13176,12 +13178,17 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 
       // Run app
-      if ( App.root ) {
-        this.run();
+      if ( Rng.root ) {
+
+        Rng.Views.dom.init( this, function( nodes ) {
+          this.nodes = nodes;
+          this.run();
+        });
+
       }
 
       if ( initializer !== null ) {
-        App.Views.init( initializer );
+        Rng.Views.init( initializer );
       }
 
       this.Templates = templates;
@@ -13195,13 +13202,13 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           section, ul, nodes;
 
       // Derive Feature Test data lists from in-memory data store
-      features = App.Cache.get("features");
+      features = Rng.Cache.get("features");
 
       // Derive App Types data lists from in-memory data store
-      // apptypes = App.Cache.get("apptypes");
+      // apptypes = Rng.Cache.get("apptypes");
 
       // Derive Ring Headers content from in-memory data store
-      ringheaders = App.Cache.get("ringheaders");
+      ringheaders = Rng.Cache.get("ringheaders");
 
       // Initialize feature counter, used to display number of
       // features that are tested in each ring.
@@ -13216,9 +13223,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Cache of frequently addressed nodes in the DOM
       nodes = {
-        report: document.getElementById("report"),
-        summary: document.getElementById("summary"),
-        completed: document.getElementById("completed")
+        report: this.nodes["#rng-view-report"],
+        summary: this.nodes["#rng-view-summary"],
+        completed: this.nodes["#rng-view-completed"]
       };
 
       // Collect Ring numbers associated with App Types,
@@ -13260,8 +13267,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         // Log out the feature summary
         console.log( "(" + data.name + "): ", data );
 
-        // storage[ data.name ] = data;
-
         var renderedSummary,
             ring = Ring.get( data.ring ),
             feature = features.by( "name", data.name ),
@@ -13299,13 +13304,19 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           })
         );
 
+        // Register feature results to in-memory storage table
+        storage[ data.name ] = {
+          results: data,
+          rendered: renderedSummary
+        };
+
         // If this Ring has no associated App Types, display test results
         // directly under Ring header
         featureSummary.innerHTML += renderedSummary;
 
         // Register the newly rendered summary in the cache of feature
         // test result fragments (which are actually strings of HTML)
-        App.fragments.features[ data.name ] = renderedSummary;
+        Rng.fragments.features[ data.name ] = renderedSummary;
 
         featureCount++;
       });
@@ -13375,7 +13386,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
         completed++;
 
-        if ( !App.params.all && completed < Hat.ring.cache.length && failed ) {
+        if ( !Rng.params.all && completed < Hat.ring.cache.length && failed ) {
           override = true;
         }
 
@@ -13394,9 +13405,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
           // Store results of tests on this particular device;
           // These will be used by the App Types feature
-          // localStorage.setItem( "ringmark", JSON.stringify({
-          //   results: storage
-          // }));
+          localStorage.setItem( "ringmark", JSON.stringify({
+            results: storage
+          }));
         }
 
         // If no override flag was present and the current ring has failed,
@@ -13417,20 +13428,20 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Only run the rings if we're in the site's root
       // Prevent running on /about, /developer, etc.
-      if ( App.root ) {
+      if ( Rng.root ) {
         Hat.start();
       }
     },
 
     // Caching interface
     register: function( key, array ) {
-      new App.Cache( key, array );
+      new Rng.Cache( key, array );
     }
   };
 
   // Cache( key, array )
   // construct cached data array instances
-  App.Cache = function( key, array ) {
+  Rng.Cache = function( key, array ) {
     this.key = key;
     this.array = array;
 
@@ -13441,7 +13452,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 
   // Get cached objects from instance array by matching property to value
-  App.Cache.prototype.by = function( prop, value ) {
+  Rng.Cache.prototype.by = function( prop, value ) {
     var ret,
         i = 0,
         length = this.array.length;
@@ -13457,13 +13468,13 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   };
 
   // Get the first cached object from instance array
-  App.Cache.prototype.first = function( prop, value ) {
+  Rng.Cache.prototype.first = function( prop, value ) {
     return this.array[ 0 ];
   };
 
   // Get an array of cached objects from instance array
   // by matching property to value
-  App.Cache.prototype.filter = function( prop, value ) {
+  Rng.Cache.prototype.filter = function( prop, value ) {
     var ret = [],
         i = 0,
         length = this.array.length;
@@ -13479,7 +13490,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   };
 
   // Static function for cache instance retrieval
-  App.Cache.get = function( key ) {
+  Rng.Cache.get = function( key ) {
     var ret,
         i = 0,
         length = cache.length;
@@ -13494,35 +13505,186 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     return [];
   };
 
-  App.Views = {};
 
-  App.Views.History = {
+  Rng.Views = {};
+
+  Rng.Views.History = {
     init: function() {
       console.log( "INITIALIZE APP.VIEW: History" );
 
       $("[data-browserscope]").html(function() {
-        return App.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
+        return Rng.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
       });
     }
   };
 
-  App.Views.Apptypes = {
+  Rng.Views.Apps = {
     init: function() {
-      console.log( "INITIALIZE APP.VIEW: Apptypes" );
+      console.log( "INITIALIZE APP.VIEW: Apptypes", this.nodes );
+
+      var apptypes, features, html, stored, templates;
+
+      templates = Rng.Templates;
+
+      // Derive stored Ring result data
+      stored = Rng.Stored;
+
+      // If nothing was previously stored, the tests must
+      // be run on this device, prompt user to return to
+      // main rng.io for device tests
+      if ( stored === null ) {
+
+        this.nodes["#rng-view-back"].parentNode.removeChild(
+          this.nodes["#rng-view-back"]
+        );
+
+        this.nodes["#rng-view-title"].innerHTML =
+          templates["url-tpl"]({
+            href: "/",
+            text: "Run tests for this device"
+          });
+        return;
+      }
+
+      // Parse valid JSON string to object for populating templates
+      stored = JSON.parse( stored ).results;
+      console.log( "stored", stored );
+
+      // Derive App Types data lists from in-memory data store
+      apptypes = Rng.Cache.get("apptypes");
+
+      // Collect Ring numbers associated with App Types,
+      // Get all App Types that are _NOT_ set to defer
+      apptypes.filter( "defer", false ).forEach(function( type ) {
+        if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
+          appTypes.rings.push( type.ring );
+        }
+      });
+
+      // console.log( "appTypes", appTypes );
+      console.log( "apptypes", apptypes );
+
+
+      // Set an initial empty string value to `html`
+      // to concat with compound arg += without exception
+      html = "";
+
+
+      // Allow only apptypes whose `defer` property is set to false
+      appTypes.filtered = apptypes.filter( "defer", false ).filter(function( apptype ) {
+        return !apptype.defer;
+      });
+
+
+
+      appTypes.rings.forEach(function( ring, k ) {
+
+        // html += templates("")
+
+
+        // Create a new array of rendered HTML strings based on the
+        // filtered app types for this Ring number
+        appTypes.rendered = appTypes.filtered.filter(function( apptype ) {
+          return apptype.ring === ring;
+        }).map(function( apptype ) {
+
+          console.log( apptype, apptype.ring, apptype.name );
+
+          // Return the fully rendered "apptype" fragment
+          return templates[ "apptype-tpl" ]({
+            ring: ring,
+            // Set the "apptype" display name
+            name: apptype.name,
+            // Apptype description
+            description: apptype.description,
+            // Set the features listed for this "apptype" to
+            // a rendered string of HTML fragments, derived from
+            // previously rendered templates stored in memory.
+            // These map 1-to-1, "feature" => "feature"
+            features: (function() {
+              var inner = "";
+
+              // Iterate all features associated with this "apptype"
+              // and concatenate the existing, rendered HTML fragment
+              // string to a local variable.
+              apptype.features.sort().forEach(function( feature ) {
+                var fromCache = stored[ feature ];
+
+                if ( fromCache !== undefined ) {
+                  inner += fromCache.rendered || "";
+                }
+              });
+
+              // Return the local variable containing the
+              // concatenation result of all feature HTML
+              return inner;
+            }())
+          });
+        });
+
+        html += appTypes.rendered.join("\n");
+      });
+
+      // Inject the rendered HTML string into the report area
+      this.nodes["#rng-view-report"].innerHTML = html;
     }
   };
 
   // Initialize primary view any subviews if they exist and were requested
-  App.Views.init = function( initializer ) {
+  Rng.Views.init = function( initializer ) {
+    var context, isValid;
 
-    if ( initializer !== null &&
-      App.Views[ initializer ] && App.Views[ initializer ].init ) {
-        App.Views[ initializer ].init();
+    context = Rng.Views[ initializer ];
+    isValid = !!(context && context.init);
+
+    if ( isValid ) {
+      // Initialize and cache DOM nodes for this view
+      // providing the initializer context
+      Rng.Views.dom.init( context, function( nodes ) {
+        this.nodes = nodes;
+        this.init();
+      });
     }
   };
 
 
-  window.App = App;
+  Rng.Views.dom = {
+    ready: false,
+    init: function( context, callback ) {
+
+      if ( this.ready ) {
+        callback.call( context, this.common.nodes );
+        return;
+      }
+
+      Object.keys( this.common.nodes ).forEach(function( key ) {
+        var node = document.querySelector( key );
+        if ( node ) {
+          this[ key ] = node;
+        }
+
+      }, this.common.nodes );
+
+      console.log( "DOM View nodes prepared", this.common.nodes );
+
+      this.ready = true;
+      // Call async
+      setTimeout(callback.bind( context, this.common.nodes ), 0);
+    },
+    common: {
+      nodes: {
+        "#rng-view-back": null,
+        "#rng-view-completed": null,
+        "#rng-view-report": null,
+        "#rng-view-summary": null,
+        "#rng-view-title": null
+      }
+    }
+  };
+
+
+  window.App = window.Rng = Rng;
+
 
 
 }( this, this._, this.jQuery ));
@@ -14354,7 +14516,7 @@ App.register( "apptypes", [
     "name": "Supplements to Web Apps",
     "ring": 2,
     "description": "These features apply to most web apps and make the user experience better.",
-    "defer": false,
+    "defer": true,
     "features": [
       "cssborderimage",
       "csselement",
@@ -14504,7 +14666,7 @@ document.addEventListener( "DOMContentLoaded", function() {
   // Derive a sub app initializer
   var sub = location.pathname.replace( /\//g, "" );
 
-  App.init(
+  Rng.init(
     sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null
   );
 

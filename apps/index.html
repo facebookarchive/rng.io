@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ringmark Apps</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../dist/style.css" type="text/css">
+
+  <meta property="og:title" content="Ringmark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://rng.io/apps" />
+  <meta property="og:site_name" content="Ringmark apps" />
+  <meta property="og:image" content="http://rng.io/site/img/ringmark.png"/>
+  <meta property="fb:admins" content="20901205" />
+
+  <script src="../dist/ringmark.min.js"></script>
+  <script src="../dist/application.min.js"></script>
+</head>
+<body>
+  <section class="container">
+    <header class="container">
+      <img src="../site/img/ringmark.png" width="84">
+      <h1>ringmark</h1>
+    </header>
+
+    <h3 id="rng-view-back" class="sharebuttons">
+      <a href="/">&larr; back to the ringmark test</a>
+    </h3>
+
+    <h3 id="rng-view-title">App Types (need better title)</h3>
+    <p>
+      Need description copy
+    </p>
+
+    <section id="rng-view-report" class="container"></section>
+
+
+
+
+  </section>
+  <aside class="container">
+    <a href="/about">about ringmark,</a>
+    <a href="/history">v1.4.0pre</a>
+  </aside>
+
+  <!-- TEMPLATES -->
+<!--
+  <script id="report-tpl" type="text/template">
+  <details id="ring<%= ring %>" class="ringdetail">
+    <summary class="ring">
+      <h2>r.<%= ring %></h2> Ring <%= ring %>
+      <span class="results">(<%= failed %> failed, <%= passed %> passed.)</span>
+    </summary>
+    <% if ( description ) { %>
+    <p><%= description %></p>
+    <% } %>
+  </details>
+  </script>
+-->
+
+  <script id="apptype-tpl" type="text/template">
+  <details>
+    <summary class="apptype">
+      <h2>r.<%= ring %> <%= name %></h2>
+    </summary>
+    <p><%= description %></p>
+    <%= features %>
+  </details>
+  </script>
+
+  <script id="url-tpl" type="text/template">
+  <a href="<%= href %>"><%= text %></a>
+  </script>
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(["_setAccount", "UA-1464992-53"]);
+    _gaq.push(["_setDomainName", "rng.io"]);
+    _gaq.push(["_setAllowLinker", true]);
+    _gaq.push(["_trackPageview"]);
+
+    (function() {
+      var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+      ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+      var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>

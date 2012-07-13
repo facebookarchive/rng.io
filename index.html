@@ -25,10 +25,15 @@
   <section class="container constrain">
     <canvas id="canvas" width="300" height="300"></canvas>
   </section>
-  <section id="summary" class="container"></section>
-  <section id="report" class="container"></section>
+  <section id="rng-view-summary" class="container"></section>
+  <section id="rng-view-report" class="container"></section>
+  <section id="more" class="container">
+    <a href="/apps">What Can I Make With This Device?</a>
+  </section>
+
+
   <aside class="container">
-    <span id="completed"></span>
+    <span id="rng-view-completed"></span>
     <a href="/about">about ringmark,</a>
     <a href="/history">v1.4.0pre</a>
   </aside>
@@ -63,7 +68,7 @@
   </details>
   </script>
 
-
+<!--
   <script id="apptype-tpl" type="text/template">
   <details>
     <summary class="apptype">
@@ -73,7 +78,7 @@
     <%= features %>
   </details>
   </script>
-
+ -->
 
   <script id="interrupted-tpl" type="text/template">
   <details id="ring<%= ring %>" class="ringdetail">

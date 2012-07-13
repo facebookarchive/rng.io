@@ -155,6 +155,7 @@ module.exports = function( grunt ) {
 
         // Site
         App: true,
+        Rng: true,
         H: true,
         Hat: true,
         Ring: true,

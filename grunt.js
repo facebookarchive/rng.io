@@ -114,7 +114,7 @@ module.exports = function( grunt ) {
       files: [ "grunt.js", "lib/**/!(console|deferred|jquery|qunit-custom)*.js", "lib-test/**/*.js", "tests/**/*.js", "site/**/!(underscore-min)*.js" ]
     },
     watch: {
-      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css", "lib/**/*.js", "performance/**/*.js" ],
+      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css", "lib/**/*.js", "performance/**/*.js", "about/**/*.*", "history/**/*.*", "apps/**/*.*" ],
       tasks: "short"
     },
     untab: {

@@ -18,8 +18,10 @@
   clone.style.cssText += "font-family: GothicCustom;";
   fake.style.cssText += "font-family: OHHAI!!!;";
 
+  // Use Google WebFont Loader to load fonts
+  // https://developers.google.com/webfonts/docs/webfont_loader
   WebFontConfig = {
-    custom: { families: ['GothicCustom'], 
+    custom: { families: ['GothicCustom', 'OHHAI!!!'], 
               urls: ['fontface.css']
     },
     active: function() {

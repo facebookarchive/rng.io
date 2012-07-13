@@ -15,6 +15,8 @@ asyncTest("CSS Font Face", function( async ) {
       });
     }
   };
+
+  document.getElementById("cssfont-face").src = "/tests/cssfont/fontface.html";
 });
 
 
@@ -35,4 +37,6 @@ asyncTest("CSS EOT/OTF/SVG", function( async ) {
       });
     }
   };
+
+  document.getElementById("cssfont-load").src = "/tests/cssfont/iframe.html";
 });

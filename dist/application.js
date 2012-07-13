@@ -14278,7 +14278,7 @@ App.register( "fixtures", [
   },
   {
     "name": "cssfont",
-    "source": "<div id=\"cssfont\">\n  <iframe src=\"/tests/cssfont/fontface.html\"></iframe>\n  <iframe src=\"/tests/cssfont/iframe.html\"></iframe>\n</div>\n"
+    "source": "<div id=\"cssfont\">\n  <iframe id=\"cssfont-face\" src=\"/tests/cssfont/fontface.html\"></iframe>\n  <iframe id=\"cssfont-load\" src=\"/tests/cssfont/iframe.html\"></iframe>\n</div>\n"
   },
   {
     "name": "cssimages-standard",

@@ -1113,6 +1113,8 @@ Hat.ring({
           });
         }
       };
+    
+      document.getElementById("cssfont-face").src = "/tests/cssfont/fontface.html";
     });
     
     
@@ -1133,6 +1135,8 @@ Hat.ring({
           });
         }
       };
+    
+      document.getElementById("cssfont-load").src = "/tests/cssfont/iframe.html";
     });
     
     feature("cssmediaqueries", 1, "CSS3 MediaQueries");

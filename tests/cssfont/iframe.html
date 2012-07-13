@@ -8,7 +8,7 @@
 <script>
 
 
-  var head, fixture, clone, fake, styles, style,
+  var head, fixture, clone, fake, styles, style, start,
       doc = document,
       path = "/tests/cssfont/",
       rule = [
@@ -22,50 +22,67 @@
       width = null,
       styleNode = doc.createElement("style");
 
+  // Start timing.
+  start = (new Date()).getTime();
 
+  // Load font rule
   styleNode.id = "csseototf";
   styleNode.innerText = rule;
   doc.head.appendChild( styleNode );
 
+  // Get ref to fixture node
   fixture = doc.getElementById("inference");
 
+  // Create dummies to test against
+  clone = fixture.cloneNode( true );
+  fake = fixture.cloneNode( true );
 
-  clone = fixture.cloneNode(true);
-  fake = fixture.cloneNode(true);
-
+  // Inject dummies
   doc.body.appendChild( clone );
   doc.body.appendChild( fake );
 
+  // Set rules for dummies
   clone.style.cssText += "font-family: GothicCustom;";
   fake.style.cssText += "font-family: OHHAI!!!;";
 
-  setTimeout(function() {
-    var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
-        font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
-        control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
+  // Once stack unwinds, begin checking if the font has loaded
+  // Fonts will have a 5 second window to load in
+  setTimeout(function isLoaded() {
+    var def, orig, font, control, now;
 
+    def = doc.defaultView;
+    orig = parseInt( def.getComputedStyle(fixture).getPropertyValue("width"), 10 );
+    font = parseInt( def.getComputedStyle(clone).getPropertyValue("width"), 10 );
+    control = parseInt( def.getComputedStyle(fake).getPropertyValue("width"), 10 );
 
-    // The font we have chosen to use should be narrower then the default font
-    // of any given UA. This is presumptuous, but pretty close for now.
-    // TODO: Refined control over the default/starting font
-    //
+    now = (new Date()).getTime();
 
-    // IE9Mobile does not support arbitrary object messages,
-    // serialize first
-    top.postMessage(JSON.stringify({
-      which: "practical",
-      results: [
-        {
-          desc: "Custom font supported",
-          result: font !== orig
-        },
-        {
-          desc: "Custom font distinguished from non-custom",
-          result: font !== control
-        }
-      ]
-    }), "*");
-  }, 1000);
+    // If the load time has  gone beyond the alloted 5s.. OR..
+    // If the geometry (width) of a loaded font has changed
+    if ( now > start + 5000 || (font !== orig && font !== control) ) {
+      // The font we have chosen to use should be narrower then the default font
+      // of any given UA. This is presumptuous, but pretty close for now.
+      // TODO: Refined control over the default/starting font
+      //
+
+      // IE9Mobile does not support arbitrary object messages,
+      // serialize first
+      top.postMessage(JSON.stringify({
+        which: "practical",
+        results: [
+          {
+            desc: "Custom font supported (" + (now - start) + "ms)",
+            result: font !== orig
+          },
+          {
+            desc: "Custom font distinguished from non-custom",
+            result: font !== control
+          }
+        ]
+      }), "*");
+    }
+    setTimeout(isLoaded, 50);
+  }, 0);
 
 </script>
 </body>

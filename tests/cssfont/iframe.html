@@ -7,33 +7,50 @@
 
 <script>
 
-  var doc = document, width = null;
-  var fixture = doc.getElementById("inference");
-  var clone = fixture.cloneNode(true);
-  var fake = fixture.cloneNode(true);
+  path = "/tests/cssfont/"
+  
+  function webfont_test() {
+    var head, fixture, clone, fake, styles, style,
+        doc = document,
+        rule = [
+          "@font-face { ",
+          "font-family: 'GothicCustom'; ",
+          "src: url(" + path + "LeagueGothic.eot); ",
+          "src: url(" + path + "LeagueGothic.woff) format('woff'), ",
+          "     url(" + path + "LeagueGothic.otf) format('opentype'), ",
+          "     url(" + path + "LeagueGothic.svg) format('svg'); }"
+        ].join(""),
+        width = null,
+        styleNode = doc.createElement("style");
 
-  doc.body.appendChild( clone );
-  doc.body.appendChild( fake );
 
-  clone.style.cssText += "font-family: GothicCustom;";
-  fake.style.cssText += "font-family: OHHAI!!!;";
+    styleNode.id = "csseototf";
+    styleNode.innerText = rule;
+    doc.head.appendChild( styleNode );
 
-  // Use Google WebFont Loader to load fonts
-  // https://developers.google.com/webfonts/docs/webfont_loader
-  WebFontConfig = {
-    custom: { families: ['GothicCustom', 'OHHAI!!!'], 
-              urls: ['fontface.css']
-    },
-    active: function() {
+    fixture = doc.getElementById("inference");
+
+
+    clone = fixture.cloneNode(true);
+    fake = fixture.cloneNode(true);
+
+    doc.body.appendChild( clone );
+    doc.body.appendChild( fake );
+
+    clone.style.cssText += "font-family: GothicCustom;";
+    fake.style.cssText += "font-family: OHHAI!!!;";
+
+    setTimeout(function() {
       var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
           font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
           control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
+
 
       // The font we have chosen to use should be narrower then the default font
       // of any given UA. This is presumptuous, but pretty close for now.
       // TODO: Refined control over the default/starting font
       //
-      
+
       // IE9Mobile does not support arbitrary object messages,
       // serialize first
       top.postMessage(JSON.stringify({
@@ -49,18 +66,29 @@
           }
         ]
       }), "*");
-    }
-  };
+    }, 100);
+  }
 
-  (function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
-  })();
+  var font_array = new Array(path + "LeagueGothic.eot", 
+                             path + "LeagueGothic.woff", 
+                             path + "LeagueGothic.otf");
+  fonts_to_download = font_array.length;
+
+  for (var i=0; i<font_array.length; i++) {
+    var req = new XMLHttpRequest();
+    (function(r) {
+      r.onreadystatechange = function(event) {
+        if (r.readyState == 4 && r.status == 200) {
+          fonts_to_download = fonts_to_download - 1;
+          if (fonts_to_download == 0) {
+            webfont_test();
+          }
+        }
+      };
+      r.open("GET", font_array[i], true);
+      r.send();
+    })(req);
+  }
 
 </script>
 </body>

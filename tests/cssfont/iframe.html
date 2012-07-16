@@ -7,59 +7,45 @@
 
 <script>
 
+  path = "/tests/cssfont/"
 
-  var head, fixture, clone, fake, styles, style, start,
-      doc = document,
-      path = "/tests/cssfont/",
-      rule = [
-        "@font-face { ",
-        "font-family: 'GothicCustom'; ",
-        "src: url(" + path + "LeagueGothic.eot); ",
-        "src: url(" + path + "LeagueGothic.woff) format('woff'), ",
-        "     url(" + path + "LeagueGothic.otf) format('opentype'), ",
-        "     url(" + path + "LeagueGothic.svg) format('svg'); }"
-      ].join(""),
-      width = null,
-      styleNode = doc.createElement("style");
+  function webfont_test() {
+    var head, fixture, clone, fake, styles, style,
+        doc = document,
+        rule = [
+          "@font-face { ",
+          "font-family: 'GothicCustom'; ",
+          "src: url(" + path + "LeagueGothic.eot); ",
+          "src: url(" + path + "LeagueGothic.woff) format('woff'), ",
+          "     url(" + path + "LeagueGothic.otf) format('opentype'), ",
+          "     url(" + path + "LeagueGothic.svg) format('svg'); }"
+        ].join(""),
+        width = null,
+        styleNode = doc.createElement("style");
 
-  // Start timing.
-  start = (new Date()).getTime();
 
-  // Load font rule
-  styleNode.id = "csseototf";
-  styleNode.innerText = rule;
-  doc.head.appendChild( styleNode );
+    styleNode.id = "csseototf";
+    styleNode.innerText = rule;
+    doc.head.appendChild( styleNode );
 
-  // Get ref to fixture node
-  fixture = doc.getElementById("inference");
+    fixture = doc.getElementById("inference");
 
-  // Create dummies to test against
-  clone = fixture.cloneNode( true );
-  fake = fixture.cloneNode( true );
 
-  // Inject dummies
-  doc.body.appendChild( clone );
-  doc.body.appendChild( fake );
+    clone = fixture.cloneNode(true);
+    fake = fixture.cloneNode(true);
 
-  // Set rules for dummies
-  clone.style.cssText += "font-family: GothicCustom;";
-  fake.style.cssText += "font-family: OHHAI!!!;";
+    doc.body.appendChild( clone );
+    doc.body.appendChild( fake );
 
-  // Once stack unwinds, begin checking if the font has loaded
-  // Fonts will have a 5 second window to load in
-  setTimeout(function isLoaded() {
-    var def, orig, font, control, now;
+    clone.style.cssText += "font-family: GothicCustom;";
+    fake.style.cssText += "font-family: OHHAI!!!;";
 
-    def = doc.defaultView;
-    orig = parseInt( def.getComputedStyle(fixture).getPropertyValue("width"), 10 );
-    font = parseInt( def.getComputedStyle(clone).getPropertyValue("width"), 10 );
-    control = parseInt( def.getComputedStyle(fake).getPropertyValue("width"), 10 );
+    setTimeout(function() {
+      var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
+          font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
+          control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
 
-    now = (new Date()).getTime();
 
-    // If the load time has  gone beyond the alloted 5s.. OR..
-    // If the geometry (width) of a loaded font has changed
-    if ( now > start + 5000 || (font !== orig && font !== control) ) {
       // The font we have chosen to use should be narrower then the default font
       // of any given UA. This is presumptuous, but pretty close for now.
       // TODO: Refined control over the default/starting font
@@ -71,7 +57,7 @@
         which: "practical",
         results: [
           {
-            desc: "Custom font supported (" + (now - start) + "ms)",
+            desc: "Custom font supported",
             result: font !== orig
           },
           {
@@ -80,9 +66,29 @@
           }
         ]
       }), "*");
-    }
-    setTimeout(isLoaded, 50);
-  }, 0);
+    }, 100);
+  }
+
+  var font_array = new Array(path + "LeagueGothic.eot",
+                             path + "LeagueGothic.woff",
+                             path + "LeagueGothic.otf");
+  fonts_to_download = font_array.length;
+
+  for (var i=0; i<font_array.length; i++) {
+    var req = new XMLHttpRequest();
+    (function(r) {
+      r.onreadystatechange = function(event) {
+        if (r.readyState == 4 && r.status == 200) {
+          fonts_to_download = fonts_to_download - 1;
+          if (fonts_to_download == 0) {
+            webfont_test();
+          }
+        }
+      };
+      r.open("GET", font_array[i], true);
+      r.send();
+    })(req);
+  }
 
 </script>
 </body>

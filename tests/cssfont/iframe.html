@@ -6,67 +6,154 @@
 <div id="inference" style="display:inline-block;position:absolute;">H</div>
 
 <script>
+  // TODO: this code should be refactored and abstracted to allow
+  //        async loading capabilities from other tests
 
 
-  var head, fixture, clone, fake, styles, style,
-      doc = document,
-      path = "/tests/cssfont/",
-      rule = [
-        "@font-face { ",
-        "font-family: 'GothicCustom'; ",
-        "src: url(" + path + "LeagueGothic.eot); ",
-        "src: url(" + path + "LeagueGothic.woff) format('woff'), ",
-        "     url(" + path + "LeagueGothic.otf) format('opentype'), ",
-        "     url(" + path + "LeagueGothic.svg) format('svg'); }"
-      ].join(""),
-      width = null,
-      styleNode = doc.createElement("style");
+  // Initialize
+  var Font;
 
+  // Declare
+  Font = {
+    // font family name, for rule text
+    family: "GothicCustom",
 
-  styleNode.id = "csseototf";
-  styleNode.innerText = rule;
-  doc.head.appendChild( styleNode );
+    // font file identity name, for rule text and file request
+    name: "LeagueGothic",
 
-  fixture = doc.getElementById("inference");
+    // font file abs path
+    path: "/tests/cssfont/",
 
+    // font file meta data
+    types: [
+      { type: "eot", format: "" },
+      { type: "otf", format: "opentype" },
+      { type: "svg", format: "svg" },
+      { type: "woff", format: "woff" }
+    ],
 
-  clone = fixture.cloneNode(true);
-  fake = fixture.cloneNode(true);
+    // Load all defined fonts, execute callback on completion
+    load: function( callback ) {
+      var path, accounted, self;
 
-  doc.body.appendChild( clone );
-  doc.body.appendChild( fake );
+      // Construct common path for file request
+      path = this.path + this.name;
 
-  clone.style.cssText += "font-family: GothicCustom;";
-  fake.style.cssText += "font-family: OHHAI!!!;";
+      // Declare start of loaded font count
+      accounted = 0;
 
-  setTimeout(function() {
-    var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
-        font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
-        control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
+      // Horrible, but necessary while Safari does not support bind()
+      self = this;
 
+      // Iterate each font type and request font file
+      this.types.forEach(function( font ) {
+        var xhr, file;
 
-    // The font we have chosen to use should be narrower then the default font
-    // of any given UA. This is presumptuous, but pretty close for now.
-    // TODO: Refined control over the default/starting font
+        // Initialize request object for loading "remote" font
+        xhr = new XMLHttpRequest();
+
+        // Declare listeners
+        xhr.onload = function() {
+          // When this request is adequately complete...
+          if ( this.status === 200 ) {
+            // ...increment loaded count...
+            if ( ++accounted === self.types.length ) {
+              // ...execute callback if count at completion
+              callback.call( self );
+            }
+          }
+
+          // Cleanup, may not be necessary?
+          xhr = null;
+        };
+
+        // In case of abort or error, null the request
+        xhr.onabort = xhr.onerror = function( event ) {
+          xhr = null;
+        };
+
+        // Concat path and current type and open request
+        // eg. "/tests/cssfont/LeagueGothic" + "." + (eot|otf|svg|woff)
+        xhr.open( "GET", path + "." + font.type, true );
+
+        // Send request
+        xhr.send();
+
+      }, this);
+    }
+  };
+
+  Font.load(function() {
+    // |this| is the "Font" api object
     //
+    var head, fixture, clone, fake, src, rule, styles, style,
+        doc = document,
+        width = null,
+        styleNode = doc.createElement("style"),
+        file = this.path + this.name + ".",
+        rules = [
+          "@font-face { ",
+          "font-family: '" + this.family + "'; "
+        ];
 
-    // IE9Mobile does not support arbitrary object messages,
-    // serialize first
-    top.postMessage(JSON.stringify({
-      which: "practical",
-      results: [
-        {
-          desc: "Custom font supported",
-          result: font !== orig
-        },
-        {
-          desc: "Custom font distinguished from non-custom",
-          result: font !== control
-        }
-      ]
-    }), "*");
-  }, 100);
 
+    // Loop over types and construct src rule entries
+    while ( this.types.length ) {
+      src = this.types.shift();
+      rules.push(
+        "src: url(" + file + src.type + ") " +
+        ( src.format ? "format('" + src.format + "');" : ";" )
+      );
+    }
+
+    // Cap the end of the rule
+    rules.push("}");
+
+    // Join elements to create a single rule string
+    rule = rules.join("");
+
+    styleNode.id = "csseototf";
+    styleNode.innerText = styleNode.textContent = rule;
+    doc.head.appendChild( styleNode );
+
+    fixture = doc.getElementById("inference");
+
+    clone = fixture.cloneNode(true);
+    fake = fixture.cloneNode(true);
+
+    doc.body.appendChild( clone );
+    doc.body.appendChild( fake );
+
+    clone.style.cssText += "font-family: " + this.family + ";";
+    fake.style.cssText += "font-family: OHHAI!!!;";
+
+    setTimeout(function() {
+      var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
+          font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
+          control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
+
+      // The font we have chosen to use should be narrower then the default font
+      // of any given UA. This is presumptuous, but pretty close for now.
+      // TODO: Refined control over the default/starting font
+      //
+
+      // IE9Mobile does not support arbitrary object messages,
+      // serialize first
+      top.postMessage(JSON.stringify({
+        which: "practical",
+        results: [
+          {
+            desc: "Custom font supported",
+            result: font !== orig
+          },
+          {
+            desc: "Custom font distinguished from non-custom",
+            result: font !== control
+          }
+        ]
+      }), "*");
+    }, 100);
+  });
 </script>
 </body>
 </html>

@@ -118,6 +118,9 @@ Hat.ring({
           });
         }
       };
+    
+      // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+      document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
     });
     
     asyncTest("CSS Generated Content", function( async ) {
@@ -136,6 +139,9 @@ Hat.ring({
           });
         }
       };
+    
+      // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+      document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
     });
     
     feature("css3dtransforms", 0, "CSS 3D Transforms");

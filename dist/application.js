@@ -13727,8 +13727,14 @@ App.register( "features", [
     ]
   },
   {
-    "name": "blobbuilder",
+    "name": "blob",
     "ring": 1,
+    "spec": "http://www.w3.org/TR/FileAPI/#dfn-Blob",
+    "sources": []
+  },
+  {
+    "name": "blobbuilder",
+    "ring": null,
     "spec": "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface",
     "sources": []
   },

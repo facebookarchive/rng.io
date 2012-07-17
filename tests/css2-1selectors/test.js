@@ -14,6 +14,9 @@ asyncTest("CSS 2.1 Selectors", function( async ) {
       });
     }
   };
+
+  // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+  document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
 });
 
 asyncTest("CSS Generated Content", function( async ) {
@@ -32,4 +35,7 @@ asyncTest("CSS Generated Content", function( async ) {
       });
     }
   };
+
+  // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+  document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
 });

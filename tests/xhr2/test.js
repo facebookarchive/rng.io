@@ -11,10 +11,10 @@ test("XHR2 Prerequisite: ArrayBuffer", function() {
   assert( ArrayBuffer, "ArrayBuffer supported" );
 });
 
-test("XHR2 Prerequisite: BlobBuilder", function() {
-  var BlobBuilder = H.API( window, "BlobBuilder", true );
+test("XHR2 Prerequisite: Blob", function() {
+  var Blob = H.API( window, "Blob", true );
 
-  assert( BlobBuilder, "BlobBuilder supported" );
+  assert( Blob, "Blob supported" );
 });
 
 test("XHR2 Prerequisite: URL", function() {
@@ -42,16 +42,16 @@ test("XHR2 Upload", function() {
 
 // TEMPORARY BLOCK - Causing deadstop in Android 4, WebKit
 // asyncTest("XHR2 Upload In Practice", function( async ) {
-//   var BlobBuilder = H.API( window, "BlobBuilder", true ),
+//   var Blob = H.API( window, "Blob", true ),
 //       xhr = new XMLHttpRequest(),
 //       builder, size;
 //
 //
-//   if ( !BlobBuilder ) {
-//     assert( false, "BlobBuilder not supported, skipping tests" );
+//   if ( !Blob ) {
+//     assert( false, "Blob not supported, skipping tests" );
 //     async.done();
 //   } else {
-//     builder = new BlobBuilder();
+//     builder = new Blob();
 //     builder.append("The Future is Cool");
 //
 //     size = builder.getBlob().size;
@@ -84,12 +84,11 @@ test("XHR2 Upload", function() {
 
 
 asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
-  var BlobBuilder = H.API( window, "BlobBuilder", true ),
-      Blob = H.API( window, "Blob", true ),
+  var Blob = H.API( window, "Blob", true ),
       xhr = new XMLHttpRequest();
 
-  if ( !BlobBuilder ) {
-    assert( false, "BlobBuilder not supported, skipping tests" );
+  if ( !Blob ) {
+    assert( false, "Blob not supported, skipping tests" );
     async.done();
   } else {
 
@@ -97,7 +96,7 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
     xhr.responseType = "arraybuffer";
 
     xhr.onload = function( event ) {
-      var builder, blob,
+      var blob,
           data = this;
 
       if ( data.status === 200 ) {
@@ -115,16 +114,13 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
           assert( typeof data.response.byteLength === "number", "data.response.byteLength is number" );
 
 
-          if ( !BlobBuilder ) {
-            assert( false, "BlobBuilder not supported, skipping tests" );
+          if ( !Blob ) {
+            assert( false, "Blob not supported, skipping tests" );
             async.done();
           } else {
 
-            builder = new BlobBuilder();
+            blob = new Blob([ data.response ], { type: "image\/png" });
 
-            // Append array buffer to BlobBuilder instance
-            builder.append( data.response );
-            blob = builder.getBlob("image/png");
 
             // Instance confirmation
             assert( blob instanceof Blob, "blob is an instance of Blob" );
@@ -181,13 +177,13 @@ asyncTest("XHR2 Text Send/Response Type", function( async ) {
 });
 
 asyncTest("XHR2 Blob Response Type", function( async ) {
-  var BlobBuilder = H.API( window, "BlobBuilder", true ),
+  var Blob = H.API( window, "Blob", true ),
       Blob = H.API( window, "Blob", true ),
       URL = H.API( window, "URL", true ),
       xhr = new XMLHttpRequest();
 
-  if ( !BlobBuilder ) {
-    assert( false, "BlobBuilder not supported, skipping tests" );
+  if ( !Blob ) {
+    assert( false, "Blob not supported, skipping tests" );
     async.done();
   } else {
 

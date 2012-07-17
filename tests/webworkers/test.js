@@ -24,7 +24,7 @@ asyncTest("Web Worker navigator", function( async ) {
         var data = event.data,
             pass = false;
 
-        pass = Object.keys( data ).every(function( key ) {
+        pass = [ "appName", "appVersion", "platform", "userAgent" ].every(function( key ) {
           assert( data[ key ] === navigator[ key ], data[ key ] + " === " + navigator[ key ] );
           return data[ key ] === navigator[ key ];
         });
@@ -223,24 +223,20 @@ asyncTest("Web Worker data messaging", function( async ) {
 asyncTest("Web Worker Blob URL", function( async ) {
   var Worker = H.API( window, "Worker", true ),
       URL = H.API( window, "URL", true ),
-      BlobBuilder = H.API( window, "BlobBuilder", true ),
-      worker, builder;
+      Blob = H.API( window, "Blob", true ),
+      worker, blob;
 
 
-  if ( !Worker || !BlobBuilder ) {
-    assert( false, "Workers or BlobBuilder not supported, skipping tests" );
+  if ( !Worker || !Blob ) {
+    assert( false, "Workers or Blob not supported, skipping tests" );
     async.done();
   } else {
     worker = new Worker("/tests/webworkers/worker.js");
-    builder = new BlobBuilder();
+    blob = new Blob([ "onmessage = function( event ) { postMessage( event.data ) };" ], { type: "text\/plain" });
 
-
-    builder.append(
-      "onmessage = function( event ) { postMessage( event.data ) };"
-    );
 
     worker = new Worker(
-      URL.createObjectURL( builder.getBlob() )
+      URL.createObjectURL( blob )
     );
 
     worker.postMessage("The Blob!");

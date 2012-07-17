@@ -4,7 +4,7 @@ var replies = {
   navigator: function() {
     var obj = {};
 
-    [ "appName", "appVersion", "onLine", "platform", "userAgent" ].forEach(function( prop ) {
+    [ "appName", "appVersion", "platform", "userAgent" ].forEach(function( prop ) {
       obj[ prop ] = navigator[ prop ];
     });
     return obj;

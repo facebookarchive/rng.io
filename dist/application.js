@@ -13117,6 +13117,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 (function( window, _, $ ) {
 
   var Rng,
+      stored = JSON.parse( localStorage.getItem("ringmark") ),
       templates = {},
       cache = [],
       storage = {},
@@ -13126,8 +13127,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       failed = false;
 
   Rng = {
-
-    Stored: localStorage.getItem("ringmark"),
 
     fragments: {
       features: {}
@@ -13439,6 +13438,15 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     }
   };
 
+  // Storage
+  // parsed localStorage object
+  Rng.Store = {
+    get: function( key ) {
+      return stored[ key ];
+    }
+    // TODO: add set
+  };
+
   // Cache( key, array )
   // construct cached data array instances
   Rng.Cache = function( key, array ) {
@@ -13522,17 +13530,17 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     init: function() {
       console.log( "INITIALIZE APP.VIEW: Apptypes", this.nodes );
 
-      var apptypes, features, html, stored, templates;
+      var apptypes, features, html, results, templates;
 
       templates = Rng.Templates;
 
       // Derive stored Ring result data
-      stored = Rng.Stored;
+      results = Rng.Store.get("results");
 
       // If nothing was previously stored, the tests must
       // be run on this device, prompt user to return to
       // main rng.io for device tests
-      if ( stored === null ) {
+      if ( results === null ) {
 
         this.nodes["#rng-view-back"].parentNode.removeChild(
           this.nodes["#rng-view-back"]
@@ -13545,10 +13553,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           });
         return;
       }
-
-      // Parse valid JSON string to object for populating templates
-      stored = JSON.parse( stored ).results;
-      console.log( "stored", stored );
 
       // Derive App Types data lists from in-memory data store
       apptypes = Rng.Cache.get("apptypes");
@@ -13579,7 +13583,14 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       appTypes.rings.forEach(function( ring, k ) {
 
-        // html += templates("")
+        // If a param id is present, coerce the string
+        // value to a number for comparison to the ring number
+        //
+        // If this ring does not match the param id, then
+        // app types will not be displayed.
+        if ( Rng.params && !Rng.params[ring] ) {
+          return;
+        }
 
 
         // Create a new array of rendered HTML strings based on the
@@ -13608,7 +13619,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
               // and concatenate the existing, rendered HTML fragment
               // string to a local variable.
               apptype.features.sort().forEach(function( feature ) {
-                var fromCache = stored[ feature ];
+                var fromCache = results[ feature ];
 
                 if ( fromCache !== undefined ) {
                   inner += fromCache.rendered || "";

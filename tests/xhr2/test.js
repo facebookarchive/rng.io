@@ -178,7 +178,6 @@ asyncTest("XHR2 Text Send/Response Type", function( async ) {
 
 asyncTest("XHR2 Blob Response Type", function( async ) {
   var Blob = H.API( window, "Blob", true ),
-      Blob = H.API( window, "Blob", true ),
       URL = H.API( window, "URL", true ),
       xhr = new XMLHttpRequest();
 

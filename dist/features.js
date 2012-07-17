@@ -207,6 +207,12 @@ App.register( "features", [
     "sources": []
   },
   {
+    "name": "csstext-standard",
+    "ring": 1,
+    "spec": "http://www.w3.org/TR/css3-text/",
+    "sources": []
+  },
+  {
     "name": "csstransforms",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",

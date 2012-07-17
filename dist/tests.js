@@ -982,25 +982,53 @@ window.spec = "csstext";
 test("CSS text-shadow", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "textShadow" ), "textShadow supported" );
+  assert( H.test.cssProp( elem, "textShadow", true ), "textShadow supported" );
 });
 
 test("CSS word-wrap", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "wordWrap" ), "wordWrap supported" );
+  assert( H.test.cssProp( elem, "wordWrap", true ), "wordWrap supported" );
 });
 
 test("CSS word-break", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "wordBreak" ), "wordBreak supported" );
+  assert( H.test.cssProp( elem, "wordBreak", true ), "wordBreak supported" );
 });
 
 test("CSS word-spacing", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "wordSpacing" ), "wordSpacing supported" );
+  assert( H.test.cssProp( elem, "wordSpacing", true ), "wordSpacing supported" );
+});
+
+window.spec = "csstext-standard";
+
+
+// FF3.0 will false positive on this test. Source: Modernizr
+test("CSS text-shadow, standard", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "textShadow" ), "textShadow supported, standard" );
+});
+
+test("CSS word-wrap, standard", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "wordWrap" ), "wordWrap supported, standard" );
+});
+
+test("CSS word-break, standard", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "wordBreak" ), "wordBreak supported, standard" );
+});
+
+test("CSS word-spacing, standard", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "wordSpacing" ), "wordSpacing supported, standard" );
 });
 
 window.spec = "csstransforms";

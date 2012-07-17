@@ -3,13 +3,13 @@
 <head>
 </head>
 <body>
-<div id="inference" style="display:inline-block;position:absolute;">H</div>
+<div id="inference" style="display:inline-block; position:absolute;">H</div>
 
 <script>
 
-  path = "/tests/cssfont/"
-  
-  function webfont_test() {
+  var path = "/tests/cssfont/";
+
+  function webfontTest() {
     var head, fixture, clone, fake, styles, style,
         doc = document,
         rule = [
@@ -26,7 +26,7 @@
 
     styleNode.id = "csseototf";
     styleNode.innerText = rule;
-    doc.head.appendChild( styleNode );
+    doc.head.appendChild(styleNode);
 
     fixture = doc.getElementById("inference");
 
@@ -34,16 +34,16 @@
     clone = fixture.cloneNode(true);
     fake = fixture.cloneNode(true);
 
-    doc.body.appendChild( clone );
-    doc.body.appendChild( fake );
+    doc.body.appendChild(clone);
+    doc.body.appendChild(fake);
 
     clone.style.cssText += "font-family: GothicCustom;";
     fake.style.cssText += "font-family: OHHAI!!!;";
 
     setTimeout(function() {
-      var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
-          font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
-          control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
+      var orig = parseInt(doc.defaultView.getComputedStyle(fixture).getPropertyValue("width"), 10),
+          font = parseInt(doc.defaultView.getComputedStyle(clone).getPropertyValue("width"), 10),
+          control = parseInt(doc.defaultView.getComputedStyle(fake).getPropertyValue("width"), 10);
 
 
       // The font we have chosen to use should be narrower then the default font
@@ -69,25 +69,29 @@
     }, 100);
   }
 
-  var font_array = new Array(path + "LeagueGothic.eot", 
-                             path + "LeagueGothic.woff", 
-                             path + "LeagueGothic.otf");
-  fonts_to_download = font_array.length;
-
-  for (var i=0; i<font_array.length; i++) {
-    var req = new XMLHttpRequest();
-    (function(r) {
+  var fontArray = [path + "LeagueGothic.eot", 
+                   path + "LeagueGothic.woff", 
+                   path + "LeagueGothic.otf",
+                   path + "LeagueGothic.svg"];
+  var fontsCount = fontArray.length, i;
+  var downloadFont = function(i) {
+    return function() {
+      var r = new XMLHttpRequest();
       r.onreadystatechange = function(event) {
-        if (r.readyState == 4 && r.status == 200) {
-          fonts_to_download = fonts_to_download - 1;
-          if (fonts_to_download == 0) {
-            webfont_test();
+        if (r.readyState === 4 && r.status === 200) {
+          fontsCount = fontsCount - 1;
+          if (fontsCount === 0) {
+            webfontTest();
           }
         }
       };
-      r.open("GET", font_array[i], true);
+      r.open("GET", fontArray[i], true);
       r.send();
-    })(req);
+    };
+  };
+
+  for (i = 0; i < fontsCount; i += 1) {
+    downloadFont(i)();
   }
 
 </script>

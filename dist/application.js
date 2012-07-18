@@ -13558,8 +13558,14 @@ App.register( "features", [
     ]
   },
   {
-    "name": "blobbuilder",
+    "name": "blob",
     "ring": 1,
+    "spec": "http://www.w3.org/TR/FileAPI/#dfn-Blob",
+    "sources": []
+  },
+  {
+    "name": "blobbuilder",
+    "ring": null,
     "spec": "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface",
     "sources": []
   },
@@ -13736,6 +13742,12 @@ App.register( "features", [
   {
     "name": "csstext",
     "ring": 0,
+    "spec": "http://www.w3.org/TR/css3-text/",
+    "sources": []
+  },
+  {
+    "name": "csstext-standard",
+    "ring": 1,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
   },
@@ -14120,7 +14132,7 @@ App.register( "fixtures", [
   },
   {
     "name": "cssfont",
-    "source": "<div id=\"cssfont\">\n  <iframe src=\"/tests/cssfont/fontface.html\"></iframe>\n  <iframe src=\"/tests/cssfont/iframe.html\"></iframe>\n</div>\n"
+    "source": "<div id=\"cssfont\">\n  <iframe id=\"cssfont-face\" src=\"/tests/cssfont/fontface.html\"></iframe>\n  <iframe id=\"cssfont-load\" src=\"/tests/cssfont/iframe.html\"></iframe>\n</div>\n"
   },
   {
     "name": "cssimages-standard",

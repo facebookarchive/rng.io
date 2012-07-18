@@ -118,6 +118,9 @@ Hat.ring({
           });
         }
       };
+    
+      // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+      document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
     });
     
     asyncTest("CSS Generated Content", function( async ) {
@@ -136,6 +139,9 @@ Hat.ring({
           });
         }
       };
+    
+      // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+      document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
     });
     
     feature("css3dtransforms", 0, "CSS 3D Transforms");
@@ -345,25 +351,25 @@ Hat.ring({
     test("CSS text-shadow", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "textShadow" ), "textShadow supported" );
+      assert( H.test.cssProp( elem, "textShadow", true ), "textShadow supported" );
     });
     
     test("CSS word-wrap", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "wordWrap" ), "wordWrap supported" );
+      assert( H.test.cssProp( elem, "wordWrap", true ), "wordWrap supported" );
     });
     
     test("CSS word-break", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "wordBreak" ), "wordBreak supported" );
+      assert( H.test.cssProp( elem, "wordBreak", true ), "wordBreak supported" );
     });
     
     test("CSS word-spacing", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "wordSpacing" ), "wordSpacing supported" );
+      assert( H.test.cssProp( elem, "wordSpacing", true ), "wordSpacing supported" );
     });
     
     feature("csstransforms", 0, "CSS3 2D Transforms");
@@ -943,7 +949,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 28,
+  features: 29,
   test: function() {
     
     module("ring:1");
@@ -1007,46 +1013,43 @@ Hat.ring({
       });
     });
     
-    feature("blobbuilder", 1, "BlobBuilder");
+    feature("blob", 1, "Blob");
 
-    window.spec = "blobbuilder";
+    window.spec = "blob";
     
     
-    test("BlobBuilder", function() {
-      var BlobBuilder = H.API( window, "BlobBuilder", true );
+    test("Blob", function() {
+      var Blob = H.API( window, "Blob", true );
     
-      assert( !!BlobBuilder, "BlobBuilder supported" );
+      assert( !!Blob, "Blob supported" );
     });
     
-    test("BlobBuilder, Blob Slice", function() {
-      var BlobBuilder = H.API( window, "BlobBuilder", true ),
+    test("Blob, Blob Slice", function() {
+      var Blob = H.API( window, "Blob", true ),
           value = "Oh Hai!",
           builder, blob, slice;
     
-      if ( !BlobBuilder ) {
-        assert( false, "BlobBuilder not supported, skipping tests" );
+      if ( !Blob ) {
+        assert( false, "Blob not supported, skipping tests" );
       } else {
-        blob = (new BlobBuilder()).getBlob();
+        blob = new Blob();
         slice = H.API( blob, "slice", true );
     
         assert( slice, "blob.slice supported (" + slice.name + ")" );
       }
     });
     
-    test("BlobBuilder In Practice", function() {
-      var BlobBuilder = H.API( window, "BlobBuilder", true ),
+    test("Blob In Practice", function() {
+      var Blob = H.API( window, "Blob", true ),
           value = "Oh Hai!",
-          builder, blob;
+          blob;
     
-      if ( !BlobBuilder ) {
-        assert( false, "BlobBuilder not supported, skipping tests" );
+      if ( !Blob ) {
+        assert( false, "Blob not supported, skipping tests" );
       } else {
-        builder = new BlobBuilder();
-        builder.append("Oh Hai!");
+        blob = new Blob(["Oh Hai!"], { type: "text\/plain" });
     
-        blob = builder.getBlob();
-    
-        assert( H.isKindOf( blob, "Blob" ), "getBlob() supported" );
+        assert( H.isKindOf( blob, "Blob" ), "Blob kind supported" );
         assert( blob.size === value.length, "blob.size is correct");
         assert( "type" in blob, "blob.type supported" );
       }
@@ -1113,6 +1116,8 @@ Hat.ring({
           });
         }
       };
+    
+      document.getElementById("cssfont-face").src = "/tests/cssfont/fontface.html";
     });
     
     
@@ -1133,6 +1138,8 @@ Hat.ring({
           });
         }
       };
+    
+      document.getElementById("cssfont-load").src = "/tests/cssfont/iframe.html";
     });
     
     feature("cssmediaqueries", 1, "CSS3 MediaQueries");
@@ -1184,6 +1191,36 @@ Hat.ring({
           async.done();
         });
       };
+    });
+    
+    feature("csstext-standard", 1, "CSS3 Text, Standard");
+
+    window.spec = "csstext-standard";
+    
+    
+    // FF3.0 will false positive on this test. Source: Modernizr
+    test("CSS text-shadow, standard", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "textShadow" ), "textShadow supported, standard" );
+    });
+    
+    test("CSS word-wrap, standard", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "wordWrap" ), "wordWrap supported, standard" );
+    });
+    
+    test("CSS word-break, standard", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "wordBreak" ), "wordBreak supported, standard" );
+    });
+    
+    test("CSS word-spacing, standard", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "wordSpacing" ), "wordSpacing supported, standard" );
     });
     
     feature("csstransforms-standard", 1, "CSS3 2D Transforms, Standard");
@@ -2034,7 +2071,7 @@ Hat.ring({
             var data = event.data,
                 pass = false;
     
-            pass = Object.keys( data ).every(function( key ) {
+            pass = [ "appName", "appVersion", "platform", "userAgent" ].every(function( key ) {
               assert( data[ key ] === navigator[ key ], data[ key ] + " === " + navigator[ key ] );
               return data[ key ] === navigator[ key ];
             });
@@ -2233,24 +2270,20 @@ Hat.ring({
     asyncTest("Web Worker Blob URL", function( async ) {
       var Worker = H.API( window, "Worker", true ),
           URL = H.API( window, "URL", true ),
-          BlobBuilder = H.API( window, "BlobBuilder", true ),
-          worker, builder;
+          Blob = H.API( window, "Blob", true ),
+          worker, blob;
     
     
-      if ( !Worker || !BlobBuilder ) {
-        assert( false, "Workers or BlobBuilder not supported, skipping tests" );
+      if ( !Worker || !Blob ) {
+        assert( false, "Workers or Blob not supported, skipping tests" );
         async.done();
       } else {
         worker = new Worker("/tests/webworkers/worker.js");
-        builder = new BlobBuilder();
+        blob = new Blob([ "onmessage = function( event ) { postMessage( event.data ) };" ], { type: "text\/plain" });
     
-    
-        builder.append(
-          "onmessage = function( event ) { postMessage( event.data ) };"
-        );
     
         worker = new Worker(
-          URL.createObjectURL( builder.getBlob() )
+          URL.createObjectURL( blob )
         );
     
         worker.postMessage("The Blob!");
@@ -2309,10 +2342,10 @@ Hat.ring({
       assert( ArrayBuffer, "ArrayBuffer supported" );
     });
     
-    test("XHR2 Prerequisite: BlobBuilder", function() {
-      var BlobBuilder = H.API( window, "BlobBuilder", true );
+    test("XHR2 Prerequisite: Blob", function() {
+      var Blob = H.API( window, "Blob", true );
     
-      assert( BlobBuilder, "BlobBuilder supported" );
+      assert( Blob, "Blob supported" );
     });
     
     test("XHR2 Prerequisite: URL", function() {
@@ -2340,16 +2373,16 @@ Hat.ring({
     
     // TEMPORARY BLOCK - Causing deadstop in Android 4, WebKit
     // asyncTest("XHR2 Upload In Practice", function( async ) {
-    //   var BlobBuilder = H.API( window, "BlobBuilder", true ),
+    //   var Blob = H.API( window, "Blob", true ),
     //       xhr = new XMLHttpRequest(),
     //       builder, size;
     //
     //
-    //   if ( !BlobBuilder ) {
-    //     assert( false, "BlobBuilder not supported, skipping tests" );
+    //   if ( !Blob ) {
+    //     assert( false, "Blob not supported, skipping tests" );
     //     async.done();
     //   } else {
-    //     builder = new BlobBuilder();
+    //     builder = new Blob();
     //     builder.append("The Future is Cool");
     //
     //     size = builder.getBlob().size;
@@ -2382,12 +2415,11 @@ Hat.ring({
     
     
     asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
-      var BlobBuilder = H.API( window, "BlobBuilder", true ),
-          Blob = H.API( window, "Blob", true ),
+      var Blob = H.API( window, "Blob", true ),
           xhr = new XMLHttpRequest();
     
-      if ( !BlobBuilder ) {
-        assert( false, "BlobBuilder not supported, skipping tests" );
+      if ( !Blob ) {
+        assert( false, "Blob not supported, skipping tests" );
         async.done();
       } else {
     
@@ -2395,7 +2427,7 @@ Hat.ring({
         xhr.responseType = "arraybuffer";
     
         xhr.onload = function( event ) {
-          var builder, blob,
+          var blob,
               data = this;
     
           if ( data.status === 200 ) {
@@ -2413,16 +2445,13 @@ Hat.ring({
               assert( typeof data.response.byteLength === "number", "data.response.byteLength is number" );
     
     
-              if ( !BlobBuilder ) {
-                assert( false, "BlobBuilder not supported, skipping tests" );
+              if ( !Blob ) {
+                assert( false, "Blob not supported, skipping tests" );
                 async.done();
               } else {
     
-                builder = new BlobBuilder();
+                blob = new Blob([ data.response ], { type: "image\/png" });
     
-                // Append array buffer to BlobBuilder instance
-                builder.append( data.response );
-                blob = builder.getBlob("image/png");
     
                 // Instance confirmation
                 assert( blob instanceof Blob, "blob is an instance of Blob" );
@@ -2479,13 +2508,12 @@ Hat.ring({
     });
     
     asyncTest("XHR2 Blob Response Type", function( async ) {
-      var BlobBuilder = H.API( window, "BlobBuilder", true ),
-          Blob = H.API( window, "Blob", true ),
+      var Blob = H.API( window, "Blob", true ),
           URL = H.API( window, "URL", true ),
           xhr = new XMLHttpRequest();
     
-      if ( !BlobBuilder ) {
-        assert( false, "BlobBuilder not supported, skipping tests" );
+      if ( !Blob ) {
+        assert( false, "Blob not supported, skipping tests" );
         async.done();
       } else {
     

@@ -3,48 +3,134 @@
 <head>
 </head>
 <body>
-<div id="inference" style="display:inline-block; position:absolute;">H</div>
+<div id="inference" style="display:inline-block;position:absolute;">H</div>
 
 <script>
+  // TODO: this code should be refactored and abstracted to allow
+  //        async loading capabilities from other tests
 
-  var path = "/tests/cssfont/";
 
-  function webfontTest() {
-    var head, fixture, clone, fake, styles, style,
+  // Initialize
+  var Font;
+
+  // Declare
+  Font = {
+    // font family name, for rule text
+    family: "GothicCustom",
+
+    // font file identity name, for rule text and file request
+    name: "LeagueGothic",
+
+    // font file abs path
+    path: "/tests/cssfont/",
+
+    // font file meta data
+    types: [
+      { type: "eot", format: "" },
+      { type: "otf", format: "opentype" },
+      { type: "svg", format: "svg" },
+      { type: "woff", format: "woff" }
+    ],
+
+    // Load all defined fonts, execute callback on completion
+    load: function( callback ) {
+      var path, accounted, self;
+
+      // Construct common path for file request
+      path = this.path + this.name;
+
+      // Declare start of loaded font count
+      accounted = 0;
+
+      // Horrible, but necessary while Safari does not support bind()
+      self = this;
+
+      // Iterate each font type and request font file
+      this.types.forEach(function( font ) {
+        var xhr, file;
+
+        // Initialize request object for loading "remote" font
+        xhr = new XMLHttpRequest();
+
+        // Declare listeners
+        xhr.onload = function() {
+          // When this request is adequately complete...
+          if ( this.status === 200 ) {
+            // ...increment loaded count...
+            if ( ++accounted === self.types.length ) {
+              // ...execute callback if count at completion
+              callback.call( self );
+            }
+          }
+
+          // Cleanup, may not be necessary?
+          xhr = null;
+        };
+
+        // In case of abort or error, null the request
+        xhr.onabort = xhr.onerror = function( event ) {
+          xhr = null;
+        };
+
+        // Concat path and current type and open request
+        // eg. "/tests/cssfont/LeagueGothic" + "." + (eot|otf|svg|woff)
+        xhr.open( "GET", path + "." + font.type, true );
+
+        // Send request
+        xhr.send();
+
+      }, this);
+    }
+  };
+
+  Font.load(function() {
+    // |this| is the "Font" api object
+    //
+    var head, fixture, clone, fake, src, rule, styles, style,
         doc = document,
-        rule = [
-          "@font-face { ",
-          "font-family: 'GothicCustom'; ",
-          "src: url(" + path + "LeagueGothic.eot); ",
-          "src: url(" + path + "LeagueGothic.woff) format('woff'), ",
-          "     url(" + path + "LeagueGothic.otf) format('opentype'), ",
-          "     url(" + path + "LeagueGothic.svg) format('svg'); }"
-        ].join(""),
         width = null,
-        styleNode = doc.createElement("style");
+        styleNode = doc.createElement("style"),
+        file = this.path + this.name + ".",
+        rules = [
+          "@font-face { ",
+          "font-family: '" + this.family + "'; "
+        ];
 
+
+    // Loop over types and construct src rule entries
+    while ( this.types.length ) {
+      src = this.types.shift();
+      rules.push(
+        "src: url(" + file + src.type + ") " +
+        ( src.format ? "format('" + src.format + "');" : ";" )
+      );
+    }
+
+    // Cap the end of the rule
+    rules.push("}");
+
+    // Join elements to create a single rule string
+    rule = rules.join("");
 
     styleNode.id = "csseototf";
-    styleNode.innerText = rule;
-    doc.head.appendChild(styleNode);
+    styleNode.innerText = styleNode.textContent = rule;
+    doc.head.appendChild( styleNode );
 
     fixture = doc.getElementById("inference");
-
 
     clone = fixture.cloneNode(true);
     fake = fixture.cloneNode(true);
 
-    doc.body.appendChild(clone);
-    doc.body.appendChild(fake);
+    doc.body.appendChild( clone );
+    doc.body.appendChild( fake );
 
-    clone.style.cssText += "font-family: GothicCustom;";
+    clone.style.cssText += "font-family: " + this.family + ";";
     fake.style.cssText += "font-family: OHHAI!!!;";
 
     setTimeout(function() {
-      var orig = parseInt(doc.defaultView.getComputedStyle(fixture).getPropertyValue("width"), 10),
-          font = parseInt(doc.defaultView.getComputedStyle(clone).getPropertyValue("width"), 10),
-          control = parseInt(doc.defaultView.getComputedStyle(fake).getPropertyValue("width"), 10);
-
+      var orig = parseInt( doc.defaultView.getComputedStyle( fixture ).getPropertyValue("width"), 10 ),
+          font = parseInt( doc.defaultView.getComputedStyle( clone ).getPropertyValue("width"), 10 ),
+          control = parseInt( doc.defaultView.getComputedStyle( fake ).getPropertyValue("width"), 10 );
 
       // The font we have chosen to use should be narrower then the default font
       // of any given UA. This is presumptuous, but pretty close for now.
@@ -67,33 +153,7 @@
         ]
       }), "*");
     }, 100);
-  }
-
-  var fontArray = [path + "LeagueGothic.eot", 
-                   path + "LeagueGothic.woff", 
-                   path + "LeagueGothic.otf",
-                   path + "LeagueGothic.svg"];
-  var fontsCount = fontArray.length, i;
-  var downloadFont = function(i) {
-    return function() {
-      var r = new XMLHttpRequest();
-      r.onreadystatechange = function(event) {
-        if (r.readyState === 4 && r.status === 200) {
-          fontsCount = fontsCount - 1;
-          if (fontsCount === 0) {
-            webfontTest();
-          }
-        }
-      };
-      r.open("GET", fontArray[i], true);
-      r.send();
-    };
-  };
-
-  for (i = 0; i < fontsCount; i += 1) {
-    downloadFont(i)();
-  }
-
+  });
 </script>
 </body>
 </html>

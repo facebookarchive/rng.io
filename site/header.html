@@ -14,8 +14,8 @@
   <meta property="og:image" content="http://rng.io/site/img/ringmark.png"/>
   <meta property="fb:admins" content="20901205" />
 
-  <script src="dist/ringmark.min.js"></script>
-  <script src="dist/application.min.js"></script>
+  <script src="dist/ringmark.js"></script>
+  <script src="dist/application.js"></script>
 </head>
 <body>
   <header class="container">
@@ -27,16 +27,21 @@
   </section>
   <section id="rng-view-summary" class="container"></section>
   <section id="rng-view-report" class="container"></section>
-  <section id="more" class="container">
-    <a href="/apps">What Can I Make With This Device?</a>
-  </section>
-
 
   <aside class="container">
     <span id="rng-view-completed"></span>
     <a href="/about">about ringmark,</a>
     <a href="/history">v1.4.0pre</a>
   </aside>
+
+  <section id="rng-view-more" class="container">
+    <a href="/apps">What Can I Make With This Device?</a>
+  </section>
+  <section id="rng-view-adevices" class="container">
+    <a href="#">What About Other Devices?</a>
+  </section>
+  <section id="rng-view-devices" class="container hide">
+  </section>
 
 
   <script id="summary-tpl" type="text/template">
@@ -54,6 +59,10 @@
 
   <script id="testing-tpl" type="text/template">
   Testing: <%= title %>...
+  </script>
+
+  <script id="devices-tpl" type="text/template">
+    <select id="rng-view-sdevices"><%= options %></select>
   </script>
 
   <script id="report-tpl" type="text/template">

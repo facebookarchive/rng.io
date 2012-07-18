@@ -128,7 +128,7 @@ module.exports = function( grunt ) {
         eqeqeq: true,
         immed: true,
         latedef: false,
-        newcap: true,
+        newcap: false,
         noarg: true,
         sub: true,
         undef: true,
@@ -156,6 +156,7 @@ module.exports = function( grunt ) {
         // Site
         App: true,
         Rng: true,
+        Ringmark: true,
         H: true,
         Hat: true,
         Ring: true,

@@ -13119,6 +13119,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   var Rng,
       stored = JSON.parse( localStorage.getItem("ringmark") ),
       templates = {},
+      nodes = {},
       cache = [],
       storage = {},
       appTypes = {
@@ -13128,77 +13129,47 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
   Rng = {
 
+    // node and templates point at the closed over
+    // vars of the same name
+    nodes: nodes,
+    templates: templates,
+
     fragments: {
       features: {}
     },
 
-    root: (function() {
+    isRoot: (function() {
       return location.pathname === "/";
     }()),
 
     // Create key=>value object containing parsed
     // query string params
     params: (function() {
-      var query = window.location.search,
-          keyvals = [],
-          pairs = {};
+      var query, keyvals, pair, pairs;
+
+      query = window.location.search;
+      keyvals = [];
+      pairs = {};
 
       if ( query ) {
         query = query.replace(/\?|\#\w+/g, "");
         keyvals = query.split("&");
 
-        keyvals.forEach(function( keyval ) {
-          var pair = keyval.split("=");
-
-          pairs[ pair[0] ] = pair[1] ? pair[1] : true;
-        });
+        while ( keyvals.length ) {
+          pair = keyvals.shift().split("=");
+          pairs[ pair[0] ] = pair[1] ? decodeURIComponent( pair[1] ) : true;
+        }
       }
       return pairs;
     }()),
 
-    // Pre run initialization tasks
-    init: function( initializer ) {
-      // Add a styling hook for whether the browser supports the <details> element
-      //
-      if ( !$.fn.details.support ) {
-        document.documentElement.className += " no-details-elem";
-      }
-
-      // Template pre-compiled and caching technique based on
-      // Irene Ros's approach here:
-      // http://bit.ly/yj5dSb
-      // Query for inline templates
-      var tpls = document.querySelectorAll("script[type='text/template']");
-
-      // Initialize, compile and cache templates
-      [].forEach.call( tpls, function( tpl ) {
-        templates[ tpl.id ] = _.template( tpl.innerHTML );
-      });
-
-
-      // Run app
-      if ( Rng.root ) {
-
-        Rng.Views.dom.init( this, function( nodes ) {
-          this.nodes = nodes;
-          this.run();
-        });
-
-      }
-
-      if ( initializer !== null ) {
-        Rng.Views.init( initializer );
-      }
-
-      this.Templates = templates;
-    },
-
-    // Main execution
+    // Execute Ring Runner
     run: function() {
+
       // Create a section elem for use as a temporary container
       // of feature summary HTML.
       var featureSummary, features, apptypes, ringheaders, featureCount,
-          section, ul, nodes;
+          section, ul;
 
       // Derive Feature Test data lists from in-memory data store
       features = Rng.Cache.get("features");
@@ -13219,13 +13190,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Clonable ul node
       ul = document.createElement("ul");
-
-      // Cache of frequently addressed nodes in the DOM
-      nodes = {
-        report: this.nodes["#rng-view-report"],
-        summary: this.nodes["#rng-view-summary"],
-        completed: this.nodes["#rng-view-completed"]
-      };
 
       // Collect Ring numbers associated with App Types,
       // Get all App Types that are _NOT_ set to defer
@@ -13380,6 +13344,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       // when the runner is complete
       var completed = 0;
 
+
       Hat.on("runner:done", function( data ) {
         var override = false;
 
@@ -13427,12 +13392,18 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Only run the rings if we're in the site's root
       // Prevent running on /about, /developer, etc.
-      if ( Rng.root ) {
+      if ( Rng.isRoot ) {
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO: Rng.run() needs to determine if this is a
+        //       normal run or a "recreation" and substitute
+        //       the data accordingly
         Hat.start();
       }
     },
 
-    // Caching interface
+    // Cache register (get it??)
     register: function( key, array ) {
       new Rng.Cache( key, array );
     }
@@ -13513,9 +13484,160 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     return [];
   };
 
+  // Rng.Views() <constructor function>
+  //
+  // Initialize primary view and any subviews
+  // if they exist and were requested.
+  //
+  // Rng.Views <function object>
+  //
+  // Attach all sub views as "static" props to this function
+  // Views should be used for special UI handler cases,
+  // including:
+  //
+  //  - Display
+  //  - Events
+  //
 
-  Rng.Views = {};
+  Rng.Views = function( initializer, callback ) {
+    var context, isValid;
 
+    context = context || Rng.Views[ initializer ];
+    isValid = !!(context && context.init);
+
+    console.log( initializer, context, callback );
+
+    if ( isValid ) {
+      // Initialize and cache DOM nodes for this view
+      // providing the initializer context
+      Rng.Views.dom.init( context, function() {
+        callback.call( context );
+      });
+    }
+  };
+
+  Rng.Views.dom = {
+    ready: false,
+    init: function( context, callback ) {
+
+      // If already run, exec callback and exit
+      // Make sure it runs async to match the complete execution path
+      if ( this.ready ) {
+        setTimeout( callback.bind( context ), 0 );
+        return;
+      }
+
+      // Inject <details> support where nec.
+      if ( !$.fn.details.support ) {
+        document.documentElement.className += " no-details-elem";
+      }
+
+      // Template pre-compiled and caching technique based on
+      // Irene Ros's approach here:
+      // http://bit.ly/yj5dSb
+      // Query for inline templates
+      var tpls = document.querySelectorAll("script[type='text/template']");
+
+      // Initialize, compile and cache templates
+      [].forEach.call( tpls, function( tpl ) {
+
+        // This "templates" is a closed over var in IIFE scope
+        templates[ tpl.id ] = _.template( tpl.innerHTML );
+      });
+
+
+      // Iterate list of common view selectors and cache matching nodes
+      this.common.selectors.forEach(function( key ) {
+        var node;
+
+        // Omitting the usual try/catch in favor of simplifying selectors
+        // this way, they shouldn't be hard to add new and find them
+        node = document.querySelector( "#rng-view-" + key );
+
+        // If a valid node was found, add it to the closed over "nodes"
+        if ( node ) {
+          nodes[ key ] = node;
+        }
+      });
+
+      console.log( "DOM View nodes prepared", nodes );
+
+      // Set DOM View ready flag to true
+      this.ready = true;
+
+      console.log( "Rng.Views.dom.ready set", Rng.Views.dom );
+
+      // Call async
+      setTimeout( callback.bind( context ), 0 );
+    },
+    common: {
+
+      selectors: [
+        // These are auto-prefixed with
+        // "#rng-view-" when qS is called
+        "back",
+        "completed",
+        "report",
+        "summary",
+        "title",
+        "devices",
+        "adevices",
+        "sdevices"
+      ]
+    }
+  };
+
+
+  // The Default "Ring Runner" view
+  Rng.Views.Default = {
+    init: function() {
+
+      var isWaiting = false;
+
+      // This cant happen until after the data is loaded from Browserscope
+      nodes.adevices.addEventListener("click", function __click( event ) {
+        event.preventDefault();
+
+        if ( nodes.devices.childNodes.length === 0 ) {
+          return;
+        }
+
+        nodes.adevices.removeEventListener("click", __click, false);
+        nodes.devices.setAttribute("class", "container show");
+        event.target.parentNode.removeChild(event.target);
+      }, false);
+
+      // Immediately begin requesting browserscope data
+      Rng.Request.jsonp(
+        "http://www.browserscope.org/user/tests/table/" + Rng.Browserscope.keys.all + "?v=top-m&o=json",
+        function( data ) {
+          Rng.Browserscope.data = {
+            all: data
+          };
+
+          nodes.devices.innerHTML = templates["devices-tpl"]({
+            options: (function() {
+              return Object.keys( data.results ).map(function( key ) {
+                return "<option value='" + key + "'>" + key + "</option>";
+              });
+            }())
+          });
+
+          // Let the stack unwind, then add an event listener
+          setTimeout(function() {
+            nodes.devices.querySelector("select").addEventListener("change", function() {
+
+              window.location = "/?device=" + encodeURIComponent(this.value);
+              console.log( this.value );
+            });
+          }, 0);
+      });
+
+      console.log( "Rng.Views.Default", this );
+    }
+  };
+
+  // The "History" view, when accessed from rng.io/history
   Rng.Views.History = {
     init: function() {
       console.log( "INITIALIZE APP.VIEW: History" );
@@ -13526,13 +13648,12 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     }
   };
 
+  // The "Apps" view, when accessed from rng.io/apps
   Rng.Views.Apps = {
     init: function() {
-      console.log( "INITIALIZE APP.VIEW: Apptypes", this.nodes );
+      console.log( "INITIALIZE APP.VIEW: Apptypes", nodes );
 
-      var apptypes, features, html, results, templates;
-
-      templates = Rng.Templates;
+      var apptypes, features, html, results;
 
       // Derive stored Ring result data
       results = Rng.Store.get("results");
@@ -13542,11 +13663,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       // main rng.io for device tests
       if ( results === null ) {
 
-        this.nodes["#rng-view-back"].parentNode.removeChild(
-          this.nodes["#rng-view-back"]
-        );
+        nodes.back.parentNode.removeChild( nodes.back );
 
-        this.nodes["#rng-view-title"].innerHTML =
+        nodes.title.innerHTML =
           templates["url-tpl"]({
             href: "/",
             text: "Run tests for this device"
@@ -13580,7 +13699,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       });
 
 
-
       appTypes.rings.forEach(function( ring, k ) {
 
         // If a param id is present, coerce the string
@@ -13588,7 +13706,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         //
         // If this ring does not match the param id, then
         // app types will not be displayed.
-        if ( Rng.params && !Rng.params[ring] ) {
+        if ( Object.keys(Rng.params).length && !Rng.params[ring] ) {
           return;
         }
 
@@ -13637,65 +13755,71 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       });
 
       // Inject the rendered HTML string into the report area
-      this.nodes["#rng-view-report"].innerHTML = html;
-    }
-  };
-
-  // Initialize primary view any subviews if they exist and were requested
-  Rng.Views.init = function( initializer ) {
-    var context, isValid;
-
-    context = Rng.Views[ initializer ];
-    isValid = !!(context && context.init);
-
-    if ( isValid ) {
-      // Initialize and cache DOM nodes for this view
-      // providing the initializer context
-      Rng.Views.dom.init( context, function( nodes ) {
-        this.nodes = nodes;
-        this.init();
-      });
+      nodes.report.innerHTML = html;
     }
   };
 
 
-  Rng.Views.dom = {
-    ready: false,
-    init: function( context, callback ) {
+  // Make async resources requests
+  // (Use to request JSONP from Browserscope)
+  Rng.Request = {
 
-      if ( this.ready ) {
-        callback.call( context, this.common.nodes );
-        return;
-      }
+    uid: 0,
 
-      Object.keys( this.common.nodes ).forEach(function( key ) {
-        var node = document.querySelector( key );
-        if ( node ) {
-          this[ key ] = node;
-        }
+    // JSONP callback cache
+    callbacks: {},
 
-      }, this.common.nodes );
+    // Request JSONP rfom Remote resource
+    jsonp: function( url, callback ) {
+      var name, head, script;
 
-      console.log( "DOM View nodes prepared", this.common.nodes );
+      name = "rng_" + (Rng.Request.uid++);
+      head = document.head;
+      script = document.createElement("script");
 
-      this.ready = true;
-      // Call async
-      setTimeout(callback.bind( context, this.common.nodes ), 0);
-    },
-    common: {
-      nodes: {
-        "#rng-view-back": null,
-        "#rng-view-completed": null,
-        "#rng-view-report": null,
-        "#rng-view-summary": null,
-        "#rng-view-title": null
-      }
+      // Register a callback in Rng.Request.callbacks
+      this.callbacks[ name ] = function( data ) {
+        callback( data );
+
+        delete Rng.Request.callbacks[ name ];
+      };
+
+      // When the script is loaded, remove the node from the head
+      // remove the callback from the cache;
+      script.onload = function( ) {
+        head.removeChild( script );
+      };
+
+      // Any benefits?
+      script.async = true;
+
+      // Set script element src
+      // Instead of polluting the global object with callbacks,
+      // use callbacks cache object instead
+      script.src = url + "&callback=Rng.Request.callbacks." + name;
+
+      // Insert script node into document head to
+      // initialize HTTP load request
+      head.appendChild( script );
     }
   };
 
 
+  // Expose Rng namespace w/ legacy identifier
   window.App = window.Rng = Rng;
 
+  window.Ringmark = function( initializer ) {
+    initializer = initializer !== null ? initializer : "Default";
+
+
+    Rng.Views( initializer, function() {
+      Rng.Views[ initializer ].init();
+
+      if ( Rng.isRoot ) {
+        Rng.run();
+      }
+    });
+  };
 
 
 }( this, this._, this.jQuery ));
@@ -14599,7 +14723,7 @@ App.register( "ringheaders", [
   var beacon = 0,
       completed = 0,
       failed = false,
-      keys = App.Cache.get("browserscopekeys").first(),
+      keys = Rng.Cache.get("browserscopekeys").first(),
       scripts = {
         all: document.createElement("script"),
         rings: document.createElement("script")
@@ -14629,7 +14753,7 @@ App.register( "ringheaders", [
     completed++;
 
     // console.log( completed, Hat.ring.cache.length, failed, all );
-    if ( !App.params.all && completed < Hat.ring.cache.length && failed ) {
+    if ( !Rng.params.all && completed < Hat.ring.cache.length && failed ) {
       override = true;
     }
 
@@ -14668,18 +14792,18 @@ App.register( "ringheaders", [
   window.__results = results;
 
   window._bTestBeaconCallback = function( data ) {
-    if ( ++beacon === 2 && App.params.referrer ) {
+    if ( ++beacon === 2 && Rng.params.referrer ) {
       // If sent from browserscope, return to browserscope. #454
-      if ( App.params.referrer === "browserscope" && App.params["continue"] ) {
-        // console.log( window.decodeURIComponent(App.params["continue"]) );
-        window.location.href = window.decodeURIComponent( App.params["continue"] );
+      if ( Rng.params.referrer === "browserscope" && Rng.params["continue"] ) {
+        // console.log( window.decodeURIComponent(Rng.params["continue"]) );
+        window.location.href = window.decodeURIComponent( Rng.params["continue"] );
       }
     }
 
     console.log( "_bTestBeaconCallback completed: ", beacon );
   };
 
-  window.App.Browserscope = window.App.Browserscope || {
+  window.Rng.Browserscope = window.Rng.Browserscope || {
     keys: keys
   };
 }( this ) );
@@ -14689,7 +14813,7 @@ document.addEventListener( "DOMContentLoaded", function() {
   // Derive a sub app initializer
   var sub = location.pathname.replace( /\//g, "" );
 
-  Rng.init(
+  new Ringmark(
     sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null
   );
 

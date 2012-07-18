@@ -13520,55 +13520,54 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     ready: false,
     init: function( context, callback ) {
 
-      // If already run, exec callback and exit
-      // Make sure it runs async to match the complete execution path
-      if ( this.ready ) {
-        setTimeout( callback.bind( context ), 0 );
-        return;
-      }
-
-      // Inject <details> support where nec.
-      if ( !$.fn.details.support ) {
-        document.documentElement.className += " no-details-elem";
-      }
-
-      // Template pre-compiled and caching technique based on
-      // Irene Ros's approach here:
-      // http://bit.ly/yj5dSb
-      // Query for inline templates
-      var tpls = document.querySelectorAll("script[type='text/template']");
-
-      // Initialize, compile and cache templates
-      [].forEach.call( tpls, function( tpl ) {
-
-        // This "templates" is a closed over var in IIFE scope
-        templates[ tpl.id ] = _.template( tpl.innerHTML );
-      });
+      if ( !this.ready ) {
 
 
-      // Iterate list of common view selectors and cache matching nodes
-      this.common.selectors.forEach(function( key ) {
-        var node;
-
-        // Omitting the usual try/catch in favor of simplifying selectors
-        // this way, they shouldn't be hard to add new and find them
-        node = document.querySelector( "#rng-view-" + key );
-
-        // If a valid node was found, add it to the closed over "nodes"
-        if ( node ) {
-          nodes[ key ] = node;
+        // Inject <details> support where nec.
+        if ( !$.fn.details.support ) {
+          document.documentElement.className += " no-details-elem";
         }
-      });
 
-      console.log( "DOM View nodes prepared", nodes );
+        // Template pre-compiled and caching technique based on
+        // Irene Ros's approach here:
+        // http://bit.ly/yj5dSb
+        // Query for inline templates
+        var tpls = document.querySelectorAll("script[type='text/template']");
 
-      // Set DOM View ready flag to true
-      this.ready = true;
+        // Initialize, compile and cache templates
+        [].forEach.call( tpls, function( tpl ) {
 
-      console.log( "Rng.Views.dom.ready set", Rng.Views.dom );
+          // This "templates" is a closed over var in IIFE scope
+          templates[ tpl.id ] = _.template( tpl.innerHTML );
+        });
+
+
+        // Iterate list of common view selectors and cache matching nodes
+        this.common.selectors.forEach(function( key ) {
+          var node;
+
+          // Omitting the usual try/catch in favor of simplifying selectors
+          // this way, they shouldn't be hard to add new and find them
+          node = document.querySelector( "#rng-view-" + key );
+
+          // If a valid node was found, add it to the closed over "nodes"
+          if ( node ) {
+            nodes[ key ] = node;
+          }
+        });
+
+        console.log( "DOM View nodes prepared", nodes );
+
+        // Set DOM View ready flag to true
+        this.ready = true;
+
+        console.log( "Rng.Views.dom.ready set", Rng.Views.dom );
+      }
 
       // Call async
-      setTimeout( callback.bind( context ), 0 );
+      setTimeout(function() {
+        callback.call( context );
+      }, 0 );
     },
     common: {
 

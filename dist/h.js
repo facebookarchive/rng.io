@@ -1,4 +1,4 @@
-/*! Ringmark - v1.4.0pre - 7/18/2012
+/*! Ringmark - v1.4.0pre - 7/19/2012
 * Copyright ( c ) 2012 Facebook Licensed W3C 3-clause BSD License, W3C Test Suite License */
 
 (function( exports ) {
@@ -399,7 +399,10 @@
   // Special, Prioritized Event Handlers
 
   // This is required for clearing, reseting and recalibrating QUnit
-  Hat.on("runner:done", function( ) {
+  Hat.on("runner:done", function() {
+    if ( exports.Rng && exports.Rng.isFake ) {
+      return;
+    }
     exports.QUnit.config.autorun = false;
     exports.QUnit.config.blocking = false;
     exports.QUnit.config.semaphore = 0;
@@ -409,6 +412,10 @@
   // This is required for clearing, reseting and recalibrating QUnit
   // Will also queue
   Hat.on("runner:ringDone", function( data ) {
+    console.log( "exports.Rng!!!!!!!", exports.Rng );
+    if ( exports.Rng && exports.Rng.isFake ) {
+      return;
+    }
 
     if ( exports.QUnit ) {
       [

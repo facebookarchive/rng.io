@@ -13790,11 +13790,13 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           });
 
           // Let the stack unwind, then add an event listener
+          // TODO: FIX THIS. IT'S AWFUL
           setTimeout(function() {
             nodes.devices.querySelector("select").addEventListener("change", function() {
-
-              window.location = "/?device=" + encodeURIComponent(this.value);
-              console.log( this.value );
+              if ( this.value ) {
+                window.location = "/?device=" + encodeURIComponent(this.value);
+                console.log( this.value );
+              }
             });
           }, 0);
       });

@@ -429,6 +429,7 @@ module.exports = function( grunt ) {
       //console.log( inspect( doc, false, 2, true ) );
       features.push({
         name: name,
+        title: doc.title,
         ring: doc.r,
         spec: doc.spec || "",
         sources: doc.sources || []

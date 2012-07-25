@@ -2,6 +2,7 @@ asyncTest("Audio: Multiple Playback", function( async ) {
   var type,
       dead = false,
       tick = 0,
+      tickLoad = 0,
       codecs = {
         "mp3": 'audio/mpeg; codecs="mp3"',
         "ogg": 'audio/ogg; codecs="vorbis"',
@@ -25,7 +26,7 @@ asyncTest("Audio: Multiple Playback", function( async ) {
       audio.addEventListener( "playing", function() {
         tick++;
 
-        if ( tick === 2 && !dead ) {
+        if ( tick === audios.length && !dead ) {
           async.step(function() {
             assert( true, "Multiple audio playback supported (used: " + type + ")" );
             dead = true;
@@ -35,20 +36,24 @@ asyncTest("Audio: Multiple Playback", function( async ) {
       }, false );
 
       audio.addEventListener( "loadeddata", function() {
+        tickLoad++;
         audio.play();
         audio.volume = 0;
         audio.muted = true;
+
+        if( tickLoad === audios.length ) {
+          setTimeout(function() {
+            if ( !dead ) {
+              async.step(function() {
+                assert( false, "Browser failed to load audio" );
+                dead = true;
+                async.done();
+              });
+            }
+          }, 1000);
+        }
       }, false );
     });
 
-    setTimeout(function() {
-      if ( !dead ) {
-        async.step(function() {
-          assert( false, "Browser failed to load audio" );
-          dead = true;
-          async.done();
-        });
-      }
-    }, 5000);
   });
 });

@@ -100,8 +100,11 @@
     // Loop over types and construct src rule entries
     while ( this.types.length ) {
       src = this.types.shift();
+      if (src.type === "eot" || src.type === "otf") {
+        rules.push("src: ");
+      }
       rules.push(
-        "src: url(" + file + src.type + ") " +
+        "url(" + file + src.type + ") " +
         ( src.format ? "format('" + src.format + "');" : ";" )
       );
     }

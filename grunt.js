@@ -114,7 +114,7 @@ module.exports = function( grunt ) {
       files: [ "grunt.js", "lib/**/!(console|deferred|jquery|qunit-custom)*.js", "lib-test/**/*.js", "tests/**/*.js", "site/**/!(underscore-min)*.js" ]
     },
     watch: {
-      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css", "lib/**/*.js", "performance/**/*.js" ],
+      files: [ "<config:lint.files>", "site/header.html", "site/footer.html", "site/site.css", "lib/**/*.js", "performance/**/*.js", "about/**/*.*", "history/**/*.*", "apps/**/*.*" ],
       tasks: "short"
     },
     untab: {
@@ -128,7 +128,7 @@ module.exports = function( grunt ) {
         eqeqeq: true,
         immed: true,
         latedef: false,
-        newcap: true,
+        newcap: false,
         noarg: true,
         sub: true,
         undef: true,
@@ -155,6 +155,8 @@ module.exports = function( grunt ) {
 
         // Site
         App: true,
+        Rng: true,
+        Ringmark: true,
         H: true,
         Hat: true,
         Ring: true,
@@ -193,7 +195,7 @@ module.exports = function( grunt ) {
   task.registerTask("default", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min");
   //"lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min"
 
-  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat");
+  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat min");
 
 
 
@@ -427,6 +429,7 @@ module.exports = function( grunt ) {
       //console.log( inspect( doc, false, 2, true ) );
       features.push({
         name: name,
+        title: doc.title,
         ring: doc.r,
         spec: doc.spec || "",
         sources: doc.sources || []

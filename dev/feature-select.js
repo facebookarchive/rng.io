@@ -1,18 +1,21 @@
 [
   {
     "name": "animationtiming",
+    "title": "Animation Timing",
     "ring": 2,
     "spec": "http://www.w3.org/TR/animation-timing/",
     "sources": []
   },
   {
     "name": "appcache",
+    "title": "Application Cache",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5/offline.html",
     "sources": []
   },
   {
     "name": "audio-multi",
+    "title": "Audio, Multi-Track",
     "ring": 1,
     "spec": "",
     "sources": [
@@ -26,48 +29,56 @@
   },
   {
     "name": "blob",
+    "title": "Blob",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/#dfn-Blob",
     "sources": []
   },
   {
     "name": "blobbuilder",
+    "title": "BlobBuilder",
     "ring": null,
     "spec": "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface",
     "sources": []
   },
   {
     "name": "canvas",
+    "title": "Canvas",
     "ring": 0,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html",
     "sources": []
   },
   {
     "name": "canvas-3d",
+    "title": "Canvas 3D",
     "ring": 2,
     "spec": "https://www.khronos.org/registry/webgl/specs/latest/",
     "sources": []
   },
   {
     "name": "canvas-3d-standard",
+    "title": "Canvas 3D, Standard",
     "ring": 2,
     "spec": "https://www.khronos.org/registry/webgl/specs/latest/",
     "sources": []
   },
   {
     "name": "css-unspecified",
+    "title": "CSS Unspecified",
     "ring": 2,
     "spec": "",
     "sources": []
   },
   {
     "name": "css2-1selectors",
+    "title": "CSS 2.1",
     "ring": 0,
     "spec": "http://www.w3.org/TR/CSS2/selector.html",
     "sources": []
   },
   {
     "name": "css3dtransforms",
+    "title": "CSS 3D Transforms",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-3d-transforms/",
     "sources": [
@@ -77,18 +88,21 @@
   },
   {
     "name": "cssanimation",
+    "title": "CSS3 Animation",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
   },
   {
     "name": "cssanimation-standard",
+    "title": "CSS3 Animation, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
   },
   {
     "name": "cssbackground",
+    "title": "CSS3 Background",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -97,6 +111,7 @@
   },
   {
     "name": "cssbackground-standard",
+    "title": "CSS3 Background, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -105,6 +120,7 @@
   },
   {
     "name": "cssborderimage",
+    "title": "CSS3 BorderImage",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -113,6 +129,7 @@
   },
   {
     "name": "csscolor",
+    "title": "CSS3 Color",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-color/",
     "sources": [
@@ -121,6 +138,7 @@
   },
   {
     "name": "csscolor-standard",
+    "title": "CSS3 Color, Standard",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-color/",
     "sources": [
@@ -129,6 +147,7 @@
   },
   {
     "name": "csselement",
+    "title": "CSS Element",
     "ring": 2,
     "spec": "",
     "sources": [
@@ -139,6 +158,7 @@
   },
   {
     "name": "cssflexbox",
+    "title": "CSS3 Flexbox",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-flexbox/",
     "sources": [
@@ -147,6 +167,7 @@
   },
   {
     "name": "cssflexbox-standard",
+    "title": "CSS3 Flexbox, Standard",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-flexbox",
     "sources": [
@@ -155,6 +176,7 @@
   },
   {
     "name": "cssfont",
+    "title": "CSS3 Fonts",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-fonts/",
     "sources": [
@@ -164,18 +186,21 @@
   },
   {
     "name": "cssimages",
+    "title": "CSS3 Images",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-images/",
     "sources": []
   },
   {
     "name": "cssimages-standard",
+    "title": "CSS3 Images, Standard",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-images/",
     "sources": []
   },
   {
     "name": "cssmediaqueries",
+    "title": "CSS3 MediaQueries",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-mediaqueries/",
     "sources": [
@@ -184,42 +209,49 @@
   },
   {
     "name": "cssminmax",
+    "title": "CSS Min, Max",
     "ring": 0,
     "spec": "http://www.w3.org/TR/CSS21/visudet.html#min-max-widths",
     "sources": []
   },
   {
     "name": "cssoverflow",
+    "title": "CSS Overflow Scrolling",
     "ring": 1,
     "spec": "http://www.w3.org/TR/CSS2/visufx.html",
     "sources": []
   },
   {
     "name": "cssoverflow-standard",
+    "title": "CSS Overflow Scrolling, Standard",
     "ring": 2,
     "spec": "http://www.w3.org/TR/CSS2/visufx.html",
     "sources": []
   },
   {
     "name": "cssposition",
+    "title": "CSS Position Fixed",
     "ring": 1,
     "spec": "http://www.w3.org/TR/CSS21/visuren.html#choose-position",
     "sources": []
   },
   {
     "name": "csstext",
+    "title": "CSS3 Text",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
   },
   {
     "name": "csstext-standard",
+    "title": "CSS3 Text, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
   },
   {
     "name": "csstransforms",
+    "title": "CSS3 2D Transforms",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
@@ -228,6 +260,7 @@
   },
   {
     "name": "csstransforms-standard",
+    "title": "CSS3 2D Transforms, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
@@ -236,36 +269,42 @@
   },
   {
     "name": "csstransitions",
+    "title": "CSS3 Transitions",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
   },
   {
     "name": "csstransitions-standard",
+    "title": "CSS3 Transitions, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
   },
   {
     "name": "cssui",
+    "title": "CSS3 UI",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-ui/",
     "sources": []
   },
   {
     "name": "cssui-standard",
+    "title": "CSS3 UI, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-ui/",
     "sources": []
   },
   {
     "name": "cssvalues",
+    "title": "CSS3 Values",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-values/#rem-unit",
     "sources": []
   },
   {
     "name": "dataset",
+    "title": "Custom Data Attributes",
     "ring": 2,
     "spec": "http://www.w3.org/TR/html5/elements.html#embedding-custom-non-visible-data-with-the-data-attributes",
     "sources": [
@@ -274,6 +313,7 @@
   },
   {
     "name": "dataurl",
+    "title": "Data URL",
     "ring": 0,
     "spec": "http://www.ietf.org/rfc/rfc2397",
     "sources": [
@@ -282,18 +322,21 @@
   },
   {
     "name": "deviceorientation",
+    "title": "Device Orientation Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/orientation-event/",
     "sources": []
   },
   {
     "name": "doctype",
+    "title": "Doctype",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5-diff/",
     "sources": []
   },
   {
     "name": "filereader",
+    "title": "FileReader",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -303,12 +346,14 @@
   },
   {
     "name": "filesaver",
+    "title": "FileSaver",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/#idl-def-FileSaver",
     "sources": []
   },
   {
     "name": "filesystem",
+    "title": "FileSystem",
     "ring": null,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -317,84 +362,98 @@
   },
   {
     "name": "filewriter",
+    "title": "FileWriter",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/",
     "sources": []
   },
   {
     "name": "formdata",
+    "title": "FormData",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/#interface-formdata",
     "sources": []
   },
   {
     "name": "forms",
+    "title": "HTML5 Forms, Inputs",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html#input-type-attr-summary",
     "sources": []
   },
   {
     "name": "fullscreen",
+    "title": "Fullscreen",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html",
     "sources": []
   },
   {
     "name": "geolocation",
+    "title": "Geolocation",
     "ring": 0,
     "spec": "http://www.w3.org/TR/geolocation-API/",
     "sources": []
   },
   {
     "name": "hashchange",
+    "title": "Hashchange",
     "ring": 1,
     "spec": "http://www.w3.org/TR/html5/history.html",
     "sources": []
   },
   {
     "name": "history",
+    "title": "History",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/history.html",
     "sources": []
   },
   {
     "name": "html-media-capture",
+    "title": "Media Capture Input",
     "ring": 1,
     "spec": "http://www.w3.org/TR/html-media-capture/",
     "sources": []
   },
   {
     "name": "html5",
+    "title": "HTML5 Layout & Semantic",
     "ring": 2,
     "spec": "http://www.w3.org/TR/html5/",
     "sources": []
   },
   {
     "name": "iframe",
+    "title": "Iframe Sandboxing",
     "ring": 2,
     "spec": "http://dev.w3.org/html5/spec/the-iframe-element.html#the-iframe-element",
     "sources": []
   },
   {
     "name": "indexeddb",
+    "title": "IndexedDB",
     "ring": 1,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
   },
   {
     "name": "indexeddb-standard",
+    "title": "IndexedDB, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
   },
   {
     "name": "json",
+    "title": "JSON",
     "ring": 0,
     "spec": "http://es5.github.com/x15.12.html",
     "sources": []
   },
   {
     "name": "masking",
+    "title": "Masking Images",
     "ring": 0,
     "spec": "http://www.webkit.org/blog/181/css-masks/",
     "sources": [
@@ -403,6 +462,7 @@
   },
   {
     "name": "multitouch",
+    "title": "Multi Touch Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -411,18 +471,21 @@
   },
   {
     "name": "navigationtiming",
+    "title": "Performance Timing",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/NavigationTiming/Overview.html",
     "sources": []
   },
   {
     "name": "network",
+    "title": "Network Info",
     "ring": 1,
     "spec": "http://www.w3.org/TR/netinfo-api/",
     "sources": []
   },
   {
     "name": "notifications",
+    "title": "Notifications",
     "ring": 2,
     "spec": "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification",
     "sources": [
@@ -431,48 +494,56 @@
   },
   {
     "name": "offline",
+    "title": "Offline Mode",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/#offline",
     "sources": []
   },
   {
     "name": "postmessage",
+    "title": "Web Messaging",
     "ring": 0,
     "spec": "http://www.w3.org/TR/webmessaging/",
     "sources": []
   },
   {
     "name": "progress",
+    "title": "Progress Event",
     "ring": 0,
     "spec": "http://www.w3.org/TR/progress-events/",
     "sources": []
   },
   {
     "name": "prompts",
+    "title": "Prompts",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5/timers.html#user-prompts",
     "sources": []
   },
   {
     "name": "ring-0-performance",
+    "title": "Ring 0 Performance",
     "ring": null,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-1-performance",
+    "title": "Ring 1 Performance",
     "ring": 1,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-2-performance",
+    "title": "Ring 2 Performance",
     "ring": 2,
     "spec": "",
     "sources": []
   },
   {
     "name": "selector",
+    "title": "Selectors 2",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",
     "sources": [
@@ -484,6 +555,7 @@
   },
   {
     "name": "sharedworkers",
+    "title": "SharedWorkers",
     "ring": 2,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": [
@@ -492,24 +564,28 @@
   },
   {
     "name": "svg",
+    "title": "SVG",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "svganimation",
+    "title": "SVG Animation",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "svginline",
+    "title": "SVG Inline",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "touchevents",
+    "title": "Touch Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -518,18 +594,21 @@
   },
   {
     "name": "track",
+    "title": "Video Tracks",
     "ring": 2,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#the-track-element",
     "sources": []
   },
   {
     "name": "vibration",
+    "title": "Vibration",
     "ring": null,
     "spec": "http://www.w3.org/TR/vibration/",
     "sources": []
   },
   {
     "name": "video",
+    "title": "Video",
     "ring": 0,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html",
     "sources": [
@@ -538,18 +617,21 @@
   },
   {
     "name": "viewport",
+    "title": "Viewport",
     "ring": 0,
     "spec": "http://www.w3.org/TR/mwabp/#bp-viewport",
     "sources": []
   },
   {
     "name": "visibilitystate",
+    "title": "Page Visibility",
     "ring": 2,
     "spec": "http://www.w3.org/TR/page-visibility/",
     "sources": []
   },
   {
     "name": "webrtc",
+    "title": "WebRTC (Real time Audio & Video)",
     "ring": 1,
     "spec": "http://www.w3.org/TR/webrtc/",
     "sources": [
@@ -559,18 +641,21 @@
   },
   {
     "name": "webstorage",
+    "title": "Web Storage",
     "ring": 0,
     "spec": "http://dev.w3.org/html5/webstorage/",
     "sources": []
   },
   {
     "name": "webworkers",
+    "title": "Web Workers",
     "ring": 1,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": []
   },
   {
     "name": "xhr2",
+    "title": "XHR2",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/",
     "sources": []

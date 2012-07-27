@@ -86,7 +86,7 @@
   Font.load(function() {
     // |this| is the "Font" api object
     //
-    var head, fixture, clone, fake, src, rule, styles, style,
+    var head, fixture, clone, fake, src, rule, styles, style, isEot,
         doc = document,
         width = null,
         styleNode = doc.createElement("style"),
@@ -100,12 +100,25 @@
     // Loop over types and construct src rule entries
     while ( this.types.length ) {
       src = this.types.shift();
-      if (src.type === "eot" || src.type === "otf") {
-        rules.push("src: ");
-      }
+
+      isEot = src.type === "eot";
+
       rules.push(
+
+        // The first font stands alone, so does the second
+        // is treated as the beginning of its own rule
+        ( isEot || src.type === "otf" ? "src: " : "" ) +
+
+        // All fonts will define a url()
         "url(" + file + src.type + ") " +
-        ( src.format ? "format('" + src.format + "');" : ";" )
+
+        // Most fonts will define a format()
+        ( src.format ? "format('" + src.format + "')" : "" ) +
+
+        // The first font stands alone, so its rule must be closed.
+        // The last font must close the second rule block
+        // All fonts in between will end with a comma
+        ( isEot || this.types.length === 0 ? ";" : "," )
       );
     }
 
@@ -113,7 +126,18 @@
     rules.push("}");
 
     // Join elements to create a single rule string
-    rule = rules.join("");
+    rule = rules.join("\n");
+
+    // The result "rule" Should look similar to:
+    /*
+    @font-face {
+    font-family: 'GothicCustom';
+    src: url(/tests/cssfont/LeagueGothic.eot) ;
+    src: url(/tests/cssfont/LeagueGothic.otf) format('opentype'),
+    url(/tests/cssfont/LeagueGothic.svg) format('svg'),
+    url(/tests/cssfont/LeagueGothic.woff) format('woff');
+    }
+     */
 
     styleNode.id = "csseototf";
     styleNode.innerText = styleNode.textContent = rule;

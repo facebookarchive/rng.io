@@ -14,8 +14,8 @@
   <meta property="og:image" content="http://rng.io/site/img/ringmark.png"/>
   <meta property="fb:admins" content="20901205" />
 
-  <script src="dist/ringmark.min.js"></script>
-  <script src="dist/application.min.js"></script>
+  <script src="dist/ringmark.js"></script>
+  <script src="dist/application.js"></script>
 </head>
 <body>
   <header class="container">
@@ -25,13 +25,23 @@
   <section class="container constrain">
     <canvas id="canvas" width="300" height="300"></canvas>
   </section>
-  <section id="summary" class="container"></section>
-  <section id="report" class="container"></section>
+  <section id="rng-view-summary" class="container"></section>
+  <section id="rng-view-report" class="container"></section>
+
   <aside class="container">
-    <span id="completed"></span>
+    <span id="rng-view-completed"></span>
     <a href="/about">about ringmark,</a>
-    <a href="/history">v1.3.1</a>
+    <a href="/history">v1.4.0pre</a>
   </aside>
+
+  <section id="rng-view-more" class="container">
+    <a href="/apps" class="rng-view-primary-link">What Can I Make With This Device?</a>
+  </section>
+  <section id="rng-view-adevices" class="container">
+    <a href="#" class="rng-view-primary-link">What About Other Devices?</a>
+  </section>
+  <section id="rng-view-devices" class="container hide">
+  </section>
 
 
   <script id="summary-tpl" type="text/template">
@@ -51,6 +61,10 @@
   Testing: <%= title %>...
   </script>
 
+  <script id="devices-tpl" type="text/template">
+    <select id="rng-view-sdevices"><option>Choose...</option><%= options %></select>
+  </script>
+
   <script id="report-tpl" type="text/template">
   <details id="ring<%= ring %>" class="ringdetail">
     <summary class="ring">
@@ -63,7 +77,7 @@
   </details>
   </script>
 
-
+<!--
   <script id="apptype-tpl" type="text/template">
   <details>
     <summary class="apptype">
@@ -73,7 +87,7 @@
     <%= features %>
   </details>
   </script>
-
+ -->
 
   <script id="interrupted-tpl" type="text/template">
   <details id="ring<%= ring %>" class="ringdetail">

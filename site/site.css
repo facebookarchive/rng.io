@@ -264,3 +264,16 @@ details > * {
 .signedoff {
   display: none;
 }
+
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: ;
+}
+
+.rng-view-primary-link {
+  color: #676767;
+}

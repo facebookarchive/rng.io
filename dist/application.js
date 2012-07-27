@@ -13116,8 +13116,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 (function( window, _, $ ) {
 
-  var App,
+  var Rng, stored, params,
       templates = {},
+      nodes = {},
       cache = [],
       storage = {},
       appTypes = {
@@ -13125,90 +13126,83 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       },
       failed = false;
 
-  App = {
+  params = (function() {
+    var query, keyvals, pair, pairs;
 
-    fragments: {},
+    query = window.location.search;
+    keyvals = [];
+    pairs = {};
 
-    root: (function() {
+    if ( query ) {
+      query = query.replace(/\?|\#\w+/g, "");
+      keyvals = query.split("&");
+
+      while ( keyvals.length ) {
+        pair = keyvals.shift().split("=");
+        pairs[ pair[0] ] = pair[1] ? decodeURIComponent( pair[1] ) : true;
+      }
+    }
+    return pairs;
+  }());
+
+  Rng = {
+
+    // node and templates point at the closed over
+    // vars of the same name
+    nodes: nodes,
+    templates: templates,
+
+    fragments: {
+      features: {}
+    },
+
+    isRoot: (function() {
       return location.pathname === "/";
     }()),
 
     // Create key=>value object containing parsed
     // query string params
-    params: (function() {
-      var query = window.location.search,
-          keyvals = [],
-          pairs = {};
+    params: params,
 
-      if ( query ) {
-        query = query.replace(/\?|\#\w+/g, "");
-        keyvals = query.split("&");
-
-        keyvals.forEach(function( keyval ) {
-          var pair = keyval.split("=");
-
-          pairs[ pair[0] ] = pair[1] ? pair[1] : true;
-        });
-      }
-      return pairs;
+    isFake: (function() {
+      return !!params.device;
     }()),
 
-    // Pre run initialization tasks
-    init: function() {
-      // Add a styling hook for whether the browser supports the <details> element
-      //
-      if ( !$.fn.details.support ) {
-        document.documentElement.className += " no-details-elem";
-      }
-
-      // Template pre-compiled and caching technique based on
-      // Irene Ros's approach here:
-      // http://bit.ly/yj5dSb
-      // Query for inline templates
-      var tpls = document.querySelectorAll("script[type='text/template']");
-
-      // Initialize, compile and cache templates
-      [].forEach.call( tpls, function( tpl ) {
-        templates[ tpl.id ] = _.template( tpl.innerHTML );
-      });
-
-
-      // Run app
-      if ( App.root ) {
-        this.run();
-      }
-
-      this.Templates = templates;
-    },
-
-    // Main execution
+    // Execute Ring Runner
     run: function() {
+
       // Create a section elem for use as a temporary container
       // of feature summary HTML.
-      var featureSummary,
-          features = App.Cache.get("features"),
-          apptypes = App.Cache.get("apptypes"),
-          ringheaders = App.Cache.get("ringheaders"),
-          featureCount = 0,
-          section = document.createElement("section"),
-          ul = document.createElement("ul"),
-          ringElems = [],
-          nodes = {
-            report: document.getElementById("report"),
-            summary: document.getElementById("summary"),
-            completed: document.getElementById("completed")
-          };
+      var featureSummary, features, apptypes, ringheaders, featureCount,
+          section, ul;
+
+      // Derive Feature Test data lists from in-memory data store
+      features = Rng.Cache.get("features");
+
+      // Derive App Types data lists from in-memory data store
+      // apptypes = Rng.Cache.get("apptypes");
+
+      // Derive Ring Headers content from in-memory data store
+      ringheaders = Rng.Cache.get("ringheaders");
+
+      // Initialize feature counter, used to display number of
+      // features that are tested in each ring.
+      featureCount = 0;
+
+      // Clonable section node
+      // make intuitive alias
+      section = featureSummary = document.createElement("section");
+
+      // Clonable ul node
+      ul = document.createElement("ul");
 
       // Collect Ring numbers associated with App Types,
       // Get all App Types that are _NOT_ set to defer
-      apptypes.filter( "defer", false ).forEach(function( type ) {
-        if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
-          appTypes.rings.push( type.ring );
-        }
-      });
-
-      // Reassign an intuitive alias
-      featureSummary = section;
+      // apptypes.filter( "defer", false ).forEach(function( type ) {
+      //   if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
+      //     appTypes.rings.push( type.ring );
+      //   }
+      // });
 
       // Configure the id for this runner's universal fixture
       // ** NOTE ** this fixture should _not_ be visible
@@ -13230,6 +13224,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           ring.tick("running");
         }
 
+        // Set the display content of the summary block to show
+        // the currently running Feature Test
         nodes.summary.innerHTML = templates["testing-tpl"]( data );
       });
 
@@ -13239,11 +13235,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         // Log out the feature summary
         console.log( "(" + data.name + "): ", data );
 
-        // storage[ data.name ] = data;
-
         var renderedSummary,
             ring = Ring.get( data.ring ),
-            feature = features.by("name", data.name ),
+            feature = features.by( "name", data.name ),
             displayClass = "pass";
 
         if ( ring && !Array.isArray(ring) ) {
@@ -13255,8 +13249,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           displayClass = "fail";
         }
 
-        // Render the feature's test result summary, add to running
-        // innerHTML string
+        // Render the feature's test result summary,
+        // add to cumulative innerHTML string value
         renderedSummary = templates["feature-tpl"](
           _.extend( data, {
             url: feature.spec || "",
@@ -13278,13 +13272,21 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           })
         );
 
+        // Register feature results to in-memory storage table
+        storage[ data.name ] = {
+          results: data,
+          rendered: renderedSummary
+        };
+
         // If this Ring has no associated App Types, display test results
         // directly under Ring header
-        if ( appTypes.rings.indexOf( data.ring ) === -1 ) {
+        if ( !Rng.isFake ) {
           featureSummary.innerHTML += renderedSummary;
         }
 
-        App.fragments[ data.name ] = renderedSummary;
+        // Register the newly rendered summary in the cache of feature
+        // test result fragments (which are actually strings of HTML)
+        Rng.fragments.features[ data.name ] = renderedSummary;
 
         featureCount++;
       });
@@ -13308,97 +13310,60 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           html[ key ] = templates[ key + "-tpl" ]( data );
         });
 
-        // Add the new Ring container to the DOM.
-        nodes.report.innerHTML += html.report;
+        if ( !Rng.isFake ) {
+          // Add the new Ring container to the DOM.
+          nodes.report.innerHTML += html.report;
 
-        // Change DOM text from saying "running..." to "Completed X Features"
-        // when the runner is complete
-        nodes.summary.innerHTML = html.summary;
+          // Change DOM text from saying "running..." to "Completed X Features"
+          // when the runner is complete
+          nodes.summary.innerHTML = html.summary;
 
-        // Once the summary block is completely injected,
-        // get a reference to the current ring's summary element
-        details = document.getElementById( "ring" + data.ring );
+          // Once the summary block is completely injected,
+          // get a reference to the current ring's summary element
+          details = document.getElementById( "ring" + data.ring );
 
-        // If this Ring has no associated App Types, display test results
-        // directly under Ring header
-        if ( appTypes.rings.indexOf( data.ring ) === -1 ) {
           // Fill the ring container that we just added with feature
           // summaries..
           details.innerHTML += featureSummary.innerHTML;
+
+          // If the test has failed, set the lexical `failed` flag to true
+          // Update the ringSummaryClass to display grey text
+          if ( data.failed ) {
+            failed = true;
+            ringSummaryClass = "ringfailed";
+          }
+
+          details.querySelector("summary").setAttribute("class", "ring " + ringSummaryClass );
+
+
+          // ringdetail
+          // Add the proper behaviour for the <details>
+          // element where it doesn't exist
+          // if ( !$.fn.details.support ) {
+          //   $("details").details();
+          // }
+
+          // Clear the detached section elem.
+          featureSummary.innerHTML = "";
         } else {
 
-          // Filter stored app types by Ring number
-          appTypes.filtered = apptypes.filter( "ring", data.ring );
-
-          // Allow only apptypes whose `defer` property is set to false
-          appTypes.filtered = appTypes.filtered.filter(function( apptype ) {
-            return !apptype.defer;
-          });
-
-          // Create a new array of rendered HTML strings based on the
-          // filtered app types for this Ring number
-          appTypes.rendered = appTypes.filtered.map(function( apptype ) {
-
-            // Return the fully rendered "apptype" fragment
-            return templates[ "apptype-tpl" ]({
-              // Set the "apptype" display name
-              name: apptype.name,
-              // Apptype description
-              description: apptype.description,
-              // Set the features listed for this "apptype" to
-              // a rendered string of HTML fragments, derived from
-              // previously rendered templates stored in memory.
-              // These map 1-to-1, "feature" => "feature"
-              features: (function() {
-                var inner = "";
-
-                // Iterate all features associated with this "apptype"
-                // and concatenate the existing, rendered HTML fragment
-                // string to a local variable.
-                apptype.features.sort().forEach(function( feature ) {
-                  inner += App.fragments[ feature ];
-                });
-
-                // Return the local variable containing the
-                // concatenation result of all feature HTML
-                return inner;
-              }())
-            });
-          });
-
-          details.innerHTML += appTypes.rendered.join("\n");
+          nodes.summary.innerHTML = Rng.params.device;
         }
-
-        // If the test has failed, set the lexical `failed` flag to true
-        // Update the ringSummaryClass to display grey text
-        if ( data.failed ) {
-          failed = true;
-          ringSummaryClass = "ringfailed";
-        }
-
-        details.querySelector("summary").setAttribute("class", "ring " + ringSummaryClass );
-
-
-        // ringdetail
-        // Add the proper behaviour for the <details> element where it doesn't exist
-        if ( !$.fn.details.support ) {
-          $("details").details();
-        }
-
-        // Clear the detached section elem.
-        featureSummary.innerHTML = "";
       });
 
       // Change DOM text from saying "running..." to "tests complete"
       // when the runner is complete
       var completed = 0;
 
+
       Hat.on("runner:done", function( data ) {
-        var override = false;
+        var override;
+
+        override = false;
 
         completed++;
 
-        if ( !App.params.all && completed < Hat.ring.cache.length && failed ) {
+        if ( !Rng.params.all && completed < Hat.ring.cache.length && failed ) {
           override = true;
         }
 
@@ -13408,18 +13373,20 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           // r0.-------------
           // r1.-------------
           // r2.-------------
-          nodes.summary.innerHTML = templates["finished-tpl"]();
 
-          nodes.completed.innerHTML = templates["completed-tpl"]({
-            featureCount: featureCount,
-            total: Hat.ring.totals().all
-          });
+          if ( !Rng.isFake ) {
+            nodes.summary.innerHTML = templates["finished-tpl"]();
 
-          // Store results of tests on this particular device;
-          // These will be used by the App Types feature
-          // localStorage.setItem( "ringmark", JSON.stringify({
-          //   results: storage
-          // }));
+            nodes.completed.innerHTML = templates["completed-tpl"]({
+              featureCount: featureCount,
+              total: Hat.ring.totals().all
+            });
+
+
+            // Store results of tests on this particular device;
+            // These will be used by the App Types feature
+            Rng.Store.set( "results", storage );
+          }
         }
 
         // If no override flag was present and the current ring has failed,
@@ -13440,20 +13407,182 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Only run the rings if we're in the site's root
       // Prevent running on /about, /developer, etc.
-      if ( App.root ) {
-        Hat.start();
+      if ( Rng.isRoot ) {
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // TODO: Rng.run() needs to determine if this is a
+        //       normal run or a "recreation" and substitute
+        //       the data accordingly
+        if ( Rng.params.device ) {
+
+          Rng.regenerate();
+
+        } else {
+
+          // Begin normal run
+          Hat.start();
+        }
       }
     },
 
-    // Caching interface
+    regenerate: function() {
+      var browserscope, process;
+
+      browserscope = Rng.Store.get("browserscope");
+
+      process = function() {
+        var data, features;
+
+        data = browserscope.all.results[ Rng.params.device ].results;
+
+        features = Rng.Cache.get("features");
+
+        // console.log( data );
+        // console.log( features );
+
+        // filter("ring", 2)
+
+
+        [ 0, 1, 2 ].forEach(function( ring, k ) {
+
+          var feats = features.filter( "ring", ring ),
+              failed = 0,
+              passed = 0;
+
+          feats.forEach(function( feat ) {
+            var isOk = true;
+
+            // console.log( feat );
+
+            // Hat.emit( "runner:featureStart", feat );
+
+            // Make async by waiting until the stack unwinds...
+            setTimeout(function() {
+              var result = data[ feat.name ] ?
+                    +data[ feat.name ].result : isOk;
+
+              isOk = !!result;
+
+              // console.log( feat.name, isOk, data[ feat.name ].result );
+              Hat.emit( "runner:featureDone", {
+                assertion: "",
+                assertions: [],
+                displayClass: isOk ? "pass" : "fail",
+                failed: isOk ? 0 : 1,
+                passed: isOk ? 1 : 0,
+                name: feat.name,
+                ring: feat.ring,
+                title: feat.title,
+                total: 1,
+                url: feat.url
+                // assertion: "↵  <dt class="fail">&nbsp;</dt><dd>animationName standard, supported</dd>↵  "
+                // assertions: Array[1]
+                // displayClass: "fail"
+                // failed: 1
+                // name: "cssanimation-standard"
+                // passed: 0
+                // ring: 1
+                // title: "CSS3 Animation, Standard"
+                // total: 1
+                // url: "http://www.w3.org/TR/css3-animations/"
+              });
+            }, 0);
+
+            failed += !isOk ? 1 : 0;
+            passed += isOk ? 1 : 0;
+          });
+
+          Hat.emit( "runner:ringDone", {
+            ring: ring,
+            failed: failed,
+            passed: passed,
+            name: "ring:" + ring,
+            total: failed + passed
+            // description: "This is functionality that's widely available and mobile web app developers build upon today."
+            // failed: 0
+            // name: "ring:0"
+            // passed: 97
+            // ring: 0
+            // total: 97
+          });
+        });
+      };
+
+      if ( browserscope === null ) {
+
+        // request and process
+      } else {
+
+        // process
+        //
+        process();
+      }
+
+      console.log( Rng.Store.get("browserscope"), Rng.params.device );
+
+
+      // if browserscope data exists, regenerate immediately
+      //
+
+
+      //
+
+
+    },
+
+
+
+
+    // Cache register (get it??)
     register: function( key, array ) {
-      new App.Cache( key, array );
+      new Rng.Cache( key, array );
+    }
+  };
+
+
+
+  // Store
+  // parsed localStorage object accessors
+  //
+  // initialized at top of scope
+  stored = JSON.parse( localStorage.getItem("ringmark") );
+
+  // If nothing has been stored previouslt (first visit?),
+  // set up an empty localStorage slot and an empty stored object
+  if ( stored === null ) {
+    localStorage.setItem( "ringmark", JSON.stringify({}) );
+    stored = {};
+  }
+
+  Rng.Store = {
+    get: function( key ) {
+      // References closed over |stored| var
+      return stored[ key ];
+    },
+    set: function( key, value ) {
+      var current = JSON.parse( localStorage.getItem("ringmark") );
+
+      // If no current data stored in localStorage
+      if ( current === null ) {
+        current = {};
+      }
+
+      // Define and Assign |value| to property |key|
+      current[ key ] = value;
+
+      // Update the "ringmark" storage
+      localStorage.setItem( "ringmark", JSON.stringify(current) );
+
+      stored = current;
+
+      return true;
     }
   };
 
   // Cache( key, array )
   // construct cached data array instances
-  App.Cache = function( key, array ) {
+  Rng.Cache = function( key, array ) {
     this.key = key;
     this.array = array;
 
@@ -13464,7 +13593,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 
   // Get cached objects from instance array by matching property to value
-  App.Cache.prototype.by = function( prop, value ) {
+  Rng.Cache.prototype.by = function( prop, value ) {
     var ret,
         i = 0,
         length = this.array.length;
@@ -13480,13 +13609,13 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   };
 
   // Get the first cached object from instance array
-  App.Cache.prototype.first = function( prop, value ) {
+  Rng.Cache.prototype.first = function( prop, value ) {
     return this.array[ 0 ];
   };
 
   // Get an array of cached objects from instance array
   // by matching property to value
-  App.Cache.prototype.filter = function( prop, value ) {
+  Rng.Cache.prototype.filter = function( prop, value ) {
     var ret = [],
         i = 0,
         length = this.array.length;
@@ -13502,7 +13631,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   };
 
   // Static function for cache instance retrieval
-  App.Cache.get = function( key ) {
+  Rng.Cache.get = function( key ) {
     var ret,
         i = 0,
         length = cache.length;
@@ -13517,16 +13646,350 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     return [];
   };
 
+  // Rng.Views() <constructor function>
+  //
+  // Initialize primary view and any subviews
+  // if they exist and were requested.
+  //
+  // Rng.Views <function object>
+  //
+  // Attach all sub views as "static" props to this function
+  // Views should be used for special UI handler cases,
+  // including:
+  //
+  //  - Display
+  //  - Events
+  //  - UI Manipulation
+  //
 
-  App.History = {
-    init: function() {
-      $("[data-browserscope]").html(function() {
-        return App.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
+  Rng.Views = function( initializer, callback ) {
+    var context, isValid;
+
+    context = context || Rng.Views[ initializer ];
+    isValid = !!(context && context.init);
+
+    // console.log( initializer, context, callback );
+
+    if ( isValid ) {
+      // Initialize and cache DOM nodes for this view
+      // providing the initializer context
+      Rng.Views.dom.init( context, function() {
+        callback.call( context );
       });
     }
   };
 
-  window.App = App;
+  Rng.Views.dom = {
+    ready: false,
+    init: function( context, callback ) {
+
+      if ( !this.ready ) {
+
+        // Inject <details> support where nec.
+        if ( !$.fn.details.support ) {
+          document.documentElement.className += " no-details-elem";
+        }
+
+        // Template pre-compiled and caching technique based on
+        // Irene Ros's approach here:
+        // http://bit.ly/yj5dSb
+        // Query for inline templates
+        var tpls = document.querySelectorAll("script[type='text/template']");
+
+        // Initialize, compile and cache templates
+        [].forEach.call( tpls, function( tpl ) {
+
+          // This "templates" is a closed over var in IIFE scope
+          templates[ tpl.id ] = _.template( tpl.innerHTML );
+        });
+
+        // Iterate list of common view selectors and cache matching nodes
+        this.common.selectors.forEach(function( key ) {
+          var node;
+
+          // Omitting the usual try/catch in favor of simplifying selectors
+          // this way, they shouldn't be hard to add new and find them
+          node = document.querySelector( "#rng-view-" + key );
+
+          // If a valid node was found, add it to the closed over "nodes"
+          if ( node ) {
+            nodes[ key ] = node;
+          }
+        });
+
+        // console.log( "DOM View nodes prepared", nodes );
+        // console.log( "Rng.Views.dom.ready set", Rng.Views.dom );
+
+        // Set DOM View ready flag to true
+        this.ready = true;
+      }
+
+      // Call async
+      setTimeout(function() {
+        callback.call( context );
+      }, 0 );
+    },
+    common: {
+
+      selectors: [
+        // These are auto-prefixed with
+        // "#rng-view-" when qS is called
+        "back",
+        "completed",
+        "more",
+        "report",
+        "summary",
+        "title",
+        "devices",
+        "adevices",
+        "sdevices"
+      ]
+    }
+  };
+
+
+  // The Default "Ring Runner" view
+  Rng.Views.Default = {
+    init: function() {
+
+      var isWaiting = false;
+
+      if ( Rng.isFake ) {
+        nodes.more.parentNode.removeChild( nodes.more );
+      }
+
+      // This cant happen until after the data is loaded from Browserscope
+      nodes.adevices.addEventListener("click", function __click( event ) {
+        event.preventDefault();
+
+        if ( nodes.devices.childNodes.length === 0 ) {
+          return;
+        }
+
+        nodes.adevices.removeEventListener("click", __click, false);
+        nodes.devices.setAttribute("class", "container show");
+        event.target.parentNode.removeChild(event.target);
+      }, false);
+
+      // Immediately begin requesting browserscope data
+      Rng.Request.jsonp(
+        "http://www.browserscope.org/user/tests/table/" + Rng.Browserscope.keys.all + "?v=top-m&o=json",
+        function( data ) {
+
+          Rng.Store.set( "browserscope", {
+            all: data,
+            rings: null
+          });
+
+          nodes.devices.innerHTML = templates["devices-tpl"]({
+            options: (function() {
+              return Object.keys( data.results ).map(function( key ) {
+                return "<option value='" + key + "'>" + key + "</option>";
+              });
+            }())
+          });
+
+          // Let the stack unwind, then add an event listener
+          // TODO: FIX THIS. IT'S AWFUL
+          setTimeout(function() {
+            nodes.devices.querySelector("select").addEventListener("change", function() {
+              if ( this.value ) {
+                window.location = "/?device=" + encodeURIComponent(this.value);
+                console.log( this.value );
+              }
+            });
+          }, 0);
+      });
+
+      console.log( "Rng.Views.Default", this );
+    }
+  };
+
+  // The "History" view, when accessed from rng.io/history
+  Rng.Views.History = {
+    init: function() {
+      console.log( "INITIALIZE APP.VIEW: History" );
+
+      $("[data-browserscope]").html(function() {
+        return Rng.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
+      });
+    }
+  };
+
+  // The "Apps" view, when accessed from rng.io/apps
+  Rng.Views.Apps = {
+    init: function() {
+      console.log( "INITIALIZE APP.VIEW: Apptypes", nodes );
+
+      var apptypes, features, html, results;
+
+      // Derive stored Ring result data
+      results = Rng.Store.get("results");
+
+      // If nothing was previously stored, the tests must
+      // be run on this device, prompt user to return to
+      // main rng.io for device tests
+      if ( results === null ) {
+
+        nodes.back.parentNode.removeChild( nodes.back );
+
+        nodes.title.innerHTML =
+          templates["url-tpl"]({
+            href: "/",
+            text: "Run tests for this device"
+          });
+        return;
+      }
+
+      // Derive App Types data lists from in-memory data store
+      apptypes = Rng.Cache.get("apptypes");
+
+      // Collect Ring numbers associated with App Types,
+      // Get all App Types that are _NOT_ set to defer
+      apptypes.filter( "defer", false ).forEach(function( type ) {
+        if ( appTypes.rings.indexOf( type.ring ) === -1 ) {
+          appTypes.rings.push( type.ring );
+        }
+      });
+
+      // console.log( "appTypes", appTypes );
+      console.log( "apptypes", apptypes );
+
+
+      // Set an initial empty string value to `html`
+      // to concat with compound arg += without exception
+      html = "";
+
+
+      // Allow only apptypes whose `defer` property is set to false
+      appTypes.filtered = apptypes.filter( "defer", false ).filter(function( apptype ) {
+        return !apptype.defer;
+      });
+
+
+      appTypes.rings.forEach(function( ring, k ) {
+
+        // If a param id is present, coerce the string
+        // value to a number for comparison to the ring number
+        //
+        // If this ring does not match the param id, then
+        // app types will not be displayed.
+        if ( Object.keys(Rng.params).length && !Rng.params[ring] ) {
+          return;
+        }
+
+
+        // Create a new array of rendered HTML strings based on the
+        // filtered app types for this Ring number
+        appTypes.rendered = appTypes.filtered.filter(function( apptype ) {
+          return apptype.ring === ring;
+        }).map(function( apptype ) {
+
+          console.log( apptype, apptype.ring, apptype.name );
+
+          // Return the fully rendered "apptype" fragment
+          return templates[ "apptype-tpl" ]({
+            ring: ring,
+            // Set the "apptype" display name
+            name: apptype.name,
+            // Apptype description
+            description: apptype.description,
+            // Set the features listed for this "apptype" to
+            // a rendered string of HTML fragments, derived from
+            // previously rendered templates stored in memory.
+            // These map 1-to-1, "feature" => "feature"
+            features: (function() {
+              var inner = "";
+
+              // Iterate all features associated with this "apptype"
+              // and concatenate the existing, rendered HTML fragment
+              // string to a local variable.
+              apptype.features.sort().forEach(function( feature ) {
+                var fromCache = results[ feature ];
+
+                if ( fromCache !== undefined ) {
+                  inner += fromCache.rendered || "";
+                }
+              });
+
+              // Return the local variable containing the
+              // concatenation result of all feature HTML
+              return inner;
+            }())
+          });
+        });
+
+        html += appTypes.rendered.join("\n");
+      });
+
+      // Inject the rendered HTML string into the report area
+      if ( !Rng.isFake ) {
+        nodes.report.innerHTML = html;
+      }
+    }
+  };
+
+
+  // Make async resources requests
+  // (Use to request JSONP from Browserscope)
+  Rng.Request = {
+
+    uid: 0,
+
+    // JSONP callback cache
+    callbacks: {},
+
+    // Request JSONP rfom Remote resource
+    jsonp: function( url, callback ) {
+      var name, head, script;
+
+      name = "rng_" + (Rng.Request.uid++);
+      head = document.head;
+      script = document.createElement("script");
+
+      // Register a callback in Rng.Request.callbacks
+      this.callbacks[ name ] = function( data ) {
+        callback( data );
+
+        delete Rng.Request.callbacks[ name ];
+      };
+
+      // When the script is loaded, remove the node from the head
+      // remove the callback from the cache;
+      script.onload = function( ) {
+        head.removeChild( script );
+      };
+
+      // Any benefits?
+      script.async = true;
+
+      // Set script element src
+      // Instead of polluting the global object with callbacks,
+      // use callbacks cache object instead
+      script.src = url + "&callback=Rng.Request.callbacks." + name;
+
+      // Insert script node into document head to
+      // initialize HTTP load request
+      head.appendChild( script );
+    }
+  };
+
+
+  // Expose Rng namespace w/ legacy identifier
+  window.App = window.Rng = Rng;
+
+  window.Ringmark = function( initializer ) {
+    initializer = initializer !== null ? initializer : "Default";
+
+
+    Rng.Views( initializer, function() {
+      Rng.Views[ initializer ].init();
+
+      if ( Rng.isRoot ) {
+        Rng.run();
+      }
+    });
+  };
 
 
 }( this, this._, this.jQuery ));
@@ -13534,18 +13997,21 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 App.register( "features", [
   {
     "name": "animationtiming",
+    "title": "Animation Timing",
     "ring": 2,
     "spec": "http://www.w3.org/TR/animation-timing/",
     "sources": []
   },
   {
     "name": "appcache",
+    "title": "Application Cache",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5/offline.html",
     "sources": []
   },
   {
     "name": "audio-multi",
+    "title": "Audio, Multi-Track",
     "ring": 1,
     "spec": "",
     "sources": [
@@ -13559,48 +14025,56 @@ App.register( "features", [
   },
   {
     "name": "blob",
+    "title": "Blob",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/#dfn-Blob",
     "sources": []
   },
   {
     "name": "blobbuilder",
+    "title": "BlobBuilder",
     "ring": null,
     "spec": "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface",
     "sources": []
   },
   {
     "name": "canvas",
+    "title": "Canvas",
     "ring": 0,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html",
     "sources": []
   },
   {
     "name": "canvas-3d",
+    "title": "Canvas 3D",
     "ring": 2,
     "spec": "https://www.khronos.org/registry/webgl/specs/latest/",
     "sources": []
   },
   {
     "name": "canvas-3d-standard",
+    "title": "Canvas 3D, Standard",
     "ring": 2,
     "spec": "https://www.khronos.org/registry/webgl/specs/latest/",
     "sources": []
   },
   {
     "name": "css-unspecified",
+    "title": "CSS Unspecified",
     "ring": 2,
     "spec": "",
     "sources": []
   },
   {
     "name": "css2-1selectors",
+    "title": "CSS 2.1",
     "ring": 0,
     "spec": "http://www.w3.org/TR/CSS2/selector.html",
     "sources": []
   },
   {
     "name": "css3dtransforms",
+    "title": "CSS 3D Transforms",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-3d-transforms/",
     "sources": [
@@ -13610,18 +14084,21 @@ App.register( "features", [
   },
   {
     "name": "cssanimation",
+    "title": "CSS3 Animation",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
   },
   {
     "name": "cssanimation-standard",
+    "title": "CSS3 Animation, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
   },
   {
     "name": "cssbackground",
+    "title": "CSS3 Background",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -13630,6 +14107,7 @@ App.register( "features", [
   },
   {
     "name": "cssbackground-standard",
+    "title": "CSS3 Background, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -13638,6 +14116,7 @@ App.register( "features", [
   },
   {
     "name": "cssborderimage",
+    "title": "CSS3 BorderImage",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -13646,6 +14125,7 @@ App.register( "features", [
   },
   {
     "name": "csscolor",
+    "title": "CSS3 Color",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-color/",
     "sources": [
@@ -13654,6 +14134,7 @@ App.register( "features", [
   },
   {
     "name": "csscolor-standard",
+    "title": "CSS3 Color, Standard",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-color/",
     "sources": [
@@ -13662,6 +14143,7 @@ App.register( "features", [
   },
   {
     "name": "csselement",
+    "title": "CSS Element",
     "ring": 2,
     "spec": "",
     "sources": [
@@ -13672,6 +14154,7 @@ App.register( "features", [
   },
   {
     "name": "cssflexbox",
+    "title": "CSS3 Flexbox",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-flexbox/",
     "sources": [
@@ -13680,6 +14163,7 @@ App.register( "features", [
   },
   {
     "name": "cssflexbox-standard",
+    "title": "CSS3 Flexbox, Standard",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-flexbox",
     "sources": [
@@ -13688,6 +14172,7 @@ App.register( "features", [
   },
   {
     "name": "cssfont",
+    "title": "CSS3 Fonts",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-fonts/",
     "sources": [
@@ -13697,18 +14182,21 @@ App.register( "features", [
   },
   {
     "name": "cssimages",
+    "title": "CSS3 Images",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-images/",
     "sources": []
   },
   {
     "name": "cssimages-standard",
+    "title": "CSS3 Images, Standard",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-images/",
     "sources": []
   },
   {
     "name": "cssmediaqueries",
+    "title": "CSS3 MediaQueries",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-mediaqueries/",
     "sources": [
@@ -13717,42 +14205,49 @@ App.register( "features", [
   },
   {
     "name": "cssminmax",
+    "title": "CSS Min, Max",
     "ring": 0,
     "spec": "http://www.w3.org/TR/CSS21/visudet.html#min-max-widths",
     "sources": []
   },
   {
     "name": "cssoverflow",
+    "title": "CSS Overflow Scrolling",
     "ring": 1,
     "spec": "http://www.w3.org/TR/CSS2/visufx.html",
     "sources": []
   },
   {
     "name": "cssoverflow-standard",
+    "title": "CSS Overflow Scrolling, Standard",
     "ring": 2,
     "spec": "http://www.w3.org/TR/CSS2/visufx.html",
     "sources": []
   },
   {
     "name": "cssposition",
+    "title": "CSS Position Fixed",
     "ring": 1,
     "spec": "http://www.w3.org/TR/CSS21/visuren.html#choose-position",
     "sources": []
   },
   {
     "name": "csstext",
+    "title": "CSS3 Text",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
   },
   {
     "name": "csstext-standard",
+    "title": "CSS3 Text, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
   },
   {
     "name": "csstransforms",
+    "title": "CSS3 2D Transforms",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
@@ -13761,6 +14256,7 @@ App.register( "features", [
   },
   {
     "name": "csstransforms-standard",
+    "title": "CSS3 2D Transforms, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
@@ -13769,36 +14265,42 @@ App.register( "features", [
   },
   {
     "name": "csstransitions",
+    "title": "CSS3 Transitions",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
   },
   {
     "name": "csstransitions-standard",
+    "title": "CSS3 Transitions, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
   },
   {
     "name": "cssui",
+    "title": "CSS3 UI",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-ui/",
     "sources": []
   },
   {
     "name": "cssui-standard",
+    "title": "CSS3 UI, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-ui/",
     "sources": []
   },
   {
     "name": "cssvalues",
+    "title": "CSS3 Values",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-values/#rem-unit",
     "sources": []
   },
   {
     "name": "dataset",
+    "title": "Custom Data Attributes",
     "ring": 2,
     "spec": "http://www.w3.org/TR/html5/elements.html#embedding-custom-non-visible-data-with-the-data-attributes",
     "sources": [
@@ -13807,6 +14309,7 @@ App.register( "features", [
   },
   {
     "name": "dataurl",
+    "title": "Data URL",
     "ring": 0,
     "spec": "http://www.ietf.org/rfc/rfc2397",
     "sources": [
@@ -13815,18 +14318,21 @@ App.register( "features", [
   },
   {
     "name": "deviceorientation",
+    "title": "Device Orientation Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/orientation-event/",
     "sources": []
   },
   {
     "name": "doctype",
+    "title": "Doctype",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5-diff/",
     "sources": []
   },
   {
     "name": "filereader",
+    "title": "FileReader",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -13836,12 +14342,14 @@ App.register( "features", [
   },
   {
     "name": "filesaver",
+    "title": "FileSaver",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/#idl-def-FileSaver",
     "sources": []
   },
   {
     "name": "filesystem",
+    "title": "FileSystem",
     "ring": null,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -13850,84 +14358,98 @@ App.register( "features", [
   },
   {
     "name": "filewriter",
+    "title": "FileWriter",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/",
     "sources": []
   },
   {
     "name": "formdata",
+    "title": "FormData",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/#interface-formdata",
     "sources": []
   },
   {
     "name": "forms",
+    "title": "HTML5 Forms, Inputs",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html#input-type-attr-summary",
     "sources": []
   },
   {
     "name": "fullscreen",
+    "title": "Fullscreen",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html",
     "sources": []
   },
   {
     "name": "geolocation",
+    "title": "Geolocation",
     "ring": 0,
     "spec": "http://www.w3.org/TR/geolocation-API/",
     "sources": []
   },
   {
     "name": "hashchange",
+    "title": "Hashchange",
     "ring": 1,
     "spec": "http://www.w3.org/TR/html5/history.html",
     "sources": []
   },
   {
     "name": "history",
+    "title": "History",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/history.html",
     "sources": []
   },
   {
     "name": "html-media-capture",
+    "title": "Media Capture Input",
     "ring": 1,
     "spec": "http://www.w3.org/TR/html-media-capture/",
     "sources": []
   },
   {
     "name": "html5",
+    "title": "HTML5 Layout & Semantic",
     "ring": 2,
     "spec": "http://www.w3.org/TR/html5/",
     "sources": []
   },
   {
     "name": "iframe",
+    "title": "Iframe Sandboxing",
     "ring": 2,
     "spec": "http://dev.w3.org/html5/spec/the-iframe-element.html#the-iframe-element",
     "sources": []
   },
   {
     "name": "indexeddb",
+    "title": "IndexedDB",
     "ring": 1,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
   },
   {
     "name": "indexeddb-standard",
+    "title": "IndexedDB, Standard",
     "ring": 1,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
   },
   {
     "name": "json",
+    "title": "JSON",
     "ring": 0,
     "spec": "http://es5.github.com/x15.12.html",
     "sources": []
   },
   {
     "name": "masking",
+    "title": "Masking Images",
     "ring": 0,
     "spec": "http://www.webkit.org/blog/181/css-masks/",
     "sources": [
@@ -13936,6 +14458,7 @@ App.register( "features", [
   },
   {
     "name": "multitouch",
+    "title": "Multi Touch Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -13944,18 +14467,21 @@ App.register( "features", [
   },
   {
     "name": "navigationtiming",
+    "title": "Performance Timing",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/NavigationTiming/Overview.html",
     "sources": []
   },
   {
     "name": "network",
+    "title": "Network Info",
     "ring": 1,
     "spec": "http://www.w3.org/TR/netinfo-api/",
     "sources": []
   },
   {
     "name": "notifications",
+    "title": "Notifications",
     "ring": 2,
     "spec": "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification",
     "sources": [
@@ -13964,48 +14490,56 @@ App.register( "features", [
   },
   {
     "name": "offline",
+    "title": "Offline Mode",
     "ring": 1,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/#offline",
     "sources": []
   },
   {
     "name": "postmessage",
+    "title": "Web Messaging",
     "ring": 0,
     "spec": "http://www.w3.org/TR/webmessaging/",
     "sources": []
   },
   {
     "name": "progress",
+    "title": "Progress Event",
     "ring": 0,
     "spec": "http://www.w3.org/TR/progress-events/",
     "sources": []
   },
   {
     "name": "prompts",
+    "title": "Prompts",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5/timers.html#user-prompts",
     "sources": []
   },
   {
     "name": "ring-0-performance",
+    "title": "Ring 0 Performance",
     "ring": null,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-1-performance",
+    "title": "Ring 1 Performance",
     "ring": 1,
     "spec": "",
     "sources": []
   },
   {
     "name": "ring-2-performance",
+    "title": "Ring 2 Performance",
     "ring": 2,
     "spec": "",
     "sources": []
   },
   {
     "name": "selector",
+    "title": "Selectors 2",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",
     "sources": [
@@ -14017,6 +14551,7 @@ App.register( "features", [
   },
   {
     "name": "sharedworkers",
+    "title": "SharedWorkers",
     "ring": 2,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": [
@@ -14025,24 +14560,28 @@ App.register( "features", [
   },
   {
     "name": "svg",
+    "title": "SVG",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "svganimation",
+    "title": "SVG Animation",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "svginline",
+    "title": "SVG Inline",
     "ring": 2,
     "spec": "http://www.w3.org/TR/SVG/",
     "sources": []
   },
   {
     "name": "touchevents",
+    "title": "Touch Event",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -14051,18 +14590,21 @@ App.register( "features", [
   },
   {
     "name": "track",
+    "title": "Video Tracks",
     "ring": 2,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#the-track-element",
     "sources": []
   },
   {
     "name": "vibration",
+    "title": "Vibration",
     "ring": null,
     "spec": "http://www.w3.org/TR/vibration/",
     "sources": []
   },
   {
     "name": "video",
+    "title": "Video",
     "ring": 0,
     "spec": "http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html",
     "sources": [
@@ -14071,18 +14613,21 @@ App.register( "features", [
   },
   {
     "name": "viewport",
+    "title": "Viewport",
     "ring": 0,
     "spec": "http://www.w3.org/TR/mwabp/#bp-viewport",
     "sources": []
   },
   {
     "name": "visibilitystate",
+    "title": "Page Visibility",
     "ring": 2,
     "spec": "http://www.w3.org/TR/page-visibility/",
     "sources": []
   },
   {
     "name": "webrtc",
+    "title": "WebRTC (Real time Audio & Video)",
     "ring": 1,
     "spec": "http://www.w3.org/TR/webrtc/",
     "sources": [
@@ -14092,18 +14637,21 @@ App.register( "features", [
   },
   {
     "name": "webstorage",
+    "title": "Web Storage",
     "ring": 0,
     "spec": "http://dev.w3.org/html5/webstorage/",
     "sources": []
   },
   {
     "name": "webworkers",
+    "title": "Web Workers",
     "ring": 1,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": []
   },
   {
     "name": "xhr2",
+    "title": "XHR2",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/",
     "sources": []
@@ -14370,7 +14918,7 @@ App.register( "apptypes", [
     "name": "Supplements to Web Apps",
     "ring": 2,
     "description": "These features apply to most web apps and make the user experience better.",
-    "defer": false,
+    "defer": true,
     "features": [
       "cssborderimage",
       "csselement",
@@ -14430,7 +14978,7 @@ App.register( "ringheaders", [
   var beacon = 0,
       completed = 0,
       failed = false,
-      keys = App.Cache.get("browserscopekeys").first(),
+      keys = Rng.Cache.get("browserscopekeys").first(),
       scripts = {
         all: document.createElement("script"),
         rings: document.createElement("script")
@@ -14459,8 +15007,12 @@ App.register( "ringheaders", [
 
     completed++;
 
+    if ( Rng.isFake ) {
+      return;
+    }
+
     // console.log( completed, Hat.ring.cache.length, failed, all );
-    if ( !App.params.all && completed < Hat.ring.cache.length && failed ) {
+    if ( !Rng.params.all && completed < Hat.ring.cache.length && failed ) {
       override = true;
     }
 
@@ -14499,34 +15051,31 @@ App.register( "ringheaders", [
   window.__results = results;
 
   window._bTestBeaconCallback = function( data ) {
-    if ( ++beacon === 2 && App.params.referrer ) {
+    if ( ++beacon === 2 && Rng.params.referrer ) {
       // If sent from browserscope, return to browserscope. #454
-      if ( App.params.referrer === "browserscope" && App.params["continue"] ) {
-        // console.log( window.decodeURIComponent(App.params["continue"]) );
-        window.location.href = window.decodeURIComponent( App.params["continue"] );
+      if ( Rng.params.referrer === "browserscope" && Rng.params["continue"] ) {
+        // console.log( window.decodeURIComponent(Rng.params["continue"]) );
+        window.location.href = window.decodeURIComponent( Rng.params["continue"] );
       }
     }
 
     console.log( "_bTestBeaconCallback completed: ", beacon );
   };
 
-  window.App.Browserscope = window.App.Browserscope || {
+  window.Rng.Browserscope = window.Rng.Browserscope || {
     keys: keys
   };
 }( this ) );
 
 document.addEventListener( "DOMContentLoaded", function() {
 
-  // Initialize the entire Application
-  App.init();
-
   // Derive a sub app initializer
-  var sub = location.pathname.replace( /\//g, "" ),
-      initializer = sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null;
+  var sub = location.pathname.replace( /\//g, "" );
 
-  if ( initializer && App[ initializer ] && App[ initializer ].init ) {
-    App[ initializer ].init();
-  }
+  new Ringmark(
+    sub.length ? sub[0].toUpperCase() + sub.slice(1).toLowerCase() : null
+  );
+
 }, false );
 
 window.onload = function() {

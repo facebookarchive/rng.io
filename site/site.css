@@ -107,8 +107,11 @@ summary {
 .apptype {
   font-size: 12px;
   padding: 4px 10px 6px 10px;
-  color: rgb(103, 103,103);
-  background: #fff;
+/*  color: rgb(103, 103,103);
+  background: #fff;*/
+  color: #fff;
+  background: #000;
+
 }
 .apptype h2 {
   display: inline;

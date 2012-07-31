@@ -13810,10 +13810,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       var isWaiting = false;
 
-      if ( Rng.isFake ) {
-        nodes.more.parentNode.removeChild( nodes.more );
-      }
-
       // This cant happen until after the data is loaded from Browserscope
       nodes.adevices.addEventListener("click", function __click( event ) {
         event.preventDefault();

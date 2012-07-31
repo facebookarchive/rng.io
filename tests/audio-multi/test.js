@@ -2,7 +2,7 @@ asyncTest("Audio: Multiple Playback", function( async ) {
   var type,
       dead = false,
       tick = 0,
-      tickLoad = 0,
+      loaded = 0,
       codecs = {
         "mp3": 'audio/mpeg; codecs="mp3"',
         "ogg": 'audio/ogg; codecs="vorbis"',
@@ -36,12 +36,12 @@ asyncTest("Audio: Multiple Playback", function( async ) {
       }, false );
 
       audio.addEventListener( "loadeddata", function() {
-        tickLoad++;
+        loaded++;
         audio.play();
         audio.volume = 0;
         audio.muted = true;
 
-        if( tickLoad === audios.length ) {
+        if ( loaded === audios.length ) {
           setTimeout(function() {
             if ( !dead ) {
               async.step(function() {
@@ -50,10 +50,9 @@ asyncTest("Audio: Multiple Playback", function( async ) {
                 async.done();
               });
             }
-          }, 1000);
+          }, 1000 );
         }
       }, false );
     });
-
   });
 });

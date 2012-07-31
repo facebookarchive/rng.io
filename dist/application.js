@@ -13386,6 +13386,14 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
             // Store results of tests on this particular device;
             // These will be used by the App Types feature
             Rng.Store.set( "results", storage );
+
+
+            // If an additional output parameter was provided,
+            // call Rng.dump() to prepare and output results in
+            // requested format
+            if ( Rng.params.output ) {
+              Rng.dump();
+            }
           }
         }
 
@@ -13425,6 +13433,54 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         }
       }
     },
+
+    dump: function() {
+      var data, prefix, type, encodetype;
+
+      // Localize the output type
+      type = Rng.params.output;
+
+      // If no type is actually assigned, return
+      if ( type === undefined ) {
+        return;
+      }
+
+      encodetype = {
+        json: "application/json",
+        csv: "text/plain"
+      }[ type ];
+
+      // If the given "type" does not actually match one of
+      // the accepted output formats, return.
+      if ( encodetype === undefined ) {
+        return;
+      }
+
+      // Initialize and assign the forwarding data url prefix
+      prefix = "data:" + encodetype + ";charset=utf-8;base64,";
+
+      // If the type is json, serialize the test collection
+      // object, remove the markup strings by known property names.
+      // Base64 Encode the resulting string
+      if ( type === "json" ) {
+        data = window.btoa(
+          JSON.stringify( storage, function( key, val ) {
+            if ( key === "assertion" || key === "rendered" ) {
+              return undefined;
+            }
+
+            return val;
+          })
+        );
+      }
+
+      // Concatenate the data-url prefix and encoded data
+      // forward the browser to this new url to display
+      // test results with correct header
+      window.location.href = prefix + data;
+    },
+
+
 
     regenerate: function() {
       var browserscope, process;
@@ -14962,15 +15018,15 @@ App.register( "browserscopekeys", [
 App.register( "ringheaders", [
   {
     "ring": 0,
-    "description": "This is functionality that's widely available and mobile web app developers build upon today."
+    "description": "This is the state of the world today.  Developers are actively utilizing these mobile web features."
   },
   {
     "ring": 1,
-    "description": ""
+    "description": "This represents functionality that is needed to enable 2D game, audio, video, and camera app development. These are the most popular types of mobile apps today. <a href='/apps/?1'>See how features apply to each type of app.</a> "
   },
   {
     "ring": 2,
-    "description": ""
+    "description": "Once Ring 1 gains traction in browsers, this Ring represents functionality needed for 3D games, messaging apps, and video streaming apps. It’s still a work in progress. <a href='/apps/?2'>See how features apply to each type of app.</a>"
   }
 ]);
 (function( window ) {

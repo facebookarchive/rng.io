@@ -1015,6 +1015,18 @@ Hat.ring({
           }, false );
         });
       });
+    
+      // Previous fix did not account for browsers that are incapable of
+      // loading the two files, leaving the test "hung"
+      setTimeout(function() {
+        if ( !dead ) {
+          async.step(function() {
+            assert( false, "Browser failed to load audio" );
+            dead = true;
+            async.done();
+          });
+        }
+      }, 5000 );
     });
     
     feature("blob", 1, "Blob");

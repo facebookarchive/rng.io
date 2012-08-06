@@ -13474,10 +13474,21 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         );
       }
 
+      if ( type === "csv" ) {
+        data = JSON.parse(JSON.stringify( storage, function( key, val ) {
+            if ( key === "assertion" || key === "rendered" ) {
+              return undefined;
+            }
+
+            return val;
+          })
+        );
+        console.log( data );
+      }
       // Concatenate the data-url prefix and encoded data
       // forward the browser to this new url to display
       // test results with correct header
-      window.location.href = prefix + data;
+      // window.location.href = prefix + data;
     },
 
 
@@ -13807,21 +13818,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   // The Default "Ring Runner" view
   Rng.Views.Default = {
     init: function() {
-
-      var isWaiting = false;
-
-      // This cant happen until after the data is loaded from Browserscope
-      nodes.adevices.addEventListener("click", function __click( event ) {
-        event.preventDefault();
-
-        if ( nodes.devices.childNodes.length === 0 ) {
-          return;
-        }
-
-        nodes.adevices.removeEventListener("click", __click, false);
-        nodes.devices.setAttribute("class", "container show");
-        event.target.parentNode.removeChild(event.target);
-      }, false);
 
       // Immediately begin requesting browserscope data
       Rng.Request.jsonp(

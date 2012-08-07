@@ -2153,17 +2153,23 @@ test("IFrame", function() {
 test("IFrame Sandbox", function() {
   var iframe = document.createElement("iframe");
 
-  assert( "sandbox" in iframe, "iframe.sandbox supported" );
+  assert( "sandbox" in iframe, "Sandbox iframe supported" );
 });
 
 asyncTest("IFrame Sandbox Sanity", function( async ) {
   var regular = document.getElementById("regular"),
-      sandbox = document.getElementById("sandbox");
+      sandbox = document.getElementById("sandbox"),
+      iframe = document.createElement("iframe");
 
-  assert( !!regular.contentWindow, "regular iframe is accessible" );
-  assert( !sandbox.contentWindow, "sandbox iframe is blocked" );
+  if ( !("sandbox" in iframe) ) {
+    assert( false, "Sandbox iframe not support, skipping tests" );
+    async.done();
+  } else {
+    assert( !!regular.contentWindow, "regular iframe is accessible" );
+    assert( !sandbox.contentWindow, "sandbox iframe is blocked" );
 
-  async.done();
+    async.done();
+  }
 });
 
 asyncTest("IFrame Sandbox allow-scripts", function( async ) {
@@ -2172,31 +2178,42 @@ asyncTest("IFrame Sandbox allow-scripts", function( async ) {
       isDead = false;
 
   function allowScripts( event ) {
-    async.step(function() {
-      assert( event.data === "?allow-scripts", "allowScripts allowed JS to execute in iframe" );
-
-      H.off( window, "message", allowScripts );
-      async.done();
-    });
-  }
-
-  H.on( window, "message", allowScripts );
-
-  iframe.sandbox = "allow-scripts";
-  iframe.src = "/tests/iframe/allow-scripts.html?allow-scripts";
-  fixture.appendChild( iframe );
-
-  // 5s cutoff to avoid dead hang
-  setTimeout(function() {
-    if ( !isDead ) {
+    if ( !isDead && event.data.type === "allow-scripts" ) {
       async.step(function() {
-        assert( false, "allowScripts failed" );
-        isDead = true;
+        assert( event.data.result === "?allow-scripts", "allowScripts allowed JS to execute in iframe" );
+
         H.off( window, "message", allowScripts );
+        isDead = true;
         async.done();
       });
     }
-  }, 5000);
+  }
+
+
+  if ( !("sandbox" in iframe) ) {
+    assert( false, "Sandbox iframe not support, skipping tests" );
+    async.done();
+  } else {
+
+    H.on( window, "message", allowScripts );
+
+    iframe.sandbox = "allow-scripts";
+    iframe.src = "/tests/iframe/allow-scripts.html?allow-scripts";
+    fixture.appendChild( iframe );
+
+    // Bailout
+    setTimeout(function() {
+      if ( !isDead ) {
+        async.step(function() {
+          assert( false, "allowScripts failed" );
+
+          H.off( window, "message", allowScripts );
+          isDead = true;
+          async.done();
+        });
+      }
+    }, 1000);
+  }
 });
 
 asyncTest("IFrame Sandbox allow-scripts allow-forms", function( async ) {
@@ -2206,32 +2223,40 @@ asyncTest("IFrame Sandbox allow-scripts allow-forms", function( async ) {
 
   function allowScriptsForms( event ) {
     async.step(function() {
-      if ( !isDead ) {
+      if ( !isDead && event.data.type === "allow-scripts-forms" ) {
         assert( true, "allowScripts allowed JS to execute in iframe and submit a form" );
-        isDead = true;
+
         H.off( window, "message", allowScriptsForms );
+        isDead = true;
         async.done();
       }
     });
   }
 
-  H.on( window, "message", allowScriptsForms );
+  if ( !("sandbox" in iframe) ) {
+    assert( false, "Sandbox iframe not support, skipping tests" );
+    async.done();
+  } else {
 
-  iframe.sandbox = "allow-scripts allow-forms";
-  iframe.src = "/tests/iframe/allow-scripts-forms.html?allow-scripts-forms";
-  fixture.appendChild( iframe );
+    H.on( window, "message", allowScriptsForms );
 
-  // Bailout
-  setTimeout(function() {
-    if ( !isDead ) {
-      async.step(function() {
-        assert( false, "allowScriptsForms failed" );
-        isDead = true;
-        H.off( window, "message", allowScriptsForms );
-        async.done();
-      });
-    }
-  }, 5000);
+    iframe.sandbox = "allow-scripts allow-forms";
+    iframe.src = "/tests/iframe/allow-scripts-forms.html?allow-scripts-forms";
+    fixture.appendChild( iframe );
+
+    // Bailout
+    setTimeout(function() {
+      if ( !isDead ) {
+        async.step(function() {
+          assert( false, "allowScriptsForms failed" );
+
+          H.off( window, "message", allowScriptsForms );
+          isDead = true;
+          async.done();
+        });
+      }
+    }, 1000);
+  }
 });
 
 // allow-forms, allow-same-origin, allow-scripts, and allow-top-navigation

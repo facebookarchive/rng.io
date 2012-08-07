@@ -633,7 +633,7 @@ exports["H.inject"] = {
 
 exports["H.on/off/emit"] = {
 
-  "on": function(test) {
+  "on": function( test ) {
     test.expect(1);
 
     var count = 0;
@@ -647,6 +647,7 @@ exports["H.on/off/emit"] = {
 
     test.done();
   },
+
   "off": function( test ) {
     test.expect(1);
 
@@ -664,6 +665,49 @@ exports["H.on/off/emit"] = {
 
     test.equal(count, 1, "count is correct");
 
+    test.done();
+  }
+};
+
+exports["H.on/off/emit (DOM)"] = {
+
+  "on": function( test ) {
+    var document, count, event;
+
+    // Create a Document
+    document = jsDOM("<html><body></body></html>", jsdom.level( 3, "core" ));
+
+    // Globalize the document reference
+    global.document = document;
+
+    // Initialize a test count
+    count = 0;
+
+
+    // Declare a handler
+    // This should only fire ONCE.
+    function handler() {
+      count++;
+
+      H.off( document, "foo", handler );
+    }
+
+    // Bind the handler
+    H.on( document, "foo", handler );
+
+    // Create a generic event object
+    event = document.createEvent( "Events" );
+
+    event.initEvent( "foo", true, false );
+
+    // Dispatch/emit
+    document.dispatchEvent( event );
+
+    // Again... (this should actually result in NO-OP)
+    document.dispatchEvent( event );
+
+    test.expect(1);
+    test.equal( count, 1, "count is correct" );
     test.done();
   }
 };

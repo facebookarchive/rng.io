@@ -85,10 +85,12 @@ test("XHR2 Upload", function() {
 
 asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
   var Blob = H.API( window, "Blob", true ),
-      xhr = new XMLHttpRequest();
+      xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !Blob ) {
     assert( false, "Blob not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
 
@@ -99,7 +101,7 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
       var blob,
           data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
 
         // WARNING: Without these "step" calls,
         // testharness.js will lose track of async assertions
@@ -139,6 +141,7 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
             // Miscellaneous Confirmation
             assert( {}.toString.call(blob) === "[object Blob]", "Correct Blob type" );
 
+            isDead = true;
             // Finalize async test
             async.done();
           }
@@ -147,13 +150,27 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser ArrayBuffer Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Text Send/Response Type", function( async ) {
-  var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !("responseType" in xhr) ) {
     assert( false, "xhr.responseType not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
     xhr.open( "POST", "/tests/_server/data.php", true );
@@ -162,27 +179,41 @@ asyncTest("XHR2 Text Send/Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
 
           assert( typeof data.response === "string", "Text Response supported (strings)" );
 
-
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send("Just a string");
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Text Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Blob Response Type", function( async ) {
   var Blob = H.API( window, "Blob", true ),
       URL = H.API( window, "URL", true ),
-      xhr = new XMLHttpRequest();
+      xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !Blob ) {
     assert( false, "Blob not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
 
@@ -192,7 +223,7 @@ asyncTest("XHR2 Blob Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
 
           // console.log( data.response );
@@ -201,17 +232,31 @@ asyncTest("XHR2 Blob Response Type", function( async ) {
 
           assert( data.response instanceof Blob, "Blob Response supported (images)" );
 
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Blob Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Document Response Type", function( async ) {
   var xhr = new XMLHttpRequest(),
-      Document = window.Document;
+      Document = window.Document,
+      isDead = false;
 
   if ( !("responseType" in xhr) ) {
     assert( false, "xhr.responseType not supported, skipping tests" );
@@ -223,16 +268,29 @@ asyncTest("XHR2 Document Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
           // CURRENTLY UNSUPPORTED IN WEBKIT? CHROME?
           // console.log( data, data.response );
           assert( data.responseXML instanceof Document, "Document Response supported (XML, HTML documents)" );
 
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Document Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });

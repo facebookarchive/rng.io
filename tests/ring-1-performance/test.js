@@ -1,12 +1,13 @@
 asyncTest("Framerate for 50 sprites", function( async ) {
-  var completed = false,
-      dead = false;
+  var isCompleted = false,
+      isDead = false;
 
-  window.onmessage = function( event ) {
+
+  function ringOnePerf( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed && !dead ) {
-      completed = true;
+    if ( data.avg && data.avg.fps && !isCompleted && !isDead ) {
+      isCompleted = true;
       async.step(function() {
 
         assert(
@@ -14,19 +15,29 @@ asyncTest("Framerate for 50 sprites", function( async ) {
           "Moving 50 sprites, with 10 frames each (" + data.avg.fps + ")"
         );
 
-        window.onmessage = null;
+        // Shut off and remove this message event handler
+        H.off( window, "message", ringOnePerf );
+
+        // Indicate test completion
         async.done();
       });
     }
     async.done();
-  };
+  }
+
+  H.on( window, "message", ringOnePerf );
 
   // Bailout
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
+      // Shut off and remove this message event handler
+      // to prevent leaking test results
+      H.off( window, "message", ringOnePerf );
+
       async.step(function() {
         assert( false, "Browser failed to complete performance test in allotted time" );
-        dead = true;
+
+        isDead = true;
         async.done();
       });
     }

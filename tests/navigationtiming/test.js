@@ -6,17 +6,23 @@ test("performance", function() {
 
 test("performance navigation", function() {
   var performance = H.API( window, "performance", true ),
-      performanceNav = H.API( performance, "navigation", true );
+      navigation = performance && H.API( performance, "navigation", true );
 
-  assert( performance && performanceNav, "performance.navigation supported" );
+  if ( !performance || !navigation ) {
+    assert( false, "performance not supported, skipping tests" );
+  } else {
+
+    navigation = H.API( performance, "navigation", true );
+    assert( navigation, "performance.navigation supported" );
+  }
 });
 
 test("performance navigation instance", function() {
   var performance = H.API( window, "performance", true ),
-      performanceNav = H.API( performance, "navigation", true );
+      navigation = performance && H.API( performance, "navigation", true );
 
 
-  if ( !performanceNav ) {
+  if ( !performance || !navigation ) {
     assert( false, "performance.navigation not supported, skipping tests" );
   } else {
     [
@@ -44,9 +50,10 @@ test("performance timing", function() {
 
 test("performance timing instance", function() {
   var stats,
-      performance = H.API( window, "performance", true );
+      performance = H.API( window, "performance", true ),
+      timing = performance && H.API( performance, "timing", true );
 
-  if ( !performance || !performance.timing ) {
+  if ( !performance || !timing ) {
     assert( false, "performance.timing not supported, skipping tests" );
   } else {
     [
@@ -62,21 +69,19 @@ test("performance timing instance", function() {
     // "secureConnectionStart",
     "unloadEventEnd", "unloadEventStart"
     ].forEach(function( stat ) {
-      assert( stat in performance.timing, "performance.navigation.timing " + stat + " supported" );
-      assert( typeof performance.timing[ stat ] === "number", "performance.navigation.timing " + stat + " is a number" );
+      assert( stat in timing, "performance.navigation.timing " + stat + " supported" );
+      assert( typeof timing[ stat ] === "number", "performance.navigation.timing " + stat + " is a number" );
     });
   }
 });
 
 test("performance timing sanity", function() {
   var performance = H.API( window, "performance", true ),
-      timing;
+      timing = performance && H.API( performance, "timing", true );
 
-  if ( !performance || !performance.timing ) {
+  if ( !performance || !timing ) {
     assert( false, "performance.timing is not supported, skipping tests" );
   } else {
-    timing = performance.timing;
-
     [
       [ timing.connectEnd >= timing.connectStart, "connectEnd >= connectStart" ],
       [ timing.domainLookupEnd >= timing.domainLookupStart, "domainLookupEnd >= domainLookupStart" ],
@@ -107,9 +112,9 @@ test("performance memory instance", function() {
   } else {
 
     [
-    "jsHeapSizeLimit",
-    "totalJSHeapSize",
-    "usedJSHeapSize"
+      "jsHeapSizeLimit",
+      "totalJSHeapSize",
+      "usedJSHeapSize"
     ].forEach(function( stat ) {
       assert( stat in performance.memory, "performance.navigation.memory " + stat + " supported" );
       assert( typeof performance.memory[ stat ] === "number", "performance.navigation.memory " + stat + " is a number" );

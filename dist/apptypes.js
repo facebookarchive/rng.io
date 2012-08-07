@@ -145,7 +145,7 @@ App.register( "apptypes", [
     "name": "Supplements to Web Apps",
     "ring": 2,
     "description": "These features apply to most web apps and make the user experience better.",
-    "defer": true,
+    "defer": false,
     "features": [
       "cssborderimage",
       "csselement",

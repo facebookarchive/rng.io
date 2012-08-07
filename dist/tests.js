@@ -135,7 +135,7 @@ window.spec = "audio-multi";
 
 asyncTest("Audio: Multiple Playback", function( async ) {
   var type,
-      dead = false,
+      isDead = false,
       tick = 0,
       loaded = 0,
       codecs = {
@@ -161,10 +161,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
       audio.addEventListener( "playing", function() {
         tick++;
 
-        if ( tick === audios.length && !dead ) {
+        if ( tick === audios.length && !isDead ) {
           async.step(function() {
             assert( true, "Multiple audio playback supported (used: " + type + ")" );
-            dead = true;
+            isDead = true;
             async.done();
           });
         }
@@ -178,10 +178,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
 
         if ( loaded === audios.length ) {
           setTimeout(function() {
-            if ( !dead ) {
+            if ( !isDead ) {
               async.step(function() {
                 assert( false, "Browser failed to load audio" );
-                dead = true;
+                isDead = true;
                 async.done();
               });
             }
@@ -194,10 +194,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
   // Previous fix did not account for browsers that are incapable of
   // loading the two files, leaving the test "hung"
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( false, "Browser failed to load audio" );
-        dead = true;
+        isDead = true;
         async.done();
       });
     }
@@ -402,42 +402,48 @@ window.spec = "css2-1selectors";
 
 
 asyncTest("CSS 2.1 Selectors", function( async ) {
-  var completed = false;
-  window.onmessage = function( event ) {
+  var isCompleted = false;
+
+  function selectors( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.which === "selectors" && !completed ) {
-      completed = true;
+    if ( data.which === "selectors" && !isCompleted ) {
+      isCompleted = true;
       async.step(function() {
         assert( data.results === "truetruetruetrue",
           "CSS 2.1 Selectors are supported"
         );
-        window.onmessage = null;
+        H.off( window, "message", selectors );
         async.done();
       });
     }
-  };
+  }
+
+  H.on( window, "message", selectors );
 
   // Ensure the iframe fixture is loaded _after_ the onmessage is attached
   document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
 });
 
 asyncTest("CSS Generated Content", function( async ) {
-  var completed = false;
-  window.onmessage = function( event ) {
+  var isCompleted = false;
+
+  function generated( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.which === "generated" && !completed ) {
-      completed = true;
+    if ( data.which === "generated" && !isCompleted ) {
+      isCompleted = true;
       async.step(function() {
         assert( data.results >= 1,
           "CSS generated content modifies the offsetHeight as expected"
         );
-        window.onmessage = null;
+        H.off( window, "message", generated );
         async.done();
       });
     }
-  };
+  }
+
+  H.on( window, "message", generated );
 
   // Ensure the iframe fixture is loaded _after_ the onmessage is attached
   document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
@@ -759,44 +765,48 @@ window.spec = "cssfont";
 
 
 asyncTest("CSS Font Face", function( async ) {
-  var completed = false;
+  var isCompleted = false;
 
-  window.onmessage = function( event ) {
+  function fontface( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.which === "fontface" && !completed ) {
-      completed = true;
+    if ( data.which === "fontface" && !isCompleted ) {
+      isCompleted = true;
       async.step(function() {
         data.results.forEach(function( set ) {
           assert( set.result, set.desc );
         });
-        window.onmessage = null;
+        H.off( window, "message", fontface );
         async.done();
       });
     }
-  };
+  }
+
+  H.on( window, "message", fontface );
 
   document.getElementById("cssfont-face").src = "/tests/cssfont/fontface.html";
 });
 
 
 asyncTest("CSS EOT/OTF/SVG", function( async ) {
-  var completed = false;
+  var isCompleted = false;
 
-  window.onmessage = function( event ) {
+  function practical( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.which === "practical" && !completed ) {
-      completed = true;
+    if ( data.which === "practical" && !isCompleted ) {
+      isCompleted = true;
       async.step(function() {
         data.results.forEach(function( set ) {
           assert( set.result, set.desc );
         });
-        window.onmessage = null;
+        H.off( window, "message", practical );
         async.done();
       });
     }
-  };
+  }
+
+  H.on( window, "message", practical );
 
   document.getElementById("cssfont-load").src = "/tests/cssfont/iframe.html";
 });
@@ -1022,13 +1032,20 @@ window.spec = "cssposition";
 
 
 asyncTest("CSS Fixed Position", function( async ) {
-  window.onmessage = function( event )  {
+
+  function position( event ) {
     async.step(function() {
       assert( event.data, "Fixed Position supported" );
-      window.onmessage = null;
+      H.off( window, "message", position );
       async.done();
     });
-  };
+  }
+
+  H.on( window, "message", position );
+
+  // Ensure the iframe fixture is loaded _after_ the onmessage is attached
+  document.getElementById("cssposition").src = "/tests/cssposition/iframe.html";
+
 });
 
 window.spec = "csstext";
@@ -1940,23 +1957,25 @@ test("onhashchange", function() {
 
 asyncTest("onhashchange In Practice", function( async ) {
   var iframe = document.getElementById("hashchange").contentWindow,
-      dead = false;
+      isDead = false;
 
   iframe.onhashchange = function( event ) {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( true, "onhashchange event fired" );
-        dead = true;
+        isDead = true;
+        iframe.onhashchange = null;
         async.done();
       });
     }
   };
 
+  // Pre
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( false, "onhashchange event did not fire" );
-        dead = true;
+        isDead = true;
         async.done();
       });
     }
@@ -2137,9 +2156,6 @@ test("IFrame Sandbox", function() {
   assert( "sandbox" in iframe, "iframe.sandbox supported" );
 });
 
-// <iframe id="allowScripts" sandbox="allow-scripts" src="/tests/iframe/allow-scripts.html?allow-scripts"></iframe>
-// <iframe id="allowScriptsForms" sandbox="allow-scripts allow-forms" src="/tests/iframe/allow-scripts-forms.html?allow-scripts-forms"></iframe>
-
 asyncTest("IFrame Sandbox Sanity", function( async ) {
   var regular = document.getElementById("regular"),
       sandbox = document.getElementById("sandbox");
@@ -2152,46 +2168,70 @@ asyncTest("IFrame Sandbox Sanity", function( async ) {
 
 asyncTest("IFrame Sandbox allow-scripts", function( async ) {
   var fixture = document.getElementById("iframe"),
-      iframe = document.createElement("iframe");
+      iframe = document.createElement("iframe"),
+      isDead = false;
+
+  function allowScripts( event ) {
+    async.step(function() {
+      assert( event.data === "?allow-scripts", "allowScripts allowed JS to execute in iframe" );
+
+      H.off( window, "message", allowScripts );
+      async.done();
+    });
+  }
+
+  H.on( window, "message", allowScripts );
 
   iframe.sandbox = "allow-scripts";
   iframe.src = "/tests/iframe/allow-scripts.html?allow-scripts";
   fixture.appendChild( iframe );
 
-  window.onmessage = function( event ) {
-    async.step(function() {
-      assert( event.data === "?allow-scripts", "allowScripts allowed JS to execute in iframe" );
-      async.done();
-    });
-  };
+  // 5s cutoff to avoid dead hang
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "allowScripts failed" );
+        isDead = true;
+        H.off( window, "message", allowScripts );
+        async.done();
+      });
+    }
+  }, 5000);
 });
 
 asyncTest("IFrame Sandbox allow-scripts allow-forms", function( async ) {
   var fixture = document.getElementById("iframe"),
       iframe = document.createElement("iframe"),
-      dead = false,
-      pass = false,
-      assertion = function() {
-        async.step(function() {
-          if ( !dead ) {
-            dead = true;
-            assert( pass, "allowScripts allowed JS to execute in iframe and submit a form" );
-            async.done();
-          }
-        });
-      };
+      isDead = false;
+
+  function allowScriptsForms( event ) {
+    async.step(function() {
+      if ( !isDead ) {
+        assert( true, "allowScripts allowed JS to execute in iframe and submit a form" );
+        isDead = true;
+        H.off( window, "message", allowScriptsForms );
+        async.done();
+      }
+    });
+  }
+
+  H.on( window, "message", allowScriptsForms );
 
   iframe.sandbox = "allow-scripts allow-forms";
   iframe.src = "/tests/iframe/allow-scripts-forms.html?allow-scripts-forms";
   fixture.appendChild( iframe );
 
-
-  window.onmessage = function( event ) {
-    pass = true;
-    assertion();
-  };
-
-  setTimeout(assertion, 2000);
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "allowScriptsForms failed" );
+        isDead = true;
+        H.off( window, "message", allowScriptsForms );
+        async.done();
+      });
+    }
+  }, 5000);
 });
 
 // allow-forms, allow-same-origin, allow-scripts, and allow-top-navigation
@@ -2359,17 +2399,23 @@ test("performance", function() {
 
 test("performance navigation", function() {
   var performance = H.API( window, "performance", true ),
-      performanceNav = H.API( performance, "navigation", true );
+      navigation = performance && H.API( performance, "navigation", true );
 
-  assert( performance && performanceNav, "performance.navigation supported" );
+  if ( !performance || !navigation ) {
+    assert( false, "performance not supported, skipping tests" );
+  } else {
+
+    navigation = H.API( performance, "navigation", true );
+    assert( navigation, "performance.navigation supported" );
+  }
 });
 
 test("performance navigation instance", function() {
   var performance = H.API( window, "performance", true ),
-      performanceNav = H.API( performance, "navigation", true );
+      navigation = performance && H.API( performance, "navigation", true );
 
 
-  if ( !performanceNav ) {
+  if ( !performance || !navigation ) {
     assert( false, "performance.navigation not supported, skipping tests" );
   } else {
     [
@@ -2397,9 +2443,10 @@ test("performance timing", function() {
 
 test("performance timing instance", function() {
   var stats,
-      performance = H.API( window, "performance", true );
+      performance = H.API( window, "performance", true ),
+      timing = performance && H.API( performance, "timing", true );
 
-  if ( !performance || !performance.timing ) {
+  if ( !performance || !timing ) {
     assert( false, "performance.timing not supported, skipping tests" );
   } else {
     [
@@ -2415,21 +2462,19 @@ test("performance timing instance", function() {
     // "secureConnectionStart",
     "unloadEventEnd", "unloadEventStart"
     ].forEach(function( stat ) {
-      assert( stat in performance.timing, "performance.navigation.timing " + stat + " supported" );
-      assert( typeof performance.timing[ stat ] === "number", "performance.navigation.timing " + stat + " is a number" );
+      assert( stat in timing, "performance.navigation.timing " + stat + " supported" );
+      assert( typeof timing[ stat ] === "number", "performance.navigation.timing " + stat + " is a number" );
     });
   }
 });
 
 test("performance timing sanity", function() {
   var performance = H.API( window, "performance", true ),
-      timing;
+      timing = performance && H.API( performance, "timing", true );
 
-  if ( !performance || !performance.timing ) {
+  if ( !performance || !timing ) {
     assert( false, "performance.timing is not supported, skipping tests" );
   } else {
-    timing = performance.timing;
-
     [
       [ timing.connectEnd >= timing.connectStart, "connectEnd >= connectStart" ],
       [ timing.domainLookupEnd >= timing.domainLookupStart, "domainLookupEnd >= domainLookupStart" ],
@@ -2460,9 +2505,9 @@ test("performance memory instance", function() {
   } else {
 
     [
-    "jsHeapSizeLimit",
-    "totalJSHeapSize",
-    "usedJSHeapSize"
+      "jsHeapSizeLimit",
+      "totalJSHeapSize",
+      "usedJSHeapSize"
     ].forEach(function( stat ) {
       assert( stat in performance.memory, "performance.navigation.memory " + stat + " supported" );
       assert( typeof performance.memory[ stat ] === "number", "performance.navigation.memory " + stat + " is a number" );
@@ -2554,10 +2599,13 @@ test("onmessage", function() {
 });
 
 asyncTest("postMessage/onmessage In Practice", function( async ) {
+  // This use of window.onmessage is intentional and must remain intact
   window.onmessage = function( event ) {
     async.step(function() {
       assert( true, "onmessage event fired" );
       assert( event.data === "This is Ground Control", "message content matched expected" );
+
+      window.onmessage = null;
       async.done();
     });
   };
@@ -2628,14 +2676,15 @@ window.spec = "ring-0-performance";
 
 
 asyncTest("Framerate for 10 sprites", function( async ) {
-  var completed = false,
-      dead = false;
+  var isCompleted = false,
+      isDead = false;
 
-  window.onmessage = function( event ) {
+
+  function ringZeroPerf( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed && !dead ) {
-      completed = true;
+    if ( data.avg && data.avg.fps && !isCompleted && !isDead ) {
+      isCompleted = true;
       async.step(function() {
 
         assert(
@@ -2643,19 +2692,29 @@ asyncTest("Framerate for 10 sprites", function( async ) {
           "Moving 10 sprites, with 10 frames each (" + data.avg.fps + ")"
         );
 
-        window.onmessage = null;
+        // Shut off and remove this message event handler
+        H.off( window, "message", ringZeroPerf );
+
+        // Indicate test completion
         async.done();
       });
     }
     async.done();
-  };
+  }
+
+  H.on( window, "message", ringZeroPerf );
 
   // Bailout
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
+      // Shut off and remove this message event handler
+      // to prevent leaking test results
+      H.off( window, "message", ringZeroPerf );
+
       async.step(function() {
         assert( false, "Browser failed to complete performance test in allotted time" );
-        dead = true;
+
+        isDead = true;
         async.done();
       });
     }
@@ -2666,14 +2725,15 @@ window.spec = "ring-1-performance";
 
 
 asyncTest("Framerate for 50 sprites", function( async ) {
-  var completed = false,
-      dead = false;
+  var isCompleted = false,
+      isDead = false;
 
-  window.onmessage = function( event ) {
+
+  function ringOnePerf( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed && !dead ) {
-      completed = true;
+    if ( data.avg && data.avg.fps && !isCompleted && !isDead ) {
+      isCompleted = true;
       async.step(function() {
 
         assert(
@@ -2681,19 +2741,29 @@ asyncTest("Framerate for 50 sprites", function( async ) {
           "Moving 50 sprites, with 10 frames each (" + data.avg.fps + ")"
         );
 
-        window.onmessage = null;
+        // Shut off and remove this message event handler
+        H.off( window, "message", ringOnePerf );
+
+        // Indicate test completion
         async.done();
       });
     }
     async.done();
-  };
+  }
+
+  H.on( window, "message", ringOnePerf );
 
   // Bailout
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
+      // Shut off and remove this message event handler
+      // to prevent leaking test results
+      H.off( window, "message", ringOnePerf );
+
       async.step(function() {
         assert( false, "Browser failed to complete performance test in allotted time" );
-        dead = true;
+
+        isDead = true;
         async.done();
       });
     }
@@ -2704,14 +2774,15 @@ window.spec = "ring-2-performance";
 
 
 asyncTest("Framerate for 100 sprites", function( async ) {
-  var completed = false,
-      dead = false;
+  var isCompleted = false,
+      isDead = false;
 
-  window.onmessage = function( event ) {
+
+  function ringTwoPerf( event ) {
     var data = JSON.parse( event.data );
 
-    if ( data.avg && data.avg.fps && !completed && !dead ) {
-      completed = true;
+    if ( data.avg && data.avg.fps && !isCompleted && !isDead ) {
+      isCompleted = true;
       async.step(function() {
 
         assert(
@@ -2719,20 +2790,29 @@ asyncTest("Framerate for 100 sprites", function( async ) {
           "Moving 100 sprites, with 10 frames each (" + data.avg.fps + ")"
         );
 
-        window.onmessage = null;
+        // Shut off and remove this message event handler
+        H.off( window, "message", ringTwoPerf );
+
+        // Indicate test completion
         async.done();
       });
     }
     async.done();
-  };
+  }
 
+  H.on( window, "message", ringTwoPerf );
 
   // Bailout
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
+      // Shut off and remove this message event handler
+      // to prevent leaking test results
+      H.off( window, "message", ringTwoPerf );
+
       async.step(function() {
         assert( false, "Browser failed to complete performance test in allotted time" );
-        dead = true;
+
+        isDead = true;
         async.done();
       });
     }
@@ -3674,10 +3754,12 @@ test("XHR2 Upload", function() {
 
 asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
   var Blob = H.API( window, "Blob", true ),
-      xhr = new XMLHttpRequest();
+      xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !Blob ) {
     assert( false, "Blob not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
 
@@ -3688,7 +3770,7 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
       var blob,
           data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
 
         // WARNING: Without these "step" calls,
         // testharness.js will lose track of async assertions
@@ -3728,6 +3810,7 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
             // Miscellaneous Confirmation
             assert( {}.toString.call(blob) === "[object Blob]", "Correct Blob type" );
 
+            isDead = true;
             // Finalize async test
             async.done();
           }
@@ -3736,13 +3819,27 @@ asyncTest("XHR2 ArrayBuffer Response Type", function( async ) {
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser ArrayBuffer Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Text Send/Response Type", function( async ) {
-  var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !("responseType" in xhr) ) {
     assert( false, "xhr.responseType not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
     xhr.open( "POST", "/tests/_server/data.php", true );
@@ -3751,27 +3848,41 @@ asyncTest("XHR2 Text Send/Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
 
           assert( typeof data.response === "string", "Text Response supported (strings)" );
 
-
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send("Just a string");
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Text Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Blob Response Type", function( async ) {
   var Blob = H.API( window, "Blob", true ),
       URL = H.API( window, "URL", true ),
-      xhr = new XMLHttpRequest();
+      xhr = new XMLHttpRequest(),
+      isDead = false;
 
   if ( !Blob ) {
     assert( false, "Blob not supported, skipping tests" );
+    isDead = true;
     async.done();
   } else {
 
@@ -3781,7 +3892,7 @@ asyncTest("XHR2 Blob Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
 
           // console.log( data.response );
@@ -3790,17 +3901,31 @@ asyncTest("XHR2 Blob Response Type", function( async ) {
 
           assert( data.response instanceof Blob, "Blob Response supported (images)" );
 
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Blob Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });
 
 asyncTest("XHR2 Document Response Type", function( async ) {
   var xhr = new XMLHttpRequest(),
-      Document = window.Document;
+      Document = window.Document,
+      isDead = false;
 
   if ( !("responseType" in xhr) ) {
     assert( false, "xhr.responseType not supported, skipping tests" );
@@ -3812,16 +3937,29 @@ asyncTest("XHR2 Document Response Type", function( async ) {
     xhr.onload = function( event ) {
       var data = this;
 
-      if ( data.status === 200 ) {
+      if ( !isDead && data.status === 200 ) {
         async.step(function() {
           // CURRENTLY UNSUPPORTED IN WEBKIT? CHROME?
           // console.log( data, data.response );
           assert( data.responseXML instanceof Document, "Document Response supported (XML, HTML documents)" );
 
+          isDead = true;
           async.done();
         });
       }
     };
     xhr.send();
   }
+
+  // Bailout
+  setTimeout(function() {
+    if ( !isDead ) {
+      async.step(function() {
+        assert( false, "Browser Document Response test in allotted time" );
+
+        isDead = true;
+        async.done();
+      });
+    }
+  }, 7000);
 });

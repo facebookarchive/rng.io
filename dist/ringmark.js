@@ -1820,7 +1820,7 @@ QUnit.diff = (function() {
 
 }( this ));
 
-/*! Ringmark - v1.4.0pre - 8/6/2012
+/*! Ringmark - v1.4.0pre - 8/7/2012
 * Copyright ( c ) 2012 Facebook Licensed W3C 3-clause BSD License, W3C Test Suite License */
 
 (function( exports ) {
@@ -2177,6 +2177,49 @@ QUnit.diff = (function() {
       }
     }
   };
+
+  // Allow H.* Event as a facade over:
+  // - internal event system
+  // - DOM event system.
+  [
+    [ "on", "addEventListener" ],
+    [ "off", "removeEventListener" ]
+  ].forEach(function( set ) {
+    var alias, api, orig;
+
+    alias = set[0];
+    api = set[1];
+    orig = Hat[ alias ];
+
+    Hat[ alias ] = function() {
+      var target, type, handler, useCapture;
+
+      // The internal event system is a 2 parameter call:
+      // @param {string} target => type
+      // @param {function} name => handler
+      if ( typeof arguments[0] === "string" ) {
+        // type = target;
+        // handler = name;
+        return orig.apply( Hat, [].slice.call( arguments ) );
+      }
+
+      target = arguments[0];
+      type = arguments[1];
+      handler = arguments[2];
+      useCapture = arguments[3] || false;
+
+      // Bridge to DOM EventTarget APIs
+      // One of: addEventListener, removeEventListener
+      if ( target[ api ] ) {
+        // eg document.addEventListener( "click", handler, useCapture );
+        target[ api ].call( target, type, handler, useCapture );
+      }
+    };
+
+  });
+
+
+
 
   Hat.results = {};
 

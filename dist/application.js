@@ -13355,7 +13355,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       // when the runner is complete
       var completed = 0;
 
-
       Hat.on("runner:done", function( data ) {
         var override;
 
@@ -13407,7 +13406,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           });
         }
 
-        if ( !$.fn.details.support ) {
+        if ( !$.fn.details.support && completed < 4 ) {
           $("details").details();
         }
       });
@@ -13586,7 +13585,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         process();
       }
 
-      console.log( Rng.Store.get("browserscope"), Rng.params.device );
+      // console.log( Rng.Store.get("browserscope"), Rng.params.device );
 
 
       // if browserscope data exists, regenerate immediately
@@ -13843,20 +13842,20 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
             nodes.devices.querySelector("select").addEventListener("change", function() {
               if ( this.value ) {
                 window.location = "/?device=" + encodeURIComponent(this.value);
-                console.log( this.value );
+                // console.log( this.value );
               }
             });
           }, 0);
       });
 
-      console.log( "Rng.Views.Default", this );
+      // console.log( "Rng.Views.Default", this );
     }
   };
 
   // The "History" view, when accessed from rng.io/history
   Rng.Views.History = {
     init: function() {
-      console.log( "INITIALIZE APP.VIEW: History" );
+      // console.log( "INITIALIZE APP.VIEW: History" );
 
       $("[data-browserscope]").html(function() {
         return Rng.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
@@ -13867,7 +13866,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   // The "Apps" view, when accessed from rng.io/apps
   Rng.Views.Apps = {
     init: function() {
-      console.log( "INITIALIZE APP.VIEW: Apptypes", nodes );
+      // console.log( "INITIALIZE APP.VIEW: Apptypes", nodes );
 
       var apptypes, features, html, results;
 
@@ -13901,7 +13900,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       });
 
       // console.log( "appTypes", appTypes );
-      console.log( "apptypes", apptypes );
+      // console.log( "apptypes", apptypes );
 
 
       // Set an initial empty string value to `html`
@@ -13933,7 +13932,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           return apptype.ring === ring;
         }).map(function( apptype ) {
 
-          console.log( apptype, apptype.ring, apptype.name );
+          // console.log( apptype, apptype.ring, apptype.name );
 
           // Return the fully rendered "apptype" fragment
           return templates[ "apptype-tpl" ]({
@@ -14966,7 +14965,7 @@ App.register( "apptypes", [
     "name": "Supplements to Web Apps",
     "ring": 2,
     "description": "These features apply to most web apps and make the user experience better.",
-    "defer": true,
+    "defer": false,
     "features": [
       "cssborderimage",
       "csselement",

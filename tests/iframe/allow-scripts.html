@@ -1,3 +1,6 @@
 <script>
-  top.postMessage( location.search, "*" );
+  top.postMessage({
+    type: "allow-scripts",
+    result: location.search
+  }, "*" );
 </script>

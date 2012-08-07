@@ -11,7 +11,9 @@
 <script>
 document.querySelector("form").addEventListener("submit", function() {
   event.preventDefault();
-  top.postMessage( "Form Submitted", "*" );
+  top.postMessage({
+    type: "allow-scripts-forms", result: "Form Submitted"
+  }, "*" );
 }, false);
 
 document.querySelector("input").click();

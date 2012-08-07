@@ -1,6 +1,6 @@
 asyncTest("Audio: Multiple Playback", function( async ) {
   var type,
-      dead = false,
+      isDead = false,
       tick = 0,
       loaded = 0,
       codecs = {
@@ -26,10 +26,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
       audio.addEventListener( "playing", function() {
         tick++;
 
-        if ( tick === audios.length && !dead ) {
+        if ( tick === audios.length && !isDead ) {
           async.step(function() {
             assert( true, "Multiple audio playback supported (used: " + type + ")" );
-            dead = true;
+            isDead = true;
             async.done();
           });
         }
@@ -43,10 +43,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
 
         if ( loaded === audios.length ) {
           setTimeout(function() {
-            if ( !dead ) {
+            if ( !isDead ) {
               async.step(function() {
                 assert( false, "Browser failed to load audio" );
-                dead = true;
+                isDead = true;
                 async.done();
               });
             }
@@ -59,10 +59,10 @@ asyncTest("Audio: Multiple Playback", function( async ) {
   // Previous fix did not account for browsers that are incapable of
   // loading the two files, leaving the test "hung"
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( false, "Browser failed to load audio" );
-        dead = true;
+        isDead = true;
         async.done();
       });
     }

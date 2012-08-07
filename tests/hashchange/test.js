@@ -26,23 +26,25 @@ test("onhashchange", function() {
 
 asyncTest("onhashchange In Practice", function( async ) {
   var iframe = document.getElementById("hashchange").contentWindow,
-      dead = false;
+      isDead = false;
 
   iframe.onhashchange = function( event ) {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( true, "onhashchange event fired" );
-        dead = true;
+        isDead = true;
+        iframe.onhashchange = null;
         async.done();
       });
     }
   };
 
+  // Pre
   setTimeout(function() {
-    if ( !dead ) {
+    if ( !isDead ) {
       async.step(function() {
         assert( false, "onhashchange event did not fire" );
-        dead = true;
+        isDead = true;
         async.done();
       });
     }

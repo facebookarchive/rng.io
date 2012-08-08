@@ -654,19 +654,6 @@ test("CSS color properties, HSLA support", function() {
 
 });
 
-window.spec = "csscolor-standard";
-
-
-test("CSS opacity, standard", function() {
-
-  var elem = document.createElement("div");
-
-  elem.style.cssText = "opacity:.55";
-
-  assert( /^0.55$/.test( elem.style.opacity ), "elem.style.opacity standard, supported" );
-
-});
-
 window.spec = "csselement";
 
 
@@ -1151,6 +1138,17 @@ test("CSS max-height", function() {
   var fixture = document.querySelector("#cssminmax #css-max-height");
 
   assert( getComputedStyle( fixture ).getPropertyValue("height") === "20px", "max-height supported" );
+});
+
+window.spec = "cssopacity";
+
+
+test("CSS opacity", function() {
+  var elem = document.createElement("div");
+
+  elem.style.cssText = "opacity:.55";
+
+  assert( /^0.55$/.test( elem.style.opacity ), "opacity supported" );
 });
 
 window.spec = "cssoverflow";

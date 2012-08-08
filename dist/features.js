@@ -137,15 +137,6 @@ App.register( "features", [
     ]
   },
   {
-    "name": "csscolor-standard",
-    "title": "CSS3 Color, Standard",
-    "ring": 0,
-    "spec": "http://www.w3.org/TR/css3-color/",
-    "sources": [
-      "https://github.com/Modernizr/Modernizr"
-    ]
-  },
-  {
     "name": "csselement",
     "title": "CSS Element &#8253;",
     "ring": 2,
@@ -213,6 +204,15 @@ App.register( "features", [
     "ring": 0,
     "spec": "http://www.w3.org/TR/CSS21/visudet.html#min-max-widths",
     "sources": []
+  },
+  {
+    "name": "cssopacity",
+    "title": "CSS Opacity",
+    "ring": 0,
+    "spec": "http://www.w3.org/TR/css3-color/",
+    "sources": [
+      "https://github.com/Modernizr/Modernizr"
+    ]
   },
   {
     "name": "cssoverflow",

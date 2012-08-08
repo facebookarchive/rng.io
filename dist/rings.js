@@ -304,21 +304,6 @@ Hat.ring({
     
     });
     
-    feature("csscolor-standard", 0, "CSS3 Color, Standard");
-
-    window.spec = "csscolor-standard";
-    
-    
-    test("CSS opacity, standard", function() {
-    
-      var elem = document.createElement("div");
-    
-      elem.style.cssText = "opacity:.55";
-    
-      assert( /^0.55$/.test( elem.style.opacity ), "elem.style.opacity standard, supported" );
-    
-    });
-    
     feature("cssminmax", 0, "CSS Min, Max");
 
     window.spec = "cssminmax";
@@ -346,6 +331,19 @@ Hat.ring({
       var fixture = document.querySelector("#cssminmax #css-max-height");
     
       assert( getComputedStyle( fixture ).getPropertyValue("height") === "20px", "max-height supported" );
+    });
+    
+    feature("cssopacity", 0, "CSS Opacity");
+
+    window.spec = "cssopacity";
+    
+    
+    test("CSS opacity", function() {
+      var elem = document.createElement("div");
+    
+      elem.style.cssText = "opacity:.55";
+    
+      assert( /^0.55$/.test( elem.style.opacity ), "opacity supported" );
     });
     
     feature("csstext", 0, "CSS3 Text &#8253;");

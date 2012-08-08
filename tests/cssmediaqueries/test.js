@@ -1,5 +1,5 @@
 test("Media Queries matchMedia API exists", function() {
-  assert( H.API( window, "matchMedia", true), "matchMedia supported" );
+  assert( H.API( window, "matchMedia", true ), "matchMedia supported" );
 });
 
 test("Media Queries matchMedia querying", function( async ) {

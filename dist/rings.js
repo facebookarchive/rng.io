@@ -2129,9 +2129,11 @@ Hat.ring({
     });
     
     test("WebRTC getUserMedia & createObjectURL", function() {
-      var URL = H.API( window, URL, true );
+      var URL = H.API( window, "URL", true ),
+        createObjectURL = H.API( URL, "createObjectURL", true );
+    
       assert( URL, "URL.create supported" );
-      assert( URL.createObjectURL, "" );
+      assert( URL.createObjectURL, "URL.createObjectURL supported" );
     });
     
     // TODO: translate platoon and dmv use cases into real functionality tests

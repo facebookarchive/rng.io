@@ -1,17 +1,35 @@
-test("CSS Transforms (2d), standard", function() {
+test("CSS Transform (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "transform" ), "transform, standard supported" );
+  assert( H.test.cssProp( elem, "transform" ), "transform supported" );
 });
 
-test("CSS Transforms (3d), standard", function() {
+test("CSS transform-origin (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "transform-3d" ), "transform-3d, standard supported" );
+  assert( H.test.cssProp( elem, "transformOrigin" ), "transformOrigin supported" );
 });
 
-test("CSS Transforms Perspective (3d), standard", function() {
+test("CSS transform-style (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "perspective" ), "perspective, standard supported" );
+  assert( H.test.cssProp( elem, "transformStyle" ), "transformStyle supported" );
+});
+
+test("CSS Perspective (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "perspective" ), "perspective supported" );
+});
+
+test("CSS perspective-origin (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "perspectiveOrigin" ), "perspectiveOrigin supported" );
+});
+
+test("CSS backface-visibility (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "backfaceVisibility" ), "backfaceVisibility supported" );
 });

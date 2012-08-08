@@ -2,4 +2,4 @@
   r: null
   spec: "http://www.w3.org/TR/FileAPI/"
   sources: [ "http://dev.w3.org/2009/dap/file-system/pub/FileSystem/#idl-def-FileSystem" ]
-  title: "FileSystem"
+  title: "FileSystem &#8253;"

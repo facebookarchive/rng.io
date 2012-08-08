@@ -13830,9 +13830,16 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
           nodes.devices.innerHTML = templates["devices-tpl"]({
             options: (function() {
-              return Object.keys( data.results ).map(function( key ) {
-                return "<option value='" + key + "'>" + key + "</option>";
-              });
+              return [
+                // Show "Your Device" option when _not_ viewing
+                // your device's results
+                Rng.params.device && "<option value='yours'>Your Device</option>",
+
+                // Build other device options
+                Object.keys( data.results ).map(function( key ) {
+                  return "<option value='" + key + "'>" + key + "</option>";
+                })
+              ].join("");
             }())
           });
 
@@ -13841,8 +13848,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           setTimeout(function() {
             nodes.devices.querySelector("select").addEventListener("change", function() {
               if ( this.value ) {
-                window.location = "/?device=" + encodeURIComponent(this.value);
-                // console.log( this.value );
+                window.location = "/" + ( this.value === "yours" ?
+                  "" : "?device=" + encodeURIComponent(this.value) );
               }
             });
           }, 0);

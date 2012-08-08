@@ -19,7 +19,7 @@ header img {
   margin: 0 5px 0 5px;
 }
 aside {
-  text-align: right;
+  text-align: left;
 }
 aside a {
   font-size: 11px;
@@ -279,4 +279,9 @@ details > * {
 
 .rng-view-primary-link {
   color: #676767;
+}
+
+
+#rng-view-sdevices, #rng-view-adevices {
+  text-align: right;
 }

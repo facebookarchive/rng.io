@@ -1,6 +1,6 @@
-test("FullScreen API, vendor-prefixed", function() {
-  var request = H.test.domProp(document.documentElement, "requestFullScreen", true),
-  cancel = H.test.domProp(document, "cancelFullScreen", true) ;
+test("FullScreen", function() {
+  var request = H.API( document.documentElement, "requestFullScreen", true ),
+      cancel = H.API( document, "cancelFullScreen", true );
 
   assert( request, "requestFullScreen supported" );
   assert( H.isFunction( request ), "requestFullScreen is a function" );

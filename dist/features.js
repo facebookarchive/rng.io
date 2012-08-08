@@ -1,14 +1,14 @@
 App.register( "features", [
   {
     "name": "animationtiming",
-    "title": "Animation Timing",
+    "title": "Animation Timing &#8253;",
     "ring": 2,
     "spec": "http://www.w3.org/TR/animation-timing/",
     "sources": []
   },
   {
     "name": "appcache",
-    "title": "Application Cache",
+    "title": "Application Cache &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/html5/offline.html",
     "sources": []
@@ -29,14 +29,14 @@ App.register( "features", [
   },
   {
     "name": "blob",
-    "title": "Blob",
+    "title": "Blob &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/#dfn-Blob",
     "sources": []
   },
   {
     "name": "blobbuilder",
-    "title": "BlobBuilder",
+    "title": "BlobBuilder &#8253;",
     "ring": null,
     "spec": "http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface",
     "sources": []
@@ -64,7 +64,7 @@ App.register( "features", [
   },
   {
     "name": "css-unspecified",
-    "title": "CSS Unspecified",
+    "title": "CSS Unspecified &#8253;",
     "ring": 2,
     "spec": "",
     "sources": []
@@ -78,7 +78,7 @@ App.register( "features", [
   },
   {
     "name": "css3dtransforms",
-    "title": "CSS 3D Transforms",
+    "title": "CSS 3D Transforms &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-3d-transforms/",
     "sources": [
@@ -88,7 +88,7 @@ App.register( "features", [
   },
   {
     "name": "cssanimation",
-    "title": "CSS3 Animation",
+    "title": "CSS3 Animation &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
@@ -102,7 +102,7 @@ App.register( "features", [
   },
   {
     "name": "cssbackground",
-    "title": "CSS3 Background",
+    "title": "CSS3 Background &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -120,7 +120,7 @@ App.register( "features", [
   },
   {
     "name": "cssborderimage",
-    "title": "CSS3 BorderImage",
+    "title": "CSS3 BorderImage &#8253;",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-background/",
     "sources": [
@@ -147,7 +147,7 @@ App.register( "features", [
   },
   {
     "name": "csselement",
-    "title": "CSS Element",
+    "title": "CSS Element &#8253;",
     "ring": 2,
     "spec": "",
     "sources": [
@@ -158,7 +158,7 @@ App.register( "features", [
   },
   {
     "name": "cssflexbox",
-    "title": "CSS3 Flexbox",
+    "title": "CSS3 Flexbox &#8253;",
     "ring": 2,
     "spec": "http://www.w3.org/TR/css3-flexbox/",
     "sources": [
@@ -186,7 +186,7 @@ App.register( "features", [
   },
   {
     "name": "cssimages",
-    "title": "CSS3 Images",
+    "title": "CSS3 Images &#8253;",
     "ring": 2,
     "spec": "http://dev.w3.org/csswg/css3-images/",
     "sources": []
@@ -200,7 +200,7 @@ App.register( "features", [
   },
   {
     "name": "cssmediaqueries",
-    "title": "CSS3 MediaQueries",
+    "title": "CSS3 MediaQueries &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/css3-mediaqueries/",
     "sources": [
@@ -216,7 +216,7 @@ App.register( "features", [
   },
   {
     "name": "cssoverflow",
-    "title": "CSS Overflow Scrolling",
+    "title": "CSS Overflow Scrolling &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/CSS2/visufx.html",
     "sources": []
@@ -237,7 +237,7 @@ App.register( "features", [
   },
   {
     "name": "csstext",
-    "title": "CSS3 Text",
+    "title": "CSS3 Text &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-text/",
     "sources": []
@@ -251,7 +251,7 @@ App.register( "features", [
   },
   {
     "name": "csstransforms",
-    "title": "CSS3 2D Transforms",
+    "title": "CSS3 2D Transforms &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
@@ -269,7 +269,7 @@ App.register( "features", [
   },
   {
     "name": "csstransitions",
-    "title": "CSS3 Transitions",
+    "title": "CSS3 Transitions &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
@@ -283,7 +283,7 @@ App.register( "features", [
   },
   {
     "name": "cssui",
-    "title": "CSS3 UI",
+    "title": "CSS3 UI &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/css3-ui/",
     "sources": []
@@ -336,7 +336,7 @@ App.register( "features", [
   },
   {
     "name": "filereader",
-    "title": "FileReader",
+    "title": "FileReader &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -346,14 +346,14 @@ App.register( "features", [
   },
   {
     "name": "filesaver",
-    "title": "FileSaver",
+    "title": "FileSaver &#8253;",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/#idl-def-FileSaver",
     "sources": []
   },
   {
     "name": "filesystem",
-    "title": "FileSystem",
+    "title": "FileSystem &#8253;",
     "ring": null,
     "spec": "http://www.w3.org/TR/FileAPI/",
     "sources": [
@@ -362,14 +362,14 @@ App.register( "features", [
   },
   {
     "name": "filewriter",
-    "title": "FileWriter",
+    "title": "FileWriter &#8253;",
     "ring": null,
     "spec": "http://www.w3.org/TR/file-writer-api/",
     "sources": []
   },
   {
     "name": "formdata",
-    "title": "FormData",
+    "title": "FormData &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/#interface-formdata",
     "sources": []
@@ -383,7 +383,7 @@ App.register( "features", [
   },
   {
     "name": "fullscreen",
-    "title": "Fullscreen",
+    "title": "Fullscreen &#8253;",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html",
     "sources": []
@@ -432,7 +432,7 @@ App.register( "features", [
   },
   {
     "name": "indexeddb",
-    "title": "IndexedDB",
+    "title": "IndexedDB &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
@@ -453,7 +453,7 @@ App.register( "features", [
   },
   {
     "name": "masking",
-    "title": "Masking Images",
+    "title": "Masking Images &#8253;",
     "ring": 0,
     "spec": "http://www.webkit.org/blog/181/css-masks/",
     "sources": [
@@ -462,7 +462,7 @@ App.register( "features", [
   },
   {
     "name": "multitouch",
-    "title": "Multi Touch Event",
+    "title": "Multi Touch Event &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -471,21 +471,21 @@ App.register( "features", [
   },
   {
     "name": "navigationtiming",
-    "title": "Performance Timing",
+    "title": "Performance Timing &#8253;",
     "ring": 2,
     "spec": "http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/NavigationTiming/Overview.html",
     "sources": []
   },
   {
     "name": "network",
-    "title": "Network Info",
+    "title": "Network Info &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/netinfo-api/",
     "sources": []
   },
   {
     "name": "notifications",
-    "title": "Notifications",
+    "title": "Notifications &#8253;",
     "ring": 2,
     "spec": "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification",
     "sources": [
@@ -508,7 +508,7 @@ App.register( "features", [
   },
   {
     "name": "progress",
-    "title": "Progress Event",
+    "title": "Progress Event &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/progress-events/",
     "sources": []
@@ -543,7 +543,7 @@ App.register( "features", [
   },
   {
     "name": "selector",
-    "title": "Selectors 2",
+    "title": "Selectors 2 &#8253;",
     "ring": 0,
     "spec": "http://www.w3.org/TR/selectors-api2/",
     "sources": [
@@ -555,7 +555,7 @@ App.register( "features", [
   },
   {
     "name": "sharedworkers",
-    "title": "SharedWorkers",
+    "title": "SharedWorkers &#8253;",
     "ring": 2,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": [
@@ -585,7 +585,7 @@ App.register( "features", [
   },
   {
     "name": "touchevents",
-    "title": "Touch Event",
+    "title": "Touch Event &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/touch-events/",
     "sources": [
@@ -601,7 +601,7 @@ App.register( "features", [
   },
   {
     "name": "vibration",
-    "title": "Vibration",
+    "title": "Vibration &#8253;",
     "ring": null,
     "spec": "http://www.w3.org/TR/vibration/",
     "sources": []
@@ -624,14 +624,14 @@ App.register( "features", [
   },
   {
     "name": "visibilitystate",
-    "title": "Page Visibility",
+    "title": "Page Visibility &#8253;",
     "ring": 2,
     "spec": "http://www.w3.org/TR/page-visibility/",
     "sources": []
   },
   {
     "name": "webrtc",
-    "title": "WebRTC (Real time Audio & Video)",
+    "title": "WebRTC (Real time Audio & Video) &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/webrtc/",
     "sources": [
@@ -641,21 +641,21 @@ App.register( "features", [
   },
   {
     "name": "webstorage",
-    "title": "Web Storage",
+    "title": "Web Storage &#8253;",
     "ring": 0,
     "spec": "http://dev.w3.org/html5/webstorage/",
     "sources": []
   },
   {
     "name": "webworkers",
-    "title": "Web Workers",
+    "title": "Web Workers &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/workers/",
     "sources": []
   },
   {
     "name": "xhr2",
-    "title": "XHR2",
+    "title": "XHR2 &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/XMLHttpRequest/",
     "sources": []

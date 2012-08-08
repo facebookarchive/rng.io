@@ -706,14 +706,40 @@ test("CSS Element", function() {
 window.spec = "cssflexbox";
 
 
-// test("CSS Flexbox", function() {
-//   // Need baseline test
-// });
-
-test("CSS Flexbox, flex-align", function() {
+test("CSS Flexbox, align-content", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexAlign", true ), "flexAlign supported" );
+  assert( H.test.cssProp( div, "alignContent", true ), "alignContent supported" );
+});
+
+test("CSS Flexbox, align-items", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignItems", true ), "alignItems supported" );
+});
+
+test("CSS Flexbox, align-self", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignSelf", true ), "alignSelf supported" );
+});
+
+test("CSS Flexbox, flex", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flex", true ), "flex supported" );
+});
+
+test("CSS Flexbox, flex-basis", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexBasis", true ), "flexBasis supported" );
+});
+
+test("CSS Flexbox, flex-direction", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexDirection", true ), "flexDirection supported" );
 });
 
 test("CSS Flexbox, flex-flow", function() {
@@ -722,25 +748,98 @@ test("CSS Flexbox, flex-flow", function() {
   assert( H.test.cssProp( div, "flexFlow", true ), "flexFlow supported" );
 });
 
-test("CSS Flexbox, flex-pack", function() {
+test("CSS Flexbox, flex-grow", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexPack", true ), "flexPack supported" );
+  assert( H.test.cssProp( div, "flexGrow", true ), "flexGrow supported" );
 });
 
-test("CSS Flexbox, flex-order", function() {
+test("CSS Flexbox, flex-shrink", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexOrder", true ), "flexOrder supported" );
+  assert( H.test.cssProp( div, "flexShrink", true ), "flexShrink supported" );
+});
+
+test("CSS Flexbox, flex-wrap", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexWrap", true ), "flexWrap supported" );
+});
+
+test("CSS Flexbox, justify-content", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "justifyContent", true ), "justifyContent supported" );
+});
+
+test("CSS Flexbox, order", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "order", true ), "order supported" );
+});
+
+
+
+
+
+
+
+
+test("CSS Flexbox, align-flow", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignFlow", true ), "alignFlow supported" );
+});
+
+test("CSS Flexbox, align-pack", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignPack", true ), "alignPack supported" );
+});
+
+test("CSS Flexbox, align-order", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignOrder", true ), "alignOrder supported" );
 });
 
 window.spec = "cssflexbox-standard";
 
 
-test("CSS Flexbox, flex-align", function() {
+test("CSS Flexbox, align-content", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexAlign" ), "flexAlign supported" );
+  assert( H.test.cssProp( div, "alignContent" ), "alignContent supported" );
+});
+
+test("CSS Flexbox, align-items", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignItems" ), "alignItems supported" );
+});
+
+test("CSS Flexbox, align-self", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "alignSelf" ), "alignSelf supported" );
+});
+
+test("CSS Flexbox, flex", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flex" ), "flex supported" );
+});
+
+test("CSS Flexbox, flex-basis", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexBasis" ), "flexBasis supported" );
+});
+
+test("CSS Flexbox, flex-direction", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexDirection" ), "flexDirection supported" );
 });
 
 test("CSS Flexbox, flex-flow", function() {
@@ -749,16 +848,34 @@ test("CSS Flexbox, flex-flow", function() {
   assert( H.test.cssProp( div, "flexFlow" ), "flexFlow supported" );
 });
 
-test("CSS Flexbox, flex-pack", function() {
+test("CSS Flexbox, flex-grow", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexPack" ), "flexPack supported" );
+  assert( H.test.cssProp( div, "flexGrow" ), "flexGrow supported" );
 });
 
-test("CSS Flexbox, flex-order", function() {
+test("CSS Flexbox, flex-shrink", function() {
   var div = document.createElement("div");
 
-  assert( H.test.cssProp( div, "flexOrder" ), "flexOrder supported" );
+  assert( H.test.cssProp( div, "flexShrink" ), "flexShrink supported" );
+});
+
+test("CSS Flexbox, flex-wrap", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "flexWrap" ), "flexWrap supported" );
+});
+
+test("CSS Flexbox, justify-content", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "justifyContent" ), "justifyContent supported" );
+});
+
+test("CSS Flexbox, order", function() {
+  var div = document.createElement("div");
+
+  assert( H.test.cssProp( div, "order" ), "order supported" );
 });
 
 window.spec = "cssfont";
@@ -898,6 +1015,18 @@ test("CSS Images object-position", function() {
   assert( H.test.cssProp( elem, "objectPosition", true ), "object-position supported" );
 });
 
+test("CSS Images image-orientation", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageOrientation", true ), "imageOrientation supported" );
+});
+
+test("CSS Images image-resolution", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageResolution", true ), "imageResolution supported" );
+});
+
 window.spec = "cssimages-standard";
 
 
@@ -961,11 +1090,23 @@ test("CSS Images object-position, standard", function() {
 
 });
 
+test("CSS Images image-orientation", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageOrientation" ), "imageOrientation supported" );
+});
+
+test("CSS Images image-resolution", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageResolution" ), "imageResolution supported" );
+});
+
 window.spec = "cssmediaqueries";
 
 
 test("Media Queries matchMedia API exists", function() {
-  assert( H.API( window, "matchMedia", true), "matchMedia supported" );
+  assert( H.API( window, "matchMedia", true ), "matchMedia supported" );
 });
 
 test("Media Queries matchMedia querying", function( async ) {
@@ -1107,10 +1248,22 @@ test("CSS word-spacing, standard", function() {
 window.spec = "csstransforms";
 
 
-test("CSS Transforms (2d)", function() {
+test("CSS Transform (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "transform", true ), "Transforms supported" );
+  assert( H.test.cssProp( elem, "transform", true ), "transform supported" );
+});
+
+test("CSS transform-origin (2d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "transformOrigin", true ), "transformOrigin supported" );
+});
+
+test("CSS transform-style (2d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "transformStyle", true ), "transformStyle supported" );
 });
 
 // test("CSS Transforms (3d)", function() {
@@ -1120,31 +1273,61 @@ test("CSS Transforms (2d)", function() {
 // });
 //
 
-test("CSS Transforms Perspective (3d)", function() {
+test("CSS Perspective (3d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "perspective", true ), "Perspective supported" );
+  assert( H.test.cssProp( elem, "perspective", true ), "perspective supported" );
+});
+
+test("CSS perspective-origin (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "perspectiveOrigin", true ), "perspectiveOrigin supported" );
+});
+
+test("CSS backface-visibility (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "backfaceVisibility", true ), "backfaceVisibility supported" );
 });
 
 window.spec = "csstransforms-standard";
 
 
-test("CSS Transforms (2d), standard", function() {
+test("CSS Transform (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "transform" ), "transform, standard supported" );
+  assert( H.test.cssProp( elem, "transform" ), "transform supported" );
 });
 
-test("CSS Transforms (3d), standard", function() {
+test("CSS transform-origin (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "transform-3d" ), "transform-3d, standard supported" );
+  assert( H.test.cssProp( elem, "transformOrigin" ), "transformOrigin supported" );
 });
 
-test("CSS Transforms Perspective (3d), standard", function() {
+test("CSS transform-style (2d)", function() {
   var elem = document.createElement("div");
 
-  assert( H.test.cssProp( elem, "perspective" ), "perspective, standard supported" );
+  assert( H.test.cssProp( elem, "transformStyle" ), "transformStyle supported" );
+});
+
+test("CSS Perspective (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "perspective" ), "perspective supported" );
+});
+
+test("CSS perspective-origin (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "perspectiveOrigin" ), "perspectiveOrigin supported" );
+});
+
+test("CSS backface-visibility (3d)", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "backfaceVisibility" ), "backfaceVisibility supported" );
 });
 
 window.spec = "csstransitions";
@@ -1884,9 +2067,9 @@ test("Input Attributes: :required psuedoselector", function() {
 window.spec = "fullscreen";
 
 
-test("FullScreen API, vendor-prefixed", function() {
-  var request = H.test.domProp(document.documentElement, "requestFullScreen", true),
-  cancel = H.test.domProp(document, "cancelFullScreen", true) ;
+test("FullScreen", function() {
+  var request = H.API( document.documentElement, "requestFullScreen", true ),
+      cancel = H.API( document, "cancelFullScreen", true );
 
   assert( request, "requestFullScreen supported" );
   assert( H.isFunction( request ), "requestFullScreen is a function" );
@@ -3193,7 +3376,14 @@ window.spec = "webrtc";
 
 
 test("WebRTC getUserMedia", function() {
-  assert( navigator.getUserMedia, "navigator.getUserMedia supported" );
+  var gUM = H.API( navigator, "getUserMedia", true );
+  assert( gUM, "navigator.getUserMedia supported" );
+});
+
+test("WebRTC getUserMedia & createObjectURL", function() {
+  var URL = H.API( window, URL, true );
+  assert( URL, "URL.create supported" );
+  assert( URL.createObjectURL, "" );
 });
 
 // TODO: translate platoon and dmv use cases into real functionality tests

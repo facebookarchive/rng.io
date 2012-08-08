@@ -4,7 +4,7 @@ Hat.ring({
   test: function() {
     
     module("ring:0");
-    feature("appcache", 0, "Application Cache");
+    feature("appcache", 0, "Application Cache &#8253;");
 
     window.spec = "appcache";
     
@@ -150,7 +150,7 @@ Hat.ring({
       document.getElementById("css2-1selectors").src = "/tests/css2-1selectors/iframe.html";
     });
     
-    feature("css3dtransforms", 0, "CSS 3D Transforms");
+    feature("css3dtransforms", 0, "CSS 3D Transforms &#8253;");
 
     window.spec = "css3dtransforms";
     
@@ -202,7 +202,7 @@ Hat.ring({
     //   });
     // });
     
-    feature("cssanimation", 0, "CSS3 Animation");
+    feature("cssanimation", 0, "CSS3 Animation &#8253;");
 
     window.spec = "cssanimation";
     
@@ -212,7 +212,7 @@ Hat.ring({
       assert( H.test.cssProp( div, "animationName", true ), "animationName supported" );
     });
     
-    feature("cssbackground", 0, "CSS3 Background");
+    feature("cssbackground", 0, "CSS3 Background &#8253;");
 
     window.spec = "cssbackground";
     
@@ -348,7 +348,7 @@ Hat.ring({
       assert( getComputedStyle( fixture ).getPropertyValue("height") === "20px", "max-height supported" );
     });
     
-    feature("csstext", 0, "CSS3 Text");
+    feature("csstext", 0, "CSS3 Text &#8253;");
 
     window.spec = "csstext";
     
@@ -378,15 +378,27 @@ Hat.ring({
       assert( H.test.cssProp( elem, "wordSpacing", true ), "wordSpacing supported" );
     });
     
-    feature("csstransforms", 0, "CSS3 2D Transforms");
+    feature("csstransforms", 0, "CSS3 2D Transforms &#8253;");
 
     window.spec = "csstransforms";
     
     
-    test("CSS Transforms (2d)", function() {
+    test("CSS Transform (2d)", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "transform", true ), "Transforms supported" );
+      assert( H.test.cssProp( elem, "transform", true ), "transform supported" );
+    });
+    
+    test("CSS transform-origin (2d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transformOrigin", true ), "transformOrigin supported" );
+    });
+    
+    test("CSS transform-style (2d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transformStyle", true ), "transformStyle supported" );
     });
     
     // test("CSS Transforms (3d)", function() {
@@ -396,13 +408,25 @@ Hat.ring({
     // });
     //
     
-    test("CSS Transforms Perspective (3d)", function() {
+    test("CSS Perspective (3d)", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "perspective", true ), "Perspective supported" );
+      assert( H.test.cssProp( elem, "perspective", true ), "perspective supported" );
     });
     
-    feature("csstransitions", 0, "CSS3 Transitions");
+    test("CSS perspective-origin (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "perspectiveOrigin", true ), "perspectiveOrigin supported" );
+    });
+    
+    test("CSS backface-visibility (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "backfaceVisibility", true ), "backfaceVisibility supported" );
+    });
+    
+    feature("csstransitions", 0, "CSS3 Transitions &#8253;");
 
     window.spec = "csstransitions";
     
@@ -413,7 +437,7 @@ Hat.ring({
       assert( H.test.cssProp( elem, "transition", true ), "transitions supported" );
     });
     
-    feature("cssui", 0, "CSS3 UI");
+    feature("cssui", 0, "CSS3 UI &#8253;");
 
     window.spec = "cssui";
     
@@ -610,7 +634,7 @@ Hat.ring({
     
     });
     
-    feature("masking", 0, "Masking Images");
+    feature("masking", 0, "Masking Images &#8253;");
 
     window.spec = "masking";
     
@@ -668,7 +692,7 @@ Hat.ring({
       window.postMessage( "This is Ground Control", "*" );
     });
     
-    feature("progress", 0, "Progress Event");
+    feature("progress", 0, "Progress Event &#8253;");
 
     window.spec = "progress";
     
@@ -731,7 +755,7 @@ Hat.ring({
       assert( H.isFunction( window.prompt ), "prompt supported" );
     });
     
-    feature("selector", 0, "Selectors 2");
+    feature("selector", 0, "Selectors 2 &#8253;");
 
     window.spec = "selector";
     
@@ -882,7 +906,7 @@ Hat.ring({
       // );
     });
     
-    feature("webstorage", 0, "Web Storage");
+    feature("webstorage", 0, "Web Storage &#8253;");
 
     window.spec = "webstorage";
     
@@ -1038,7 +1062,7 @@ Hat.ring({
       }, 5000 );
     });
     
-    feature("blob", 1, "Blob");
+    feature("blob", 1, "Blob &#8253;");
 
     window.spec = "blob";
     
@@ -1171,13 +1195,13 @@ Hat.ring({
       document.getElementById("cssfont-load").src = "/tests/cssfont/iframe.html";
     });
     
-    feature("cssmediaqueries", 1, "CSS3 MediaQueries");
+    feature("cssmediaqueries", 1, "CSS3 MediaQueries &#8253;");
 
     window.spec = "cssmediaqueries";
     
     
     test("Media Queries matchMedia API exists", function() {
-      assert( H.API( window, "matchMedia", true), "matchMedia supported" );
+      assert( H.API( window, "matchMedia", true ), "matchMedia supported" );
     });
     
     test("Media Queries matchMedia querying", function( async ) {
@@ -1197,7 +1221,7 @@ Hat.ring({
       }
     });
     
-    feature("cssoverflow", 1, "CSS Overflow Scrolling");
+    feature("cssoverflow", 1, "CSS Overflow Scrolling &#8253;");
 
     window.spec = "cssoverflow";
     
@@ -1264,22 +1288,40 @@ Hat.ring({
     window.spec = "csstransforms-standard";
     
     
-    test("CSS Transforms (2d), standard", function() {
+    test("CSS Transform (2d)", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "transform" ), "transform, standard supported" );
+      assert( H.test.cssProp( elem, "transform" ), "transform supported" );
     });
     
-    test("CSS Transforms (3d), standard", function() {
+    test("CSS transform-origin (2d)", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "transform-3d" ), "transform-3d, standard supported" );
+      assert( H.test.cssProp( elem, "transformOrigin" ), "transformOrigin supported" );
     });
     
-    test("CSS Transforms Perspective (3d), standard", function() {
+    test("CSS transform-style (2d)", function() {
       var elem = document.createElement("div");
     
-      assert( H.test.cssProp( elem, "perspective" ), "perspective, standard supported" );
+      assert( H.test.cssProp( elem, "transformStyle" ), "transformStyle supported" );
+    });
+    
+    test("CSS Perspective (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "perspective" ), "perspective supported" );
+    });
+    
+    test("CSS perspective-origin (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "perspectiveOrigin" ), "perspectiveOrigin supported" );
+    });
+    
+    test("CSS backface-visibility (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "backfaceVisibility" ), "backfaceVisibility supported" );
     });
     
     feature("csstransitions-standard", 1, "CSS3 Transitions, Standard");
@@ -1452,7 +1494,7 @@ Hat.ring({
     //   }
     // });
     
-    feature("filereader", 1, "FileReader");
+    feature("filereader", 1, "FileReader &#8253;");
 
     window.spec = "filereader";
     
@@ -1505,7 +1547,7 @@ Hat.ring({
       }
     });
     
-    feature("formdata", 1, "FormData");
+    feature("formdata", 1, "FormData &#8253;");
 
     window.spec = "formdata";
     
@@ -1887,7 +1929,7 @@ Hat.ring({
     //   assert( !!MediaFileData, "MediaFileData exists" );
     // });
     
-    feature("indexeddb", 1, "IndexedDB");
+    feature("indexeddb", 1, "IndexedDB &#8253;");
 
     window.spec = "indexeddb";
     
@@ -1910,7 +1952,7 @@ Hat.ring({
       //
     });
     
-    feature("multitouch", 1, "Multi Touch Event");
+    feature("multitouch", 1, "Multi Touch Event &#8253;");
 
     window.spec = "multitouch";
     
@@ -1943,7 +1985,7 @@ Hat.ring({
       }
     });
     
-    feature("network", 1, "Network Info");
+    feature("network", 1, "Network Info &#8253;");
 
     window.spec = "network";
     
@@ -2026,7 +2068,7 @@ Hat.ring({
       }, 7000);
     });
     
-    feature("touchevents", 1, "Touch Event");
+    feature("touchevents", 1, "Touch Event &#8253;");
 
     window.spec = "touchevents";
     
@@ -2078,18 +2120,25 @@ Hat.ring({
     //   });
     // });
     
-    feature("webrtc", 1, "WebRTC (Real time Audio & Video)");
+    feature("webrtc", 1, "WebRTC (Real time Audio & Video) &#8253;");
 
     window.spec = "webrtc";
     
     
     test("WebRTC getUserMedia", function() {
-      assert( navigator.getUserMedia, "navigator.getUserMedia supported" );
+      var gUM = H.API( navigator, "getUserMedia", true );
+      assert( gUM, "navigator.getUserMedia supported" );
+    });
+    
+    test("WebRTC getUserMedia & createObjectURL", function() {
+      var URL = H.API( window, URL, true );
+      assert( URL, "URL.create supported" );
+      assert( URL.createObjectURL, "" );
     });
     
     // TODO: translate platoon and dmv use cases into real functionality tests
     
-    feature("webworkers", 1, "Web Workers");
+    feature("webworkers", 1, "Web Workers &#8253;");
 
     window.spec = "webworkers";
     
@@ -2373,7 +2422,7 @@ Hat.ring({
     //   };
     // });
     
-    feature("xhr2", 1, "XHR2");
+    feature("xhr2", 1, "XHR2 &#8253;");
 
     window.spec = "xhr2";
     
@@ -2683,7 +2732,7 @@ Hat.ring({
   test: function() {
     
     module("ring:2");
-    feature("animationtiming", 2, "Animation Timing");
+    feature("animationtiming", 2, "Animation Timing &#8253;");
 
     window.spec = "animationtiming";
     
@@ -2813,7 +2862,7 @@ Hat.ring({
       assert( which === "webgl", "webgl standard, supported" );
     });
     
-    feature("css-unspecified", 2, "CSS Unspecified");
+    feature("css-unspecified", 2, "CSS Unspecified &#8253;");
 
     window.spec = "css-unspecified";
     
@@ -2844,7 +2893,7 @@ Hat.ring({
     //
     // });
     
-    feature("cssborderimage", 2, "CSS3 BorderImage");
+    feature("cssborderimage", 2, "CSS3 BorderImage &#8253;");
 
     window.spec = "cssborderimage";
     
@@ -2870,7 +2919,7 @@ Hat.ring({
     
     });
     
-    feature("csselement", 2, "CSS Element");
+    feature("csselement", 2, "CSS Element &#8253;");
 
     window.spec = "csselement";
     
@@ -2908,19 +2957,45 @@ Hat.ring({
       assert( result, result || "CSS Element not supported" );
     });
     
-    feature("cssflexbox", 2, "CSS3 Flexbox");
+    feature("cssflexbox", 2, "CSS3 Flexbox &#8253;");
 
     window.spec = "cssflexbox";
     
     
-    // test("CSS Flexbox", function() {
-    //   // Need baseline test
-    // });
-    
-    test("CSS Flexbox, flex-align", function() {
+    test("CSS Flexbox, align-content", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexAlign", true ), "flexAlign supported" );
+      assert( H.test.cssProp( div, "alignContent", true ), "alignContent supported" );
+    });
+    
+    test("CSS Flexbox, align-items", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignItems", true ), "alignItems supported" );
+    });
+    
+    test("CSS Flexbox, align-self", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignSelf", true ), "alignSelf supported" );
+    });
+    
+    test("CSS Flexbox, flex", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flex", true ), "flex supported" );
+    });
+    
+    test("CSS Flexbox, flex-basis", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexBasis", true ), "flexBasis supported" );
+    });
+    
+    test("CSS Flexbox, flex-direction", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexDirection", true ), "flexDirection supported" );
     });
     
     test("CSS Flexbox, flex-flow", function() {
@@ -2929,16 +3004,59 @@ Hat.ring({
       assert( H.test.cssProp( div, "flexFlow", true ), "flexFlow supported" );
     });
     
-    test("CSS Flexbox, flex-pack", function() {
+    test("CSS Flexbox, flex-grow", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexPack", true ), "flexPack supported" );
+      assert( H.test.cssProp( div, "flexGrow", true ), "flexGrow supported" );
     });
     
-    test("CSS Flexbox, flex-order", function() {
+    test("CSS Flexbox, flex-shrink", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexOrder", true ), "flexOrder supported" );
+      assert( H.test.cssProp( div, "flexShrink", true ), "flexShrink supported" );
+    });
+    
+    test("CSS Flexbox, flex-wrap", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexWrap", true ), "flexWrap supported" );
+    });
+    
+    test("CSS Flexbox, justify-content", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "justifyContent", true ), "justifyContent supported" );
+    });
+    
+    test("CSS Flexbox, order", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "order", true ), "order supported" );
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    test("CSS Flexbox, align-flow", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignFlow", true ), "alignFlow supported" );
+    });
+    
+    test("CSS Flexbox, align-pack", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignPack", true ), "alignPack supported" );
+    });
+    
+    test("CSS Flexbox, align-order", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignOrder", true ), "alignOrder supported" );
     });
     
     feature("cssflexbox-standard", 2, "CSS3 Flexbox, Standard");
@@ -2946,10 +3064,40 @@ Hat.ring({
     window.spec = "cssflexbox-standard";
     
     
-    test("CSS Flexbox, flex-align", function() {
+    test("CSS Flexbox, align-content", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexAlign" ), "flexAlign supported" );
+      assert( H.test.cssProp( div, "alignContent" ), "alignContent supported" );
+    });
+    
+    test("CSS Flexbox, align-items", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignItems" ), "alignItems supported" );
+    });
+    
+    test("CSS Flexbox, align-self", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "alignSelf" ), "alignSelf supported" );
+    });
+    
+    test("CSS Flexbox, flex", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flex" ), "flex supported" );
+    });
+    
+    test("CSS Flexbox, flex-basis", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexBasis" ), "flexBasis supported" );
+    });
+    
+    test("CSS Flexbox, flex-direction", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexDirection" ), "flexDirection supported" );
     });
     
     test("CSS Flexbox, flex-flow", function() {
@@ -2958,19 +3106,37 @@ Hat.ring({
       assert( H.test.cssProp( div, "flexFlow" ), "flexFlow supported" );
     });
     
-    test("CSS Flexbox, flex-pack", function() {
+    test("CSS Flexbox, flex-grow", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexPack" ), "flexPack supported" );
+      assert( H.test.cssProp( div, "flexGrow" ), "flexGrow supported" );
     });
     
-    test("CSS Flexbox, flex-order", function() {
+    test("CSS Flexbox, flex-shrink", function() {
       var div = document.createElement("div");
     
-      assert( H.test.cssProp( div, "flexOrder" ), "flexOrder supported" );
+      assert( H.test.cssProp( div, "flexShrink" ), "flexShrink supported" );
     });
     
-    feature("cssimages", 2, "CSS3 Images");
+    test("CSS Flexbox, flex-wrap", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "flexWrap" ), "flexWrap supported" );
+    });
+    
+    test("CSS Flexbox, justify-content", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "justifyContent" ), "justifyContent supported" );
+    });
+    
+    test("CSS Flexbox, order", function() {
+      var div = document.createElement("div");
+    
+      assert( H.test.cssProp( div, "order" ), "order supported" );
+    });
+    
+    feature("cssimages", 2, "CSS3 Images &#8253;");
 
     window.spec = "cssimages";
     
@@ -3059,6 +3225,18 @@ Hat.ring({
       assert( H.test.cssProp( elem, "objectPosition", true ), "object-position supported" );
     });
     
+    test("CSS Images image-orientation", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "imageOrientation", true ), "imageOrientation supported" );
+    });
+    
+    test("CSS Images image-resolution", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "imageResolution", true ), "imageResolution supported" );
+    });
+    
     feature("cssimages-standard", 2, "CSS3 Images, Standard");
 
     window.spec = "cssimages-standard";
@@ -3122,6 +3300,18 @@ Hat.ring({
     
       assert( H.test.cssProp( elem, "objectPosition" ), "object-position standard, supported" );
     
+    });
+    
+    test("CSS Images image-orientation", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "imageOrientation" ), "imageOrientation supported" );
+    });
+    
+    test("CSS Images image-resolution", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "imageResolution" ), "imageResolution supported" );
     });
     
     feature("cssoverflow-standard", 2, "CSS Overflow Scrolling, Standard");
@@ -3243,14 +3433,14 @@ Hat.ring({
       }
     });
     
-    feature("fullscreen", 2, "Fullscreen");
+    feature("fullscreen", 2, "Fullscreen &#8253;");
 
     window.spec = "fullscreen";
     
     
-    test("FullScreen API, vendor-prefixed", function() {
-      var request = H.test.domProp(document.documentElement, "requestFullScreen", true),
-      cancel = H.test.domProp(document, "cancelFullScreen", true) ;
+    test("FullScreen", function() {
+      var request = H.API( document.documentElement, "requestFullScreen", true ),
+          cancel = H.API( document, "cancelFullScreen", true );
     
       assert( request, "requestFullScreen supported" );
       assert( H.isFunction( request ), "requestFullScreen is a function" );
@@ -3486,7 +3676,7 @@ Hat.ring({
     // forms and scripts respectively
     // (though scripts are still prevented from creating popups).
     
-    feature("navigationtiming", 2, "Performance Timing");
+    feature("navigationtiming", 2, "Performance Timing &#8253;");
 
     window.spec = "navigationtiming";
     
@@ -3615,7 +3805,7 @@ Hat.ring({
       }
     });
     
-    feature("notifications", 2, "Notifications");
+    feature("notifications", 2, "Notifications &#8253;");
 
     window.spec = "notifications";
     
@@ -3710,7 +3900,7 @@ Hat.ring({
       }, 7000);
     });
     
-    feature("sharedworkers", 2, "SharedWorkers");
+    feature("sharedworkers", 2, "SharedWorkers &#8253;");
 
     window.spec = "sharedworkers";
     
@@ -3807,7 +3997,7 @@ Hat.ring({
       }
     });
     
-    feature("visibilitystate", 2, "Page Visibility");
+    feature("visibilitystate", 2, "Page Visibility &#8253;");
 
     window.spec = "visibilitystate";
     

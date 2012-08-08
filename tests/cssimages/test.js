@@ -81,3 +81,15 @@ test("CSS Images object-position", function() {
 
   assert( H.test.cssProp( elem, "objectPosition", true ), "object-position supported" );
 });
+
+test("CSS Images image-orientation", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageOrientation", true ), "imageOrientation supported" );
+});
+
+test("CSS Images image-resolution", function() {
+  var elem = document.createElement("div");
+
+  assert( H.test.cssProp( elem, "imageResolution", true ), "imageResolution supported" );
+});

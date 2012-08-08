@@ -55,6 +55,7 @@ module.exports = function( grunt ) {
     },
     concat: {
       // JS Files
+      // "dist/suite.js": [ "lib/qunit-custom.js", "lib/compat.js", "<file_strip_banner:lib/h.js>" ],
       "dist/runner.js": [ "lib/console.js", "lib/qunit-custom.js", "lib/compat.js" ],
       "dist/h.js": [ "<banner>", "<file_strip_banner:lib/h.js>", "lib/ring.js" ],
       "dist/ringmark.js": [
@@ -93,6 +94,7 @@ module.exports = function( grunt ) {
     },
     min: {
       /*"dist/runner.min.js": [ "dist/runner.js" ],*/
+      //"dev/suite.min.js": [ "dist/suite.js" ],
       "dist/h.min.js": [ "<banner>", "dist/h.js" ],
       "dist/ringmark.min.js": [ "<banner>", "dist/ringmark.js" ],
       "dist/application.min.js": [ "<banner>", "dist/application.js" ],

@@ -13487,7 +13487,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         );
 
         // Columns:
-        //  title, feature, ring, assertion, result
+        //  title, feature, ring, assertion, passed
+        //  string, string, number, string, boolean
         //
         // Map to:
         //  results.title, results.name,
@@ -13520,12 +13521,16 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           }
 
           // Add assertions set to running records tally
-          records.push( assertions );
+          records = records.concat( assertions );
         });
 
         // Prepare joined records entries with header
-        prepare = "title,test,ring,assertion,result\n";
+        prepare = "title,test,ring,assertion,passed\n";
         prepare += records.join("\n");
+
+        // This is awful, need a better way to address the removal of
+        // the prefix-allowed test titles
+        prepare = prepare.replace(/&#8253;/g, "(prefixed)");
 
         // Encode for output
         finalized = window.btoa( prepare );

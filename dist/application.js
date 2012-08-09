@@ -13512,7 +13512,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
               ].map(function( v ) {
                 // Wrap strings in double quotes
                 if ( isNaN(+v) ) {
-                  return '"' + v + '"';
+                  return '"' + v.replace(/"/g, "'") + '"';
                 }
                 // Booleans and numbers can go bare
                 return v;

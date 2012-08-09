@@ -13434,7 +13434,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     },
 
     dump: function() {
-      var data, prefix, type, encodetype;
+      var data, prepare, finalized, prefix, type, encodetype, records;
 
       // Localize the output type
       type = Rng.params.output;
@@ -13462,32 +13462,79 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       // object, remove the markup strings by known property names.
       // Base64 Encode the resulting string
       if ( type === "json" ) {
-        data = window.btoa(
+        finalized = window.btoa(
           JSON.stringify( storage, function( key, val ) {
             if ( key === "assertion" || key === "rendered" ) {
               return undefined;
             }
-
             return val;
           })
         );
       }
 
       if ( type === "csv" ) {
-        data = JSON.parse(JSON.stringify( storage, function( key, val ) {
+        // Will hold all line items
+        records = [];
+
+        // Filter and prepare data props
+        data = JSON.parse(
+          JSON.stringify( storage, function( key, val ) {
             if ( key === "assertion" || key === "rendered" ) {
               return undefined;
             }
-
             return val;
           })
         );
-        console.log( data );
+
+        // Columns:
+        //  title, feature, ring, assertion, result
+        //
+        // Map to:
+        //  results.title, results.name,
+        //  results.ring, assertion.message, assertion.result
+        //
+        Object.keys( data ).forEach(function( feature ) {
+          var assertions, results;
+
+          results = data[ feature ].results;
+
+          if ( results.assertions.length ) {
+            assertions = results.assertions.map(function( assertion ) {
+              return [
+
+                results.title,
+                results.name,
+                results.ring,
+                assertion.message,
+                assertion.result
+
+              ].map(function( v ) {
+                // Wrap strings in double quotes
+                if ( isNaN(+v) ) {
+                  return '"' + v + '"';
+                }
+                // Booleans and numbers can go bare
+                return v;
+              }).join(",");
+            });
+          }
+
+          // Add assertions set to running records tally
+          records.push( assertions );
+        });
+
+        // Prepare joined records entries with header
+        prepare = "title,test,ring,assertion,result\n";
+        prepare += records.join("\n");
+
+        // Encode for output
+        finalized = window.btoa( prepare );
       }
+
       // Concatenate the data-url prefix and encoded data
       // forward the browser to this new url to display
       // test results with correct header
-      window.location.href = prefix + data;
+      window.location.href = prefix + finalized;
     },
 
 

@@ -13860,7 +13860,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         "title",
         "devices",
         "adevices",
-        "sdevices"
+        "sdevices",
+        "notable"
       ]
     }
   };
@@ -13915,7 +13916,50 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   Rng.Views.History = {
     init: function() {
       // console.log( "INITIALIZE APP.VIEW: History" );
+      //
+      var keys, params;
 
+      // Derive first record of browserscopekeys from cache
+      keys = Rng.Cache.get("browserscopekeys").first();
+
+      // Build a set of interesting URLs to link to from /history.
+      // This was added at the last minute and may need some fine
+      // tuning or refactoring in the not-so-distant future
+
+      params = [
+        {
+          type: "JSON",
+          query: "v=3&o=json"
+        },
+        {
+          type: "CSV",
+          query: "v=3&o=csv"
+        },
+        {
+          type: "Table",
+          query: "layout=simple&highlight=true"
+        }
+      ];
+
+      // For each type of browserscope key, construct
+      // a set of urls using the params array and
+      // inject the urls as anchors into the "notable" UL
+      [ "rings", "all" ].forEach(function( set, k ) {
+        var node = nodes.notable.children[ k ],
+            key = keys[ set ];
+
+        // Reduce the params array above into a
+        // string of injectable innerHTML
+        node.innerHTML += params.reduce(function( concat, param ) {
+          return concat + templates["notable-tpl"]({
+            key: key,
+            param: param.query,
+            type: param.type
+          });
+        }, "");
+      });
+
+      // Display the bare keys.
       $("[data-browserscope]").html(function() {
         return Rng.Cache.get("browserscopekeys").first()[ $(this).data("browserscope") ];
       });

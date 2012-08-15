@@ -3,3 +3,4 @@
   spec: ""
   sources: ["http://dev.w3.org/csswg/css4-images/Overview.src.html", "https://wiki.mozilla.org/index.php?title=Tantek-Mozilla-projects&amp;diff=411473&amp;oldid=prev#CSS3_Element", "http://lists.w3.org/Archives/Public/www-style/2010Aug/0635.html"]
   title: "CSS Element &#8253;"
+  reviewed: "20120815"

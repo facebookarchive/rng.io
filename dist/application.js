@@ -15060,9 +15060,9 @@ App.register( "apptypes", [
 ]);
 App.register( "browserscopekeys", [
   {
-    "version": 1.3,
-    "all": "agt1YS1wcm9maWxlcnINCxIEVGVzdBiG2OIQDA",
-    "rings": "agt1YS1wcm9maWxlcnINCxIEVGVzdBjPlfEQDA"
+    "version": 1.4,
+    "all": "agt1YS1wcm9maWxlcnINCxIEVGVzdBjJ_tERDA",
+    "rings": "agt1YS1wcm9maWxlcnINCxIEVGVzdBiS1dcRDA"
   }
 ]);
 App.register( "ringheaders", [

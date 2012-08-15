@@ -218,7 +218,7 @@
     "name": "cssoverflow",
     "title": "CSS Overflow Scrolling &#8253;",
     "ring": 1,
-    "spec": "http://www.w3.org/TR/CSS2/visufx.html",
+    "spec": "",
     "sources": []
   },
   {

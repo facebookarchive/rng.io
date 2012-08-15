@@ -1,7 +1,7 @@
 {
   "name": "Ringmark",
   "description": "The mobile Open Web test suite.",
-  "version": "1.4.0pre",
+  "version": "1.4.0",
   "homepage": "https://github.com/bocoup/tophat",
   "repository": {
     "type": "git",

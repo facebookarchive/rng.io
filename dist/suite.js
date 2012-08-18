@@ -2088,10 +2088,11 @@ QUnit.diff = (function() {
   Hat.API = function( object, api, withPrefixes, expectDefault ) {
     var found = Hat.get.domProp( object, api, withPrefixes );
 
-    if ( arguments.length === 4 && found === expectDefault ) {
-      return found;
-    }
-    return found || undefined;
+    return found;
+    // if ( arguments.length === 4 && found === expectDefault ) {
+    //   return found;
+    // }
+    // return found || undefined;
   };
 
   // A helper for simulating native DOM events,

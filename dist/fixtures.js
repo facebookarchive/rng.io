@@ -109,6 +109,10 @@ App.register( "fixtures", [
   },
   {
     "name": "visibilitystate",
-    "source": "<!--\nPlaceholder for functional visibility state tests\n<iframe id=\"visibilitystate\" src=\"/tests/visibilitystate/iframe.html\"></iframe>\n-->"
+    "source": "<!--\nPlaceholder for functional visibility state tests\n<iframe id=\"visibilitystate\" src=\"/tests/visibilitystate/iframe.html\"></iframe>\n\nFrom Mozilla:\n\nVisibility states of an iframe is as same as the parent document. Hiding the iframe with CSS properties does not trigger visibility events nor change the state of the content document.\n\nhttps://developer.mozilla.org/en-US/docs/DOM/Using_the_Page_Visibility_API\n-->\n"
+  },
+  {
+    "name": "webrtc",
+    "source": "<!--\n  How to get around the prompt issue?\n  <iframe id=\"webrtc\" src=\"/tests/webrtc/iframe.html\"></iframe>\n-->\n"
   }
 ]);

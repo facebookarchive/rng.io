@@ -2065,45 +2065,75 @@ window.spec = "fullscreen";
 
 
 test("FullScreen", function() {
-  var request = H.API( document.documentElement, "requestFullScreen", true ),
-      cancel = H.API( document, "cancelFullScreen", true );
+  var fixture = document.createElement("div"),
+      request = H.API( fixture, "requestFullScreen", true );
+
+  request = request || H.API( fixture, "requestFullscreen", true );
 
   assert( request, "requestFullScreen supported" );
-  assert( H.isFunction( request ), "requestFullScreen is a function" );
-  assert( cancel, "cancelFullScreen supported" );
-  assert( H.isFunction( cancel ), "cancelFullScreen is a function");
+  assert( H.isFunction( request ), "requestFullScreen or requestFullscreen is a function" );
 });
 
-/*
-* The standard Fullscreen API isn't implemented anywhere yet
-test("FullScreen API, standard", function() {
-  var request = H.test.domProp(document.documentElement, "requestFullscreen", true),
-  exit = H.test.domProp(document, "exitFullscreen", true)
 
-  assert( request, "document.documentElement.requestFullscreen supported" );
-  assert( H.isFunction( request ), "requestFullscreen is a function" );
-  assert( exit, "document.exitFullscreen supported" );
-  assert( H.isFunction( exit ), "exitFullscreen is a function");
+test("FullScreen document", function() {
+  var fullscreenElement = H.API( document, "fullscreenElement", true ),
+      fullscreenEnabled = H.API( document, "fullscreenEnabled", true ),
+      exitFullscreen = H.API( document, "exitFullscreen", true );
+
+  assert( fullscreenElement, "fullscreenElement supported" );
+  assert( fullscreenEnabled, "fullscreenEnabled supported" );
+  assert( H.isFunction( exitFullscreen ), "exitFullscreen is a function" );
 });
-*/
 
 window.spec = "geolocation";
 
 
 test("Geolocation exists", function() {
+  var geolocation = H.API( navigator, "geolocation", true );
+
   assert( navigator.geolocation, "navigator.geolocation supported" );
 });
 
 test("Geolocation getCurrentPosition exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.getCurrentPosition ), "getCurrentPosition supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      getCurrentPosition;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    getCurrentPosition = H.API( navigator, "getCurrentPosition", true );
+
+    assert( H.isFunction( getCurrentPosition ), "getCurrentPosition supported" );
+  }
 });
 
 test("Geolocation watchPosition exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.watchPosition ), "watchPosition supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      watchPosition;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    watchPosition = H.API( navigator, "watchPosition", true );
+
+    assert( H.isFunction( watchPosition ), "watchPosition supported" );
+  }
 });
 
 test("Geolocation clearWatch exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.clearWatch ), "clearWatch supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      clearWatch;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    clearWatch = H.API( navigator, "clearWatch", true );
+
+    assert( H.isFunction( clearWatch ), "clearWatch supported" );
+  }
 });
 
 window.spec = "hashchange";
@@ -2723,19 +2753,39 @@ test("performance memory instance", function() {
 window.spec = "network";
 
 
-test("Network Information", function() {
+test("Network Connection", function() {
   var connection = H.API( navigator, "connection", true );
 
   assert( connection, "navigator.connection supported" );
 });
 
-test("Network Information API", function() {
+test("Network Connection bandwidth", function() {
   var connection = H.API( navigator, "connection", true );
 
   if ( !connection ) {
     assert( false, "navigator.connection not supported, skipping tests" );
   } else {
-    assert( "type" in connection, "navigator.connection.type supported" );
+    assert( "bandwidth" in connection, "navigator.connection.bandwidth supported" );
+  }
+});
+
+test("Network Connection metered", function() {
+  var connection = H.API( navigator, "connection", true );
+
+  if ( !connection ) {
+    assert( false, "navigator.connection not supported, skipping tests" );
+  } else {
+    assert( "metered" in connection, "navigator.connection.metered supported" );
+  }
+});
+
+test("Network Connection onchange", function() {
+  var connection = H.API( navigator, "connection", true );
+
+  if ( !connection ) {
+    assert( false, "navigator.connection not supported, skipping tests" );
+  } else {
+    assert( "onchange" in connection, "navigator.connection.onchange supported" );
   }
 });
 
@@ -2743,43 +2793,51 @@ window.spec = "notifications";
 
 
 test("Notifications", function() {
-  var Notifications = H.API( window, "notifications", true );
+  var Notification = H.API( window, "Notification", true );
 
-  assert( Notifications, "Notifications supported" );
+  // If no standard, check for previous implementations
+  Notification = Notification || H.API( window, "notifications", true );
+  assert( Notification, "Notification supported" );
 });
 
-test("Notifications API", function() {
-  var Notifications = H.API( window, "notifications", true );
 
-  if ( !Notifications ) {
-    assert( false, "Notifications not supported, skipping tests" );
-  } else {
+//
+// Omitted.
+//
+// test("Notifications API", function() {
+//   var Notification = H.API( window, "Notification", true ),
+//       notification;
 
-    [
-      "createHTMLNotification",
-      "checkPermission",
-      "createNotification",
-      "requestPermission"
-    ].forEach(function( method ) {
-      assert( method in Notifications, method + " is supported" );
-    });
-  }
-});
+//   if ( !Notification ) {
+//     assert( false, "Notifications not supported, skipping tests" );
+//   } else {
+//     notification = new Notification();
 
-test("Notifications checkPermission", function() {
-  var Notifications = H.API( window, "notifications", true );
+//     [
+//       "createHTMLNotification",
+//       "checkPermission",
+//       "createNotification",
+//       "requestPermission"
+//     ].forEach(function( prop ) {
+//       assert( method in notification, method + " is supported" );
+//     });
+//   }
+// });
 
-  if ( !Notifications ) {
-    assert( false, "Notifications not supported, skipping tests" );
-  } else {
+// test("Notifications checkPermission", function() {
+//   var Notifications = H.API( window, "notifications", true );
 
-    // PERMISSION_ALLOWED = 0;
-    // PERMISSION_NOT_ALLOWED = 1;
-    // PERMISSION_DENIED = 2;
+//   if ( !Notifications ) {
+//     assert( false, "Notifications not supported, skipping tests" );
+//   } else {
 
-    assert( Notifications.checkPermission() === 1, "Initial permission not allowed" );
-  }
-});
+//     // PERMISSION_ALLOWED = 0;
+//     // PERMISSION_NOT_ALLOWED = 1;
+//     // PERMISSION_DENIED = 2;
+
+//     assert( Notifications.checkPermission() === 1, "Initial permission not allowed" );
+//   }
+// });
 
 window.spec = "offline";
 
@@ -3233,11 +3291,29 @@ test("Video Track", function() {
   if ( !track ) {
     assert( false, "track elements are not supported, skipping tests" );
   } else {
+    // HTMLTrackElement
     assert( "kind" in track, "track.kind supported" );
     assert( "src" in track, "track.src supported" );
     assert( "srclang" in track, "track.srclang supported" );
     assert( "label" in track, "track.label supported" );
+    assert( "default" in track, "track.default supported" );
   }
+});
+
+window.spec = "url";
+
+
+test("URL", function() {
+  var URL = H.API( window, "URL", true );
+
+  assert( URL, "URL.create supported" );
+});
+
+test("URL createObjectURL", function() {
+  var URL = H.API( window, "URL", true ),
+    createObjectURL = H.API( URL, "createObjectURL", true );
+
+  assert( URL.createObjectURL, "URL.createObjectURL supported" );
 });
 
 window.spec = "vibration";
@@ -3334,11 +3410,16 @@ test("visibilityState visible", function() {
   }
 });
 
-// test("hidden", function() {
-//   var hidden = H.API( document, "hidden", true );
-//   console.log( hidden );
-//   assert( hidden, "hidden supported" );
-// });
+
+
+test("visibilityState hidden", function() {
+  var hidden = H.API( document, "hidden", true );
+  // hidden can correctly be true or false
+  assert( hidden !== undefined, "hidden supported" );
+});
+
+
+
 //document.addEventListener("mozvisibilitychange", console.log, false);
 //
 // asyncTest("Spec Async Test", function( async ) {
@@ -3377,15 +3458,18 @@ test("WebRTC getUserMedia", function() {
   assert( gUM, "navigator.getUserMedia supported" );
 });
 
-test("WebRTC getUserMedia & createObjectURL", function() {
-  var URL = H.API( window, "URL", true ),
-    createObjectURL = H.API( URL, "createObjectURL", true );
+// test("WebRTC getUserMedia practical", function() {
+//   var gUM = H.API( navigator, "getUserMedia", true );
 
-  assert( URL, "URL.create supported" );
-  assert( URL.createObjectURL, "URL.createObjectURL supported" );
-});
+//   if ( !gUM ) {
+//     assert( false, "navigator.getUserMedia not supported, skipping tests" );
+//   }
+//   else {
+//     // practical testing
+//     //
+//   }
 
-// TODO: translate platoon and dmv use cases into real functionality tests
+// });
 
 window.spec = "webstorage";
 
@@ -3459,6 +3543,8 @@ test("Storage Events in Practice", function( async ) {
 
 window.spec = "webworkers";
 
+
+// TODO: transferable objects
 
 test("Web Workers", function() {
   var Worker = H.API( window, "Worker", true );

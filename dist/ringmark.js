@@ -1820,7 +1820,7 @@ QUnit.diff = (function() {
 
 }( this ));
 
-/*! Ringmark - v1.4.0 - 8/17/2012
+/*! Ringmark - v1.4.0 - 8/18/2012
 * Copyright ( c ) 2012 Facebook Licensed W3C 3-clause BSD License, W3C Test Suite License */
 
 (function( exports ) {
@@ -2109,10 +2109,11 @@ QUnit.diff = (function() {
   Hat.API = function( object, api, withPrefixes, expectDefault ) {
     var found = Hat.get.domProp( object, api, withPrefixes );
 
-    if ( arguments.length === 4 && found === expectDefault ) {
-      return found;
-    }
-    return found || undefined;
+    return found;
+    // if ( arguments.length === 4 && found === expectDefault ) {
+    //   return found;
+    // }
+    // return found || undefined;
   };
 
   // A helper for simulating native DOM events,

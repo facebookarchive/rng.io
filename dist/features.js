@@ -481,14 +481,17 @@ App.register( "features", [
     "title": "Network Info &#8253;",
     "ring": 1,
     "spec": "http://www.w3.org/TR/netinfo-api/",
-    "sources": []
+    "sources": [
+      "http://dvcs.w3.org/hg/dap/raw-file/tip/network-api/Overview.html"
+    ]
   },
   {
     "name": "notifications",
     "title": "Notifications &#8253;",
     "ring": 2,
-    "spec": "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification",
+    "spec": "http://www.w3.org/TR/notifications/",
     "sources": [
+      "http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification",
       "http://www.html5rocks.com/en/tutorials/notifications/quick/"
     ]
   },
@@ -600,9 +603,16 @@ App.register( "features", [
     "sources": []
   },
   {
+    "name": "url",
+    "title": "URL",
+    "ring": 1,
+    "spec": "http://www.w3.org/TR/webrtc/#url",
+    "sources": []
+  },
+  {
     "name": "vibration",
     "title": "Vibration &#8253;",
-    "ring": null,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/vibration/",
     "sources": []
   },

@@ -2,7 +2,7 @@
 var fs = require("fs"),
     colors = require("colors"),
     cp = require("child_process"),
-    _ = require("underscore"),
+    _ = require("lodash"),
     exec = cp.exec,
 
     args = process.argv.slice(2),

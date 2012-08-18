@@ -14,11 +14,16 @@ test("visibilityState visible", function() {
   }
 });
 
-// test("hidden", function() {
-//   var hidden = H.API( document, "hidden", true );
-//   console.log( hidden );
-//   assert( hidden, "hidden supported" );
-// });
+
+
+test("visibilityState hidden", function() {
+  var hidden = H.API( document, "hidden", true );
+  // hidden can correctly be true or false
+  assert( hidden !== undefined, "hidden supported" );
+});
+
+
+
 //document.addEventListener("mozvisibilitychange", console.log, false);
 //
 // asyncTest("Spec Async Test", function( async ) {

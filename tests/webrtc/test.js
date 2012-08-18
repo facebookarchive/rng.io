@@ -3,12 +3,15 @@ test("WebRTC getUserMedia", function() {
   assert( gUM, "navigator.getUserMedia supported" );
 });
 
-test("WebRTC getUserMedia & createObjectURL", function() {
-  var URL = H.API( window, "URL", true ),
-    createObjectURL = H.API( URL, "createObjectURL", true );
+// test("WebRTC getUserMedia practical", function() {
+//   var gUM = H.API( navigator, "getUserMedia", true );
 
-  assert( URL, "URL.create supported" );
-  assert( URL.createObjectURL, "URL.createObjectURL supported" );
-});
+//   if ( !gUM ) {
+//     assert( false, "navigator.getUserMedia not supported, skipping tests" );
+//   }
+//   else {
+//     // practical testing
+//     //
+//   }
 
-// TODO: translate platoon and dmv use cases into real functionality tests
+// });

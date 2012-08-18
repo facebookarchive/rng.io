@@ -3,3 +3,4 @@
   spec: "http://www.w3.org/TR/FileAPI/"
   sources: [ "http://www.w3.org/TR/FileAPI/#FileReader-interface", "https://developer.mozilla.org/en/DOM/FileReader" ]
   title: "FileReader &#8253;"
+  reviewd: "20120816"

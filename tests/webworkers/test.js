@@ -1,3 +1,5 @@
+// TODO: transferable objects
+
 test("Web Workers", function() {
   var Worker = H.API( window, "Worker", true );
 

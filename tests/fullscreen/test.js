@@ -1,22 +1,20 @@
 test("FullScreen", function() {
-  var request = H.API( document.documentElement, "requestFullScreen", true ),
-      cancel = H.API( document, "cancelFullScreen", true );
+  var fixture = document.createElement("div"),
+      request = H.API( fixture, "requestFullScreen", true );
+
+  request = request || H.API( fixture, "requestFullscreen", true );
 
   assert( request, "requestFullScreen supported" );
-  assert( H.isFunction( request ), "requestFullScreen is a function" );
-  assert( cancel, "cancelFullScreen supported" );
-  assert( H.isFunction( cancel ), "cancelFullScreen is a function");
+  assert( H.isFunction( request ), "requestFullScreen or requestFullscreen is a function" );
 });
 
-/*
-* The standard Fullscreen API isn't implemented anywhere yet
-test("FullScreen API, standard", function() {
-  var request = H.test.domProp(document.documentElement, "requestFullscreen", true),
-  exit = H.test.domProp(document, "exitFullscreen", true)
 
-  assert( request, "document.documentElement.requestFullscreen supported" );
-  assert( H.isFunction( request ), "requestFullscreen is a function" );
-  assert( exit, "document.exitFullscreen supported" );
-  assert( H.isFunction( exit ), "exitFullscreen is a function");
+test("FullScreen document", function() {
+  var fullscreenElement = H.API( document, "fullscreenElement", true ),
+      fullscreenEnabled = H.API( document, "fullscreenEnabled", true ),
+      exitFullscreen = H.API( document, "exitFullscreen", true );
+
+  assert( fullscreenElement, "fullscreenElement supported" );
+  assert( fullscreenEnabled, "fullscreenEnabled supported" );
+  assert( H.isFunction( exitFullscreen ), "exitFullscreen is a function" );
 });
-*/

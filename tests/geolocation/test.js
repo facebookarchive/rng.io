@@ -1,15 +1,47 @@
 test("Geolocation exists", function() {
+  var geolocation = H.API( navigator, "geolocation", true );
+
   assert( navigator.geolocation, "navigator.geolocation supported" );
 });
 
 test("Geolocation getCurrentPosition exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.getCurrentPosition ), "getCurrentPosition supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      getCurrentPosition;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    getCurrentPosition = H.API( navigator, "getCurrentPosition", true );
+
+    assert( H.isFunction( getCurrentPosition ), "getCurrentPosition supported" );
+  }
 });
 
 test("Geolocation watchPosition exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.watchPosition ), "watchPosition supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      watchPosition;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    watchPosition = H.API( navigator, "watchPosition", true );
+
+    assert( H.isFunction( watchPosition ), "watchPosition supported" );
+  }
 });
 
 test("Geolocation clearWatch exists and is a function", function() {
-  assert( H.isFunction( navigator.geolocation.clearWatch ), "clearWatch supported" );
+  var geolocation = H.API( navigator, "geolocation", true ),
+      clearWatch;
+
+  if ( !geolocation ) {
+    assert( false, "geolocation not supported, skipping tests." );
+  }
+  else {
+    clearWatch = H.API( navigator, "clearWatch", true );
+
+    assert( H.isFunction( clearWatch ), "clearWatch supported" );
+  }
 });

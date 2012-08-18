@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/dist/h.min.js"></script>
+</head>
+<body>
+<video></video>
+<script>
+
+var getUserMedia = H.API( navigator, "getUserMedia", true );
+
+
+navigator.getUserMedia = function( opts, callback, errback ) {
+  var options, keys;
+
+  options = opts;
+  keys = Object.keys(opts).join(",");
+
+  // Opera's implementation looks for a string, so give it one!
+  options.toString = function() {
+    // { video: true } => "video"
+    // { video: true, audio: true } => "video,audio"
+    return keys;
+  };
+
+  getUserMedia.call( navigator, options, function( raw ) {
+    callback( raw);
+  }, errback || function() {});
+};
+
+
+navigator.getUserMedia({ video: true }, function( stream ) {
+
+  console.log( stream );
+
+  top.postMessage( "Hi!", "*" );
+});
+
+</script>
+</body>
+</html>

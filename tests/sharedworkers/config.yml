@@ -3,3 +3,4 @@
   spec: "http://www.w3.org/TR/workers/"
   sources: [ "http://www.w3.org/TR/workers/#shared-workers" ]
   title: "SharedWorkers &#8253;"
+  reviewd: "20120817"

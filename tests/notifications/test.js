@@ -1,38 +1,46 @@
 test("Notifications", function() {
-  var Notifications = H.API( window, "notifications", true );
+  var Notification = H.API( window, "Notification", true );
 
-  assert( Notifications, "Notifications supported" );
+  // If no standard, check for previous implementations
+  Notification = Notification || H.API( window, "notifications", true );
+  assert( Notification, "Notification supported" );
 });
 
-test("Notifications API", function() {
-  var Notifications = H.API( window, "notifications", true );
 
-  if ( !Notifications ) {
-    assert( false, "Notifications not supported, skipping tests" );
-  } else {
+//
+// Omitted.
+//
+// test("Notifications API", function() {
+//   var Notification = H.API( window, "Notification", true ),
+//       notification;
 
-    [
-      "createHTMLNotification",
-      "checkPermission",
-      "createNotification",
-      "requestPermission"
-    ].forEach(function( method ) {
-      assert( method in Notifications, method + " is supported" );
-    });
-  }
-});
+//   if ( !Notification ) {
+//     assert( false, "Notifications not supported, skipping tests" );
+//   } else {
+//     notification = new Notification();
 
-test("Notifications checkPermission", function() {
-  var Notifications = H.API( window, "notifications", true );
+//     [
+//       "createHTMLNotification",
+//       "checkPermission",
+//       "createNotification",
+//       "requestPermission"
+//     ].forEach(function( prop ) {
+//       assert( method in notification, method + " is supported" );
+//     });
+//   }
+// });
 
-  if ( !Notifications ) {
-    assert( false, "Notifications not supported, skipping tests" );
-  } else {
+// test("Notifications checkPermission", function() {
+//   var Notifications = H.API( window, "notifications", true );
 
-    // PERMISSION_ALLOWED = 0;
-    // PERMISSION_NOT_ALLOWED = 1;
-    // PERMISSION_DENIED = 2;
+//   if ( !Notifications ) {
+//     assert( false, "Notifications not supported, skipping tests" );
+//   } else {
 
-    assert( Notifications.checkPermission() === 1, "Initial permission not allowed" );
-  }
-});
+//     // PERMISSION_ALLOWED = 0;
+//     // PERMISSION_NOT_ALLOWED = 1;
+//     // PERMISSION_DENIED = 2;
+
+//     assert( Notifications.checkPermission() === 1, "Initial permission not allowed" );
+//   }
+// });

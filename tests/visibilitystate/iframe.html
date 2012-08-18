@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/dist/h.min.js"></script>
+</head>
+<body>
+<script>
+document.addEventListener("webkitvisibilitychange", function( event ) {
+
+  console.log( this.webkitVisibilityState || this.mozVisibilityState );
+}, false);
+</script>
+</body>
+</html>

@@ -14,7 +14,7 @@ test("Geolocation getCurrentPosition exists and is a function", function() {
   else {
     getCurrentPosition = H.API( navigator, "getCurrentPosition", true );
 
-    assert( H.isFunction( getCurrentPosition ), "getCurrentPosition supported" );
+    assert( getCurrentPosition, "getCurrentPosition supported" );
   }
 });
 
@@ -28,7 +28,7 @@ test("Geolocation watchPosition exists and is a function", function() {
   else {
     watchPosition = H.API( navigator, "watchPosition", true );
 
-    assert( H.isFunction( watchPosition ), "watchPosition supported" );
+    assert( watchPosition, "watchPosition supported" );
   }
 });
 
@@ -42,6 +42,6 @@ test("Geolocation clearWatch exists and is a function", function() {
   else {
     clearWatch = H.API( navigator, "clearWatch", true );
 
-    assert( H.isFunction( clearWatch ), "clearWatch supported" );
+    assert( clearWatch, "clearWatch supported" );
   }
 });

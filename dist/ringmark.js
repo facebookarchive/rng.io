@@ -1820,7 +1820,7 @@ QUnit.diff = (function() {
 
 }( this ));
 
-/*! Ringmark - v1.4.0 - 8/18/2012
+/*! Ringmark - v1.4.0 - 8/19/2012
 * Copyright ( c ) 2012 Facebook Licensed W3C 3-clause BSD License, W3C Test Suite License */
 
 (function( exports ) {
@@ -2106,14 +2106,44 @@ QUnit.diff = (function() {
   };
 
   // Get any API on any object, can test with prefixes or without
-  Hat.API = function( object, api, withPrefixes, expectDefault ) {
-    var found = Hat.get.domProp( object, api, withPrefixes );
+  // eg
+  //
+  // var geolocation = H.API( navigator, "geolocation", true );
+  //
+  // var Blob = H.API( window, "Blob", true );
+  //
+  //
+  Hat.API = function( object, api, withPrefixes, expect ) {
+    var found;
 
-    return found;
-    // if ( arguments.length === 4 && found === expectDefault ) {
-    //   return found;
-    // }
-    // return found || undefined;
+    if ( arguments.length === 1 ) {
+      // Could be falsey value
+      if ( "expect" in object ) {
+        expect = object.expect;
+      }
+      // Could be falsey value
+      if ( "withPrefixes" in object ) {
+        withPrefixes = object.withPrefixes;
+      }
+
+      api = object.api;
+      object = object.host;
+    }
+
+    if ( !object || object == null ) {
+      return undefined;
+    }
+
+    found = Hat.get.domProp( object, api, withPrefixes );
+
+    // When full params list or options objects
+    if ( (arguments.length === 1 || arguments.length === 4) &&
+          found === expect ) {
+
+      return found;
+    }
+
+    return found || undefined;
   };
 
   // A helper for simulating native DOM events,

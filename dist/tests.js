@@ -3311,9 +3311,15 @@ test("URL", function() {
 
 test("URL createObjectURL", function() {
   var URL = H.API( window, "URL", true ),
-    createObjectURL = H.API( URL, "createObjectURL", true );
+    createObjectURL;
 
-  assert( URL.createObjectURL, "URL.createObjectURL supported" );
+  if ( URL === undefined ) {
+    assert( false, "URL.createObjectURL not supported, skipping tests" );
+  }
+  else {
+    createObjectURL = H.API( URL, "createObjectURL", true );
+    assert( URL.createObjectURL, "URL.createObjectURL supported" );
+  }
 });
 
 window.spec = "vibration";
@@ -3413,7 +3419,9 @@ test("visibilityState visible", function() {
 
 
 test("visibilityState hidden", function() {
-  var hidden = H.API( document, "hidden", true );
+  // Look in document, for "hidden", allow prefixes, the value will be false
+  var hidden = H.API( document, "hidden", true, false );
+
   // hidden can correctly be true or false
   assert( hidden !== undefined, "hidden supported" );
 });

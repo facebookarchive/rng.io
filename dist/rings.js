@@ -565,7 +565,7 @@ Hat.ring({
       else {
         getCurrentPosition = H.API( navigator, "getCurrentPosition", true );
     
-        assert( H.isFunction( getCurrentPosition ), "getCurrentPosition supported" );
+        assert( getCurrentPosition, "getCurrentPosition supported" );
       }
     });
     
@@ -579,7 +579,7 @@ Hat.ring({
       else {
         watchPosition = H.API( navigator, "watchPosition", true );
     
-        assert( H.isFunction( watchPosition ), "watchPosition supported" );
+        assert( watchPosition, "watchPosition supported" );
       }
     });
     
@@ -593,7 +593,7 @@ Hat.ring({
       else {
         clearWatch = H.API( navigator, "clearWatch", true );
     
-        assert( H.isFunction( clearWatch ), "clearWatch supported" );
+        assert( clearWatch, "clearWatch supported" );
       }
     });
     

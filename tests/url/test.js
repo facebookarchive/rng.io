@@ -6,7 +6,13 @@ test("URL", function() {
 
 test("URL createObjectURL", function() {
   var URL = H.API( window, "URL", true ),
-    createObjectURL = H.API( URL, "createObjectURL", true );
+    createObjectURL;
 
-  assert( URL.createObjectURL, "URL.createObjectURL supported" );
+  if ( URL === undefined ) {
+    assert( false, "URL.createObjectURL not supported, skipping tests" );
+  }
+  else {
+    createObjectURL = H.API( URL, "createObjectURL", true );
+    assert( URL.createObjectURL, "URL.createObjectURL supported" );
+  }
 });

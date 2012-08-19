@@ -545,8 +545,85 @@ exports["H.API"] = {
 
 
     test.done();
+  },
+  "options object": function(test) {
+    test.expect(4);
+
+    var host, expects;
+
+    host = {
+      A: false,
+      B: null,
+      C: undefined,
+      D: function(x) { return x; }
+    };
+
+    expects = {
+      A: false,
+      B: null,
+      C: undefined
+    };
+
+    [ "A", "B", "C", "D" ].forEach(function( api ) {
+      var derived, options;
+
+      options = {
+        host: host,
+        api: api,
+        withPrefixes: true
+      };
+
+      if ( api in expects ) {
+        options.expect = expects[ api ];
+      }
+
+      derived = H.API( options );
+
+      if ( "expect" in options ) {
+        test.equal( derived, options.expect, "derived matches expected value" );
+      } else {
+        test.equal( derived, host[ api ], "derived matches host api" );
+      }
+    });
+
+    test.done();
+  },
+
+  "returns undefined": function(test) {
+    test.expect(3);
+
+    var host = {
+      A: false,
+      B: null,
+      C: undefined
+    };
+
+
+    [ "A", "B", "C" ].forEach(function( api ) {
+
+      var derived = H.API( host, api, true );
+
+      test.equal( derived, undefined, api + " returns undefined when expectDefault is not set" );
+    });
+
+    test.done();
+  },
+  "does not throw": function(test) {
+    test.expect(3);
+
+    [
+      false, null, undefined
+    ].forEach(function( host ) {
+
+      var derived = H.API( host, "foo", true );
+
+      test.equal( derived, undefined, "when host object is " + host + ", return undefined" );
+    });
+
+    test.done();
   }
 };
+
 
 exports["H.inject"] = {
   "exists:": function(test) {

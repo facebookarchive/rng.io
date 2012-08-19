@@ -17,7 +17,9 @@ test("visibilityState visible", function() {
 
 
 test("visibilityState hidden", function() {
-  var hidden = H.API( document, "hidden", true );
+  // Look in document, for "hidden", allow prefixes, the value will be false
+  var hidden = H.API( document, "hidden", true, false );
+
   // hidden can correctly be true or false
   assert( hidden !== undefined, "hidden supported" );
 });

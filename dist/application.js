@@ -13058,8 +13058,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 			// Loop through all `details` elements
 			return this.each(function() {
-        if (this.initialized)
-          return;
 
 				// Store a reference to the current `details` element in a variable
 				var $details = $(this),
@@ -13105,7 +13103,6 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 						$detailsSummary.click();
 					}
 				});
-        this.initialized = true;
 			});
 
 		};

@@ -3,4 +3,4 @@
   spec: "http://www.w3.org/TR/webrtc/"
   sources: ["http://dev.w3.org/2011/webrtc/editor/getusermedia.html", "https://github.com/rwldrn/platoon"]
   title: "WebRTC (Real time Audio & Video) &#8253;"
-  reviewd: "20120817"
+  reviewed: "20120817"

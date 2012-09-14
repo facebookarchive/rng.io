@@ -3,4 +3,4 @@
   spec: "http://www.w3.org/TR/FileAPI/"
   sources: [ "http://dev.w3.org/2009/dap/file-system/pub/FileSystem/#idl-def-FileSystem" ]
   title: "FileSystem &#8253;"
-  reviewd: "20120816"
+  reviewed: "20120816"

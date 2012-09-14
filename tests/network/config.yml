@@ -3,4 +3,4 @@
   spec: "http://www.w3.org/TR/netinfo-api/"
   sources: ["http://dvcs.w3.org/hg/dap/raw-file/tip/network-api/Overview.html"]
   title: "Network Info &#8253;"
-  reviewd: "20120818"
+  reviewed: "20120818"

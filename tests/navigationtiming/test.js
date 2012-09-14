@@ -95,29 +95,3 @@ test("performance timing sanity", function() {
     });
   }
 });
-
-
-test("performance memory", function() {
-  var stats,
-      performance = H.API( window, "performance", true );
-
-   assert( performance && performance.memory, "performance.memory supported" );
-});
-
-test("performance memory instance", function() {
-  var performance = H.API( window, "performance", true );
-
-  if ( !performance || !performance.memory ) {
-    assert( false, "performance.memory is not supported, skipping tests" );
-  } else {
-
-    [
-      "jsHeapSizeLimit",
-      "totalJSHeapSize",
-      "usedJSHeapSize"
-    ].forEach(function( stat ) {
-      assert( stat in performance.memory, "performance.navigation.memory " + stat + " supported" );
-      assert( typeof performance.memory[ stat ] === "number", "performance.navigation.memory " + stat + " is a number" );
-    });
-  }
-});

@@ -642,7 +642,7 @@
   {
     "name": "webrtc",
     "title": "WebRTC (Real time Audio & Video) &#8253;",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/webrtc/",
     "sources": [
       "http://dev.w3.org/2011/webrtc/editor/getusermedia.html",

@@ -1012,7 +1012,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 30,
+  features: 29,
   test: function() {
     
     module("ring:1");
@@ -2193,29 +2193,6 @@ Hat.ring({
       }
     });
     
-    feature("webrtc", 1, "WebRTC (Real time Audio & Video) &#8253;");
-
-    window.spec = "webrtc";
-    
-    
-    test("WebRTC getUserMedia", function() {
-      var gUM = H.API( navigator, "getUserMedia", true );
-      assert( gUM, "navigator.getUserMedia supported" );
-    });
-    
-    // test("WebRTC getUserMedia practical", function() {
-    //   var gUM = H.API( navigator, "getUserMedia", true );
-    
-    //   if ( !gUM ) {
-    //     assert( false, "navigator.getUserMedia not supported, skipping tests" );
-    //   }
-    //   else {
-    //     // practical testing
-    //     //
-    //   }
-    
-    // });
-    
     feature("webworkers", 1, "Web Workers &#8253;");
 
     window.spec = "webworkers";
@@ -2808,7 +2785,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 2,
-  features: 25,
+  features: 26,
   test: function() {
     
     module("ring:2");
@@ -4131,6 +4108,29 @@ Hat.ring({
     //
     //     async.done();
     //   });
+    // });
+    
+    feature("webrtc", 2, "WebRTC (Real time Audio & Video) &#8253;");
+
+    window.spec = "webrtc";
+    
+    
+    test("WebRTC getUserMedia", function() {
+      var gUM = H.API( navigator, "getUserMedia", true );
+      assert( gUM, "navigator.getUserMedia supported" );
+    });
+    
+    // test("WebRTC getUserMedia practical", function() {
+    //   var gUM = H.API( navigator, "getUserMedia", true );
+    
+    //   if ( !gUM ) {
+    //     assert( false, "navigator.getUserMedia not supported, skipping tests" );
+    //   }
+    //   else {
+    //     // practical testing
+    //     //
+    //   }
+    
     // });
     
   }

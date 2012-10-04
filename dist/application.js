@@ -13116,7 +13116,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 (function( window, _, $ ) {
 
-  var Rng, stored, params,
+  var Rng, stored, Params,
       templates = {},
       nodes = {},
       cache = [],
@@ -13126,7 +13126,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       },
       failed = false;
 
-  params = (function() {
+  Params = (function() {
     var query, keyvals, pair, pairs;
 
     query = window.location.search;
@@ -13162,10 +13162,10 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
     // Create key=>value object containing parsed
     // query string params
-    params: params,
+    params: Params,
 
     isFake: (function() {
-      return !!params.device;
+      return !!Params.device;
     }()),
 
     // Execute Ring Runner
@@ -15184,6 +15184,14 @@ App.register( "ringheaders", [
 
       // Ensure this isn't repeated by strange JavaScript ghosts...
       if ( beacon === 0 ) {
+
+        // Allow devices to run rng.io "confidentially"
+        // use: ?confidential
+        if ( Rng.params.confidential ) {
+          console.log( "Confidential: No results logged" );
+          return;
+        }
+
         console.log( "Beacon Results to Browserscope" );
 
         if ( /localhost|dev|10/.test( window.location.hostname ) ) {

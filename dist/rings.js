@@ -1012,7 +1012,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 27,
+  features: 24,
   test: function() {
     
     module("ring:1");
@@ -1132,16 +1132,6 @@ Hat.ring({
     //     assert( "type" in blob, "blob.type supported" );
     //   }
     // });
-    
-    feature("cssanimation-standard", 1, "CSS3 Animation, Standard");
-
-    window.spec = "cssanimation-standard";
-    
-    
-    test("CSS Animation, standard", function() {
-      var div = document.createElement("div");
-      assert( H.test.cssProp( div, "animationName" ), "animationName standard, supported" );
-    });
     
     feature("cssbackground-standard", 1, "CSS3 Background, Standard");
 
@@ -1310,58 +1300,6 @@ Hat.ring({
       var elem = document.createElement("div");
     
       assert( H.test.cssProp( elem, "wordSpacing" ), "wordSpacing supported, standard" );
-    });
-    
-    feature("csstransforms-standard", 1, "CSS3 2D Transforms, Standard");
-
-    window.spec = "csstransforms-standard";
-    
-    
-    test("CSS Transform (2d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "transform" ), "transform supported" );
-    });
-    
-    test("CSS transform-origin (2d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "transformOrigin" ), "transformOrigin supported" );
-    });
-    
-    test("CSS transform-style (2d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "transformStyle" ), "transformStyle supported" );
-    });
-    
-    test("CSS Perspective (3d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "perspective" ), "perspective supported" );
-    });
-    
-    test("CSS perspective-origin (3d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "perspectiveOrigin" ), "perspectiveOrigin supported" );
-    });
-    
-    test("CSS backface-visibility (3d)", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "backfaceVisibility" ), "backfaceVisibility supported" );
-    });
-    
-    feature("csstransitions-standard", 1, "CSS3 Transitions, Standard");
-
-    window.spec = "csstransitions-standard";
-    
-    
-    test("CSS Transitions, standard", function() {
-      var elem = document.createElement("div");
-    
-      assert( H.test.cssProp( elem, "transition" ), "transitions standard, supported" );
     });
     
     feature("cssui-standard", 1, "CSS3 UI, Standard");
@@ -2732,7 +2670,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 2,
-  features: 28,
+  features: 31,
   test: function() {
     
     module("ring:2");
@@ -2896,6 +2834,16 @@ Hat.ring({
     //   assert( H.test.cssProp( elem, "textStrokeWidth" ), "textStrokeWidth supported" );
     //
     // });
+    
+    feature("cssanimation-standard", 2, "CSS3 Animation, Standard");
+
+    window.spec = "cssanimation-standard";
+    
+    
+    test("CSS Animation, standard", function() {
+      var div = document.createElement("div");
+      assert( H.test.cssProp( div, "animationName" ), "animationName standard, supported" );
+    });
     
     feature("cssborderimage", 2, "CSS3 BorderImage &#8253;");
 
@@ -3326,6 +3274,58 @@ Hat.ring({
     test("CSS Overflow Scrolling, standard", function() {
       var elem = document.createElement("div");
       assert( H.test.cssProp( elem, "overflowScrolling" ), "overflowScrolling standard, supported" );
+    });
+    
+    feature("csstransforms-standard", 2, "CSS3 2D Transforms, Standard");
+
+    window.spec = "csstransforms-standard";
+    
+    
+    test("CSS Transform (2d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transform" ), "transform supported" );
+    });
+    
+    test("CSS transform-origin (2d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transformOrigin" ), "transformOrigin supported" );
+    });
+    
+    test("CSS transform-style (2d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transformStyle" ), "transformStyle supported" );
+    });
+    
+    test("CSS Perspective (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "perspective" ), "perspective supported" );
+    });
+    
+    test("CSS perspective-origin (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "perspectiveOrigin" ), "perspectiveOrigin supported" );
+    });
+    
+    test("CSS backface-visibility (3d)", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "backfaceVisibility" ), "backfaceVisibility supported" );
+    });
+    
+    feature("csstransitions-standard", 2, "CSS3 Transitions, Standard");
+
+    window.spec = "csstransitions-standard";
+    
+    
+    test("CSS Transitions, standard", function() {
+      var elem = document.createElement("div");
+    
+      assert( H.test.cssProp( elem, "transition" ), "transitions standard, supported" );
     });
     
     feature("dataset", 2, "Custom Data Attributes");

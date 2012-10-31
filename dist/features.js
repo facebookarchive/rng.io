@@ -96,7 +96,7 @@ App.register( "features", [
   {
     "name": "cssanimation-standard",
     "title": "CSS3 Animation, Standard",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/css3-animations/",
     "sources": []
   },
@@ -261,7 +261,7 @@ App.register( "features", [
   {
     "name": "csstransforms-standard",
     "title": "CSS3 2D Transforms, Standard",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/css3-2d-transforms/",
     "sources": [
       "http://javascript.nwbox.com/CSSSupport/"
@@ -277,7 +277,7 @@ App.register( "features", [
   {
     "name": "csstransitions-standard",
     "title": "CSS3 Transitions, Standard",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/css3-transitions/",
     "sources": []
   },

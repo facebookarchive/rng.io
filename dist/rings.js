@@ -1012,7 +1012,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 28,
+  features: 27,
   test: function() {
     
     module("ring:1");
@@ -1969,18 +1969,6 @@ Hat.ring({
       assert( H.API( window, "IDBRequest", true ), "IDBRequest supported");
     });
     
-    feature("indexeddb-standard", 1, "IndexedDB, Standard");
-
-    window.spec = "indexeddb-standard";
-    
-    
-    test("IndexedDB, basic support, standard", function() {
-      assert( H.API( window, "indexedDB" ), "indexedDB standard, supported" );
-      // assert( H.API( window, "IDBTransaction" ), "IDBTransaction standard, supported");
-      // assert( H.API( window, "IDBRequest" ), "IDBRequest standard, supported");
-      //
-    });
-    
     feature("multitouch", 1, "Multi Touch Event &#8253;");
 
     window.spec = "multitouch";
@@ -2744,7 +2732,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 2,
-  features: 27,
+  features: 28,
   test: function() {
     
     module("ring:2");
@@ -3689,6 +3677,18 @@ Hat.ring({
     // allow-forms and allow-scripts keywords re-enable
     // forms and scripts respectively
     // (though scripts are still prevented from creating popups).
+    
+    feature("indexeddb-standard", 2, "IndexedDB, Standard");
+
+    window.spec = "indexeddb-standard";
+    
+    
+    test("IndexedDB, basic support, standard", function() {
+      assert( H.API( window, "indexedDB" ), "indexedDB standard, supported" );
+      // assert( H.API( window, "IDBTransaction" ), "IDBTransaction standard, supported");
+      // assert( H.API( window, "IDBRequest" ), "IDBRequest standard, supported");
+      //
+    });
     
     feature("navigationtiming", 2, "Performance Timing &#8253;");
 

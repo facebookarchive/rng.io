@@ -440,7 +440,7 @@
   {
     "name": "indexeddb-standard",
     "title": "IndexedDB, Standard",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/IndexedDB/",
     "sources": []
   },

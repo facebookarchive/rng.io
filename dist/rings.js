@@ -1012,7 +1012,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 1,
-  features: 29,
+  features: 28,
   test: function() {
     
     module("ring:1");
@@ -2014,47 +2014,6 @@ Hat.ring({
       }
     });
     
-    feature("network", 1, "Network Info &#8253;");
-
-    window.spec = "network";
-    
-    
-    test("Network Connection", function() {
-      var connection = H.API( navigator, "connection", true );
-    
-      assert( connection, "navigator.connection supported" );
-    });
-    
-    test("Network Connection bandwidth", function() {
-      var connection = H.API( navigator, "connection", true );
-    
-      if ( !connection ) {
-        assert( false, "navigator.connection not supported, skipping tests" );
-      } else {
-        assert( "bandwidth" in connection, "navigator.connection.bandwidth supported" );
-      }
-    });
-    
-    test("Network Connection metered", function() {
-      var connection = H.API( navigator, "connection", true );
-    
-      if ( !connection ) {
-        assert( false, "navigator.connection not supported, skipping tests" );
-      } else {
-        assert( "metered" in connection, "navigator.connection.metered supported" );
-      }
-    });
-    
-    test("Network Connection onchange", function() {
-      var connection = H.API( navigator, "connection", true );
-    
-      if ( !connection ) {
-        assert( false, "navigator.connection not supported, skipping tests" );
-      } else {
-        assert( "onchange" in connection, "navigator.connection.onchange supported" );
-      }
-    });
-    
     feature("offline", 1, "Offline Mode");
 
     window.spec = "offline";
@@ -2785,7 +2744,7 @@ Hat.ring({
 });
 Hat.ring({ 
   ring: 2,
-  features: 26,
+  features: 27,
   test: function() {
     
     module("ring:2");
@@ -3831,6 +3790,47 @@ Hat.ring({
         ].forEach(function( condition ) {
           assert( condition[0], condition[1] );
         });
+      }
+    });
+    
+    feature("network", 2, "Network Info &#8253;");
+
+    window.spec = "network";
+    
+    
+    test("Network Connection", function() {
+      var connection = H.API( navigator, "connection", true );
+    
+      assert( connection, "navigator.connection supported" );
+    });
+    
+    test("Network Connection bandwidth", function() {
+      var connection = H.API( navigator, "connection", true );
+    
+      if ( !connection ) {
+        assert( false, "navigator.connection not supported, skipping tests" );
+      } else {
+        assert( "bandwidth" in connection, "navigator.connection.bandwidth supported" );
+      }
+    });
+    
+    test("Network Connection metered", function() {
+      var connection = H.API( navigator, "connection", true );
+    
+      if ( !connection ) {
+        assert( false, "navigator.connection not supported, skipping tests" );
+      } else {
+        assert( "metered" in connection, "navigator.connection.metered supported" );
+      }
+    });
+    
+    test("Network Connection onchange", function() {
+      var connection = H.API( navigator, "connection", true );
+    
+      if ( !connection ) {
+        assert( false, "navigator.connection not supported, skipping tests" );
+      } else {
+        assert( "onchange" in connection, "navigator.connection.onchange supported" );
       }
     });
     

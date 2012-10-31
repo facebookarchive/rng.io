@@ -479,7 +479,7 @@ App.register( "features", [
   {
     "name": "network",
     "title": "Network Info &#8253;",
-    "ring": 1,
+    "ring": 2,
     "spec": "http://www.w3.org/TR/netinfo-api/",
     "sources": [
       "http://dvcs.w3.org/hg/dap/raw-file/tip/network-api/Overview.html"

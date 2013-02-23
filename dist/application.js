@@ -13145,6 +13145,9 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
     return pairs;
   }());
 
+  // Force all rings to run, all the time.
+  Params.all = true;
+
   Rng = {
 
     // node and templates point at the closed over
@@ -13353,7 +13356,10 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
       // Change DOM text from saying "running..." to "tests complete"
       // when the runner is complete
-      var completed = 0;
+      var completed, isPosted;
+
+      completed = 0;
+      isPosted = false;
 
       Hat.on("runner:done", function( data ) {
         var override;
@@ -13386,12 +13392,23 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
             // These will be used by the App Types feature
             Rng.Store.set( "results", storage );
 
-
-            // If an additional output parameter was provided,
-            // call Rng.dump() to prepare and output results in
+            // ?output
+            // If the ?output parameter was used,
+            // call Rng.output() to prepare and output results in
             // requested format
             if ( Rng.params.output ) {
-              Rng.dump();
+              Rng.output();
+            }
+
+            // ?post=endpoint
+            // If the ?post parameter was used,
+            // serialized the results and post to top-most window
+            if ( Rng.params.post && !isPosted ) {
+              isPosted = true;
+
+              console.log( "Post: Results posted to provided endpoint" );
+
+              Rng.post( storage );
             }
           }
         }
@@ -13433,7 +13450,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       }
     },
 
-    dump: function() {
+    output: function() {
       var data, prepare, finalized, prefix, type, encodetype, records;
 
       // Localize the output type
@@ -13541,8 +13558,32 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
       // test results with correct header
       window.location.href = prefix + finalized;
     },
+    // post the results to provided endpoint
+    post: function( data ) {
+      var xhr = new window.XMLHttpRequest();
+
+      xhr.onreadystatechange = function() {
+        if ( xhr.readyState === 4 ) {
+          console.log( "Post Results Complete" );
+        }
+      };
+
+      if ( typeof Rng.params.post !== "string" ) {
+        Rng.params.post = "/";
+      }
 
 
+      xhr.open( "POST", Rng.params.post, true );
+      xhr.send(
+        JSON.stringify( data, function( key, val ) {
+          // Removed the rendered HTML key/vals
+          if ( key === "rendered" || key === "assertion" ) {
+            return undefined;
+          }
+          return val;
+        })
+      );
+    },
 
     regenerate: function() {
       var browserscope, process;
@@ -13636,21 +13677,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         //
         process();
       }
-
-      // console.log( Rng.Store.get("browserscope"), Rng.params.device );
-
-
-      // if browserscope data exists, regenerate immediately
-      //
-
-
-      //
-
-
     },
-
-
-
 
     // Cache register (get it??)
     register: function( key, array ) {

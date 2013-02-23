@@ -2352,6 +2352,9 @@ QUnit.diff = (function() {
   };
 
   // `params` initialized at top of program file
+  // Force all rings to run, all the time.
+  params.push({ key: "all", value: true });
+
   if ( params ) {
     params.forEach(function( obj ) {
       runnerConfig[ obj.key ] = obj.value;

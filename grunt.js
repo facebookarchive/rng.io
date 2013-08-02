@@ -194,10 +194,10 @@ module.exports = function( grunt ) {
   });
 
   // Default task.
-  task.registerTask("default", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min");
+  task.registerTask("default", "lint compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min");
   //"lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat mincss min"
 
-  task.registerTask("short", "lint test compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat min");
+  task.registerTask("short", "lint compile_tests features apptypes ringheaders browserscopekeys fixtures spec concat min");
 
 
 

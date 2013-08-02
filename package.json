@@ -1,5 +1,5 @@
 {
-  "name": "Ringmark",
+  "name": "ringmark",
   "description": "The mobile Open Web test suite.",
   "version": "1.4.0",
   "homepage": "https://github.com/bocoup/tophat",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "lodash": ">=0.2.2",
-    "grunt": "latest",
+    "grunt": "0.3.11",
     "jsdom": "*",
     "js-yaml": "*",
     "canvas": "*",

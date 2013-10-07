@@ -60,7 +60,7 @@ test("Dataset Get*", function() {
       [ "data--", "-" ],
       [ "data--foo", "Foo" ],
       [ "data---foo", "-Foo" ],
-      //[ "data-Foo", "foo" ],
+      [ "data-Foo", "foo" ],
       [ "data-", "" ],
       [ "data-\xE0", "\xE0" ]
     ].forEach(function( array, index ) {
@@ -71,20 +71,6 @@ test("Dataset Get*", function() {
       fixture.setAttribute( array[0], value );
 
       assert( fixture.dataset[ array[1] ] === value, "Expected: " + array.join(" = ") );
-    });
-    [
-      "data-Foo"
-    ].forEach(function(str, index ) {
-
-      var fixture = document.createElement("div"),
-          value = index + "",
-          result;
-
-      fixture.setAttribute(str, value);
-      for (var s in fixture.dataset)
-        result = s;
-      
-      assert( result === undefined, "Expected: undefined" );
     });
   }
 });

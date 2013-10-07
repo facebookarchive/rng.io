@@ -11,7 +11,7 @@ test("FullScreen", function() {
 
 test("FullScreen document", function() {
   var fullscreenElement = H.API( document, "fullscreenElement", true ),
-      fullscreenEnabled = H.API( document, "fullscreenEnabled", true ),
+      fullscreenEnabled = H.get.domProp( document, "fullscreenEnabled", true ) !== undefined,
       exitFullscreen = H.API( document, "exitFullscreen", true );
 
   assert( fullscreenElement, "fullscreenElement supported" );

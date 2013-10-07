@@ -12,7 +12,7 @@ test("CSS Images linear-gradient, standard", function() {
 test("CSS Images repeating-linear-gradient, standard", function() {
 
   var elem = document.createElement("div"),
-  rule = "background:image:repeating-linear-gradient(-22deg, #f99 20px, #fff 40px)";
+  rule = "background-image:repeating-linear-gradient(-22deg, #f99 20px, #fff 40px)";
 
   elem.style.cssText = rule;
 

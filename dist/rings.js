@@ -3386,7 +3386,7 @@ Hat.ring({
           var fixture = document.createElement("div"),
               value = index + "";
     
-          fixture.setAttribute( array[0], index + "" );
+          fixture.setAttribute( array[0], value );
     
           assert( fixture.dataset[ array[1] ] === value, "Expected: " + array.join(" = ") );
         });

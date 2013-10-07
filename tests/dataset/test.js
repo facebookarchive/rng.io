@@ -68,9 +68,23 @@ test("Dataset Get*", function() {
       var fixture = document.createElement("div"),
           value = index + "";
 
-      fixture.setAttribute( array[0], index + "" );
+      fixture.setAttribute( array[0], value );
 
       assert( fixture.dataset[ array[1] ] === value, "Expected: " + array.join(" = ") );
+    });
+    [
+      "data-Foo"
+    ].forEach(function(str, index ) {
+
+      var fixture = document.createElement("div"),
+          value = index + "",
+          result;
+
+      fixture.setAttribute(str, value);
+      for (var s in fixture.dataset)
+        result = s;
+      
+      assert( result === undefined, "Expected: undefined" );
     });
   }
 });

@@ -1002,7 +1002,7 @@ window.spec = "cssimages-standard";
 test("CSS Images linear-gradient, standard", function() {
 
   var elem = document.createElement("div"),
-  rule = "background-image:linear-gradient(left top,#9f9, white);";
+  rule = "background-image:linear-gradient(to bottom right, #9f9, white);";
 
   elem.style.cssText = rule;
 
@@ -1013,7 +1013,7 @@ test("CSS Images linear-gradient, standard", function() {
 test("CSS Images repeating-linear-gradient, standard", function() {
 
   var elem = document.createElement("div"),
-  rule = "repeating-linear-gradient(-22deg, #f99 20px, #fff 40px)";
+  rule = "background-image:repeating-linear-gradient(-22deg, #f99 20px, #fff 40px)";
 
   elem.style.cssText = rule;
 
@@ -1024,7 +1024,7 @@ test("CSS Images repeating-linear-gradient, standard", function() {
 test("CSS Images radial-gradient, standard", function() {
 
   var elem = document.createElement("div"),
-  rule = "background-image:radial-gradient(75% 50%, ellipse closest-side, #99ff99, #ffffff 50%);";
+  rule = "background-image:radial-gradient(ellipse closest-side at 75% 50%, #99ff99, #ffffff 50%);";
 
   elem.style.cssText = rule;
 
@@ -1035,7 +1035,7 @@ test("CSS Images radial-gradient, standard", function() {
 test("CSS Images repeating-radial-gradient, standard", function() {
 
   var elem = document.createElement("div"),
-  rule = "background-image:repeating-radial-gradient(75% 50%, ellipse closest-side, #99ff99, #ffffff 50%);";
+  rule = "background-image:repeating-radial-gradient(ellipse closest-side at 75% 50%, #99ff99, #ffffff 50%);";
 
   elem.style.cssText = rule;
 

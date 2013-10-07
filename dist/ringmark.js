@@ -1820,7 +1820,7 @@ QUnit.diff = (function() {
 
 }( this ));
 
-/*! ringmark - v1.4.0 - 8/2/2013
+/*! ringmark - v1.4.0 - 10/7/2013
 * Copyright ( c ) 2013 Facebook Licensed W3C 3-clause BSD License, W3C Test Suite License */
 
 (function( exports ) {

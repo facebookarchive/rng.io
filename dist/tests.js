@@ -2059,7 +2059,7 @@ test("FullScreen", function() {
 
 
 test("FullScreen document", function() {
-  var fullscreenElement = H.get.domProp( document, "fullscreenElement", true ) !== undefined,
+  var fullscreenElement = H.get.domProp( document, "fullscreenElement", true ) !== false,
       fullscreenEnabled = H.API( document, "fullscreenEnabled", true ),
       exitFullscreen = H.API( document, "exitFullscreen", true );
 

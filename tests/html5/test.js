@@ -20,7 +20,7 @@
       var fixture = document.getElementById("html5"),
           node = fixture.querySelector( name );
 
-      assert( node instanceof HTMLElement, name + " instanceof HTMLElement" );
+      assert( !(node instanceof HTMLUnknownElement), name + " instanceof HTMLUnknownElement is false" );
       assert( node.outerHTML !== "<:" + name + "></:" + name + ">", name + " node created" );
     });
 
